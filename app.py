@@ -14,6 +14,7 @@ import pandas as pd
 from datetime import timedelta,date
 from dateutil import relativedelta
 import urllib.parse
+import json
 
 
 
@@ -31,6 +32,18 @@ db=SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI']='mssql+pyodbc://johnny:pass123456@localhost\SQLEXPRESS02/Flask_DataEntry_DB?driver=sql+server?trusted_connection=yes'
 
+
+
+f = open('db_creds.json')
+data = json.load(f)
+sql_username = data["username"]
+sql_password = data["password"]
+sql_databasename = data["databasename"]
+sql_instancename = data["instancename"]
+sql_servername = data["servername"]
+ 
+
+f.close()
 
 #app.config['SQLALCHEMY_DATABASE_URI']=f"mssql+pyodbc://flask1:flaskPass@localhost\SQLEXPRESS/Flask_DataEntry_DB?driver=ODBC+Driver+17+for+SQL+Server"
 app.config['SQLALCHEMY_DATABASE_URI']=f"mssql+pyodbc://johnny:pass123456@localhost\SQLEXPRESS02/Flask_DataEntry_DB?driver=ODBC+Driver+17+for+SQL+Server"
