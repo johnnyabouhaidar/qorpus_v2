@@ -46,7 +46,7 @@ sql_servername = data["servername"]
 f.close()
 
 #app.config['SQLALCHEMY_DATABASE_URI']=f"mssql+pyodbc://flask1:flaskPass@localhost\SQLEXPRESS/Flask_DataEntry_DB?driver=ODBC+Driver+17+for+SQL+Server"
-app.config['SQLALCHEMY_DATABASE_URI']=f"mssql+pyodbc://johnny:pass123456@localhost\SQLEXPRESS02/Flask_DataEntry_DB?driver=ODBC+Driver+17+for+SQL+Server"
+app.config['SQLALCHEMY_DATABASE_URI']=f"mssql+pyodbc://{sql_username}:{sql_password}@{sql_servername}\{sql_instancename}/{sql_databasename}?driver=ODBC+Driver+17+for+SQL+Server"
 
 db.init_app(app)
 app.config['SECRET_KEY']='thisisasecretkeyjohnny'
@@ -2296,4 +2296,4 @@ def logout():
 
 
 if __name__=='__main__':
-    app.run(debug=False,host="0.0.0.0")
+    app.run(debug=True ,host="0.0.0.0")
