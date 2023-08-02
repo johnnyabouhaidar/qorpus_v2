@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body class="margin0">
+   <!--  <div><a href="{{url_for('dashboard')}}"><img src="./../static/back-btn.png" class="back-btn"></a> </div>
+
+    <h1 class="header">Génération de rapports</h1> -->
+    <!-- <a href="{{url_for('dashboard')}}">Go Back</a> -->
+  <div class="row-view">
+<div class="allMenu">
+    <ul>
+        <div class="padding">
+            <a href="{{url_for('dashboard')}}" ><img class="img" src="./../static/logo.png" alt="Trulli" width="230" height="auto" /></a>
+        </div>
+        <br />
+        {%if user_role == 'admin'%}
+        <!-- <li><a href="{{url_for('user')}}"><span class="white">Gestion des Utilisateurs</span></a></li> -->
+        <li> <a href="{{url_for('setup')}}"><span class="iconMenu"><img src="./../static/configuration.svg" alt="Configuration" width="20" height="20" /></span><span class="white">Configuration des Constantes</span></a></li>
+        {%endif%}
+        <li><a href="{{url_for('doctor')}}"><span class="iconMenu"><img src="./../static/medecine.svg" alt="Medecine" width="20" height="20" /></span><span class="white">Paramètre du Médecin</span></a></li>
+          <hr />
+        <li><a href="{{url_for('payment')}}"><span class="iconMenu"><img src="./../static/donnees-paiment.svg" alt="Paiement" width="20" height="20" /></span><span class="white">Paiements</span></a></li>
+        <li><a href="{{url_for('facturation')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Facturation" width="20" height="20" /></span><span class="white">Facturation</span></a></li>
+        <li><a href="{{url_for('retrocession')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Retrocession" width="20" height="20" /></span><span class="white">Retrocession</span></a></li>
+        <li><a href="{{url_for('fraismateriel')}}"><span class="iconMenu"><img src="./../static/frais.svg" alt="Frais Matériele" width="20" height="20" /></span><span class="white">Frais Materièl Medical</span></a></li>
+        <li><a href="{{url_for('dentisterie')}}"><span class="iconMenu"><img src="./../static/donnees-dentaire.svg" alt="Donnees Dentaire" width="20" height="20" /></span><span class="white">Dentisterie</span></a></li>
+        <hr />
+        <li><a href="{{url_for('encaissement')}}"><span class="iconMenu"><img src="./../static/encaissement.svg" alt="Encaissements Avance" width="20" height="20" /></span><span class="white">Encaissements-Avance</span></a></li>
+        <li><a href="{{url_for('doctorpayment')}}"><span class="iconMenu"><img src="./../static/paiment-med.svg" alt="Paiement Médecin" width="20" height="20" /></span><span class="white">Materièl/Mobilier</span></a></li>
+        <hr />
+        <li class="rapportTab"><a href="{{url_for('reporting')}}">Génération de Rapports</a></li>
+        <!-- <hr /> -->
+        <!-- <li><a href="{{url_for('logout')}}"><span class="white">Déconnecter</span></a></li> -->
+    </ul>
+    </div>
+        <div class="bodyCont padding10px">
+          <div class="header-content">
+          <div class="dash-title">Génération de rapports</div>
+        </div>
+
+    <div class="items">
+        {%with messages = get_flashed_messages() %}
+        {%if messages %}
+        {%for message in messages %}
+         {{message}}
+        {%endfor%}
+        {%endif%}
+    {%endwith%}    
+    <div class="grid-container">
+        {% for form in forms %}
+        <div class="grid-item-report bgWhite margin-top-20">
+        <label for="div"><b>{{formtitles[loop.index0]}}</b></label><br><br>
+    <form method="POST" action="">
+        {% for field in form %}
+        <tr>
+            <div class="form-titles">
+            <th>{%if  field.label.text != 'Soumettre' and field.label.text != "CSRF Token" %}{{ field.label }}{%endif%} {% if field.flags.required %}*{% endif %}</th>
+        </div>
+            <span><td>{{ field }}</td></span>
+            <br><br>
+        </tr>
+        {% endfor %}
+    </form>
+    </div>
+    {%endfor%}
+    </div>
+</div>
+</div>
+</body>
+</html>
