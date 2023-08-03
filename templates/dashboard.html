@@ -1,275 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="dark" data-toggled="close">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Meta Data -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+    <title>qOne</title>
+    <meta name="Description" content="" />
+    <meta name="Author" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Main Theme Js -->
+    <script src="/static/js/main.js"></script>
+    <!-- Bootstrap Css -->
+    <link id="style" href="/static/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Style Css --> 
+    <link href="/static/css/styles.css" rel="stylesheet" />
+
+    <!-- Icons Css -->
+    <link href="/static/css/icons.css" rel="stylesheet" />
+    <!-- Node Waves Css -->
+    <link href="/static/libs/node-waves/waves.min.css" rel="stylesheet" />
+    <!-- Simplebar Css -->
+    <link href="/static/libs/simplebar/simplebar.min.css" rel="stylesheet" />
+    <!-- Color Picker Css --><link rel="stylesheet" href="/static/libs/nouislider/nouislider.min.css">
+ 
+    <link rel="stylesheet" href="/static/libs/flatpickr/flatpickr.min.css" />
+    <link rel="stylesheet" href="/static/libs/simonwep/pickr/themes/nano.min.css" />
+    <!-- Choices Css -->
+    <link rel="stylesheet" href="/static/libs/choices.js/public/assets/styles/choices.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" />
+    <!-- Date Calendar Css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.0.5/daterangepicker.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Apex Charts Css -->
+    <link rel="stylesheet" href="/static/libs/apexcharts/apexcharts.css" />
+    <!-- Dragula Css -->
+    <link rel="stylesheet" href="/static/libs/dragula/dragula.min.css">
+    <!-- PDF Css -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
 </head>
 
 <body>
-    <!-- <h1 class="header">
-        Content de te Revoir {{username}}!
-</h1> -->
-    <div class="row-view">
+    <div class="page">
 
-        <!-- <h2>
-        Qu'est-ce que tu aimerais faire?
-    </h2> -->
-    <div class="allMenu">
-        <ul>
-            <div class="padding">
-                <a href="{{url_for('dashboard')}}" ><img class="img" src="./../static/logo.png" alt="Trulli" width="230" height="auto" /></a>
-            </div>
-            <br />
-            {%if user_role == 'admin'%}
-            <!-- <li><a href="{{url_for('user')}}"><span class="white">Gestion des Utilisateurs</span></a></li> -->
-            <li> <a href="{{url_for('setup')}}"><span class="iconMenu"><img src="./../static/configuration.svg" alt="Configuration" width="20" height="20" /></span><span class="white">Configuration des Constantes</span></a></li>
-            {%endif%}
-            <li><a href="{{url_for('doctor')}}"><span class="iconMenu"><img src="./../static/medecine.svg" alt="Medecine" width="20" height="20" /></span><span class="white">Paramètre du Médecin</span></a></li>
-              <hr />
-            <li><a href="{{url_for('payment')}}"><span class="iconMenu"><img src="./../static/donnees-paiment.svg" alt="Paiement" width="20" height="20" /></span><span class="white">Paiements</span></a></li>
-            <li><a href="{{url_for('facturation')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Facturation" width="20" height="20" /></span><span class="white">Facturation</span></a></li>
-            <li><a href="{{url_for('retrocession')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Retrocession" width="20" height="20" /></span><span class="white">Retrocession</span></a></li>
-            <li><a href="{{url_for('fraismateriel')}}"><span class="iconMenu"><img src="./../static/frais.svg" alt="Frais Matériele" width="20" height="20" /></span><span class="white">Frais Materièl Medical</span></a></li>
-            <li><a href="{{url_for('dentisterie')}}"><span class="iconMenu"><img src="./../static/donnees-dentaire.svg" alt="Donnees Dentaire" width="20" height="20" /></span><span class="white">Dentisterie</span></a></li>
-            <hr />
-            <li><a href="{{url_for('encaissement')}}"><span class="iconMenu"><img src="./../static/encaissement.svg" alt="Encaissements Avance" width="20" height="20" /></span><span class="white">Encaissements-Avance</span></a></li>
-            <li><a href="{{url_for('doctorpayment')}}"><span class="iconMenu"><img src="./../static/paiment-med.svg" alt="Paiement Médecin" width="20" height="20" /></span><span class="white">Materièl/Mobilier</span></a></li>
-            <hr />
-            <li class="rapportTab"><a href="{{url_for('reporting')}}">Génération de Rapports</a></li>
-            <!-- <hr /> -->
-            <!-- <li><a href="{{url_for('logout')}}"><span class="white">Déconnecter</span></a></li> -->
-        </ul>
+
+        {% include 'header.html' %}
+        
+        {% include 'sidebar.html' %}
+        {% include 'footer.html' %}
+
+
     </div>
-    <div class="bodyCont">
-        <div class="header-content">
-          <div class="dash-title">Tableau de Bord</div>
-          <div class="display-flex">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; Bienvenu {{username}}
-            <div class="dropdown">
-                <button onclick="myFunction()" class="dropbtn">Paramètres <i class="fa fa-caret-down"></i></button>
-                <div id="myDropdown" class="dropdown-content">
-                   <a href="{{url_for('user')}}"> <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp;Gestion des Utilisateurs</a>
-                  <a href="{{url_for('logout')}}"> <span class="glyphicon glyphicon-log-in"></span>&nbsp; &nbsp;Déconnecter</a>
-                </div>
-              </div>
-            </div>
-        </div>
-       
-        <!-- <nav class="navbar">
-          <div>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="margin-top15">
-                <span class="glyphicon glyphicon-user"></span> Bienvenu User
-              </li>
-            </ul>
-          </div>
-        </nav> -->
-        
-        <div id="report2get">
-        <div class="padding30">
-          <button type="button" onclick="generatePDF()" class="exportreport-btn"></button>
-        <form method="POST" action="" id="0">
-                
-          {% for field in dterngeForm %}
-          
-          {%if field.label.text != 'Filtre' and field.label.text !=
-              "CSRF Token" %}{{ field.label }}{%else%}{%endif%} {% if field.flags.required %}*{%
-              endif %}
-          {{ field(form=0) }}
-      
-      
-      
-          {% endfor %}
-          
-          </form>
-          
-          </div>
-          
-        <div class="dash-section padding30">
-            
 
-          
-
-            <div class="col-sm-3 single-section">
-              <span class="bold-title">Paiement Total</span
-              ><span>CHF {{paysum}}</span>
-            </div>
-            <div class="col-sm-1"></div>
-
-            <div class="col-sm-3 single-section">
-              <span class="bold-title">Facturation Total</span
-              ><span>CHF {{facturationsum}}</span>
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-3 single-section">
-              <span class="bold-title">P&L</span><span>CHF {{pnl}}</span>
-            </div>
-
-            
-        </div>
-        <div class="dash-section padding30">
-            
-
-
-
-          <div class="col-sm-3 single-section">
-            <span class="bold-title">Retrocession Total</span
-            ><span>CHF {{retrocessionsum}}</span>
-          </div>
-          <div class="col-sm-1"></div>
-
-          <div class="col-sm-3 single-section">
-            <span class="bold-title">Encaissement Total</span
-            ><span>CHF {{enctotal}}</span>
-          </div>
-          <div class="col-sm-1"></div>
-          <div class="col-sm-3 single-section">
-            <span class="bold-title">Frais Materièl Total</span
-              ><span>CHF {{fraissum}}</span>
-          </div>
-
-          
-      </div>        
-        <div class="dash-section padding30">
-          <div class="chart-view" id="piechart"></div>
-          <div class="chart-view" id="columnChart"></div>
-        </div>
-        <div class="dash-section padding30">
-          <div class="chart-view" id="barchart"></div>
-          <!--<div class="chart-view" id="areaChart"></div>-->
-        </div>
-      </div>
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-s-fill fs-20"></i></span>
     </div>
-    
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
 
-    <script type="text/javascript">
-      // Load google charts
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
+    <div id="responsive-overlay"></div>
 
-      // Draw the chart and set the chart values
-      
-      function drawChart() {
-        var encoptions = { title: "Encaissements", width: 550, height: 400 };
-        const encjson = {{ encdf|tojson }}
-        var encdata = google.visualization.arrayToDataTable(
-         
-        encjson   
-          
-      );
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
-      var payoptions = { title: "Paiements", width: 550, height: 400 };
-      const paymentjson = {{ paymentgrph|tojson }}
-        var paymentdata = google.visualization.arrayToDataTable(
-         
-        paymentjson   
-          
-      );
+    <!-- Popper JS -->
+    <script src="/static/libs/popperjs/core/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/static/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Defaultmenu JS -->
+    <script src="/static/js/defaultmenu.min.js"></script>
+    <!-- Node Waves JS-->
+    <script src="/static/libs/node-waves/waves.min.js"></script>
+    <!-- Sticky JS -->
+    <script src="/static/js/sticky.js"></script>
+    <!-- Simplebar JS -->
+    <script src="/static/libs/simplebar/simplebar.min.js"></script>
+    <script src="/static/js/simplebar.js"></script>
+    <!-- Color Picker JS -->
+    <script src="/static/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <!-- Apex Charts JS -->
+    <script src="/static/libs/apexcharts/apexcharts.min.js"></script>
+    <!-- Used In Zoomable TIme Series Chart -->
+    <script src="/static/js/dataseries.js"></script>
+    <!---Used In Annotations Chart-->
+    <script src="/static/js/apexcharts-stock-prices.js"></script>
+    <!-- Internal Apex Charts JS -->
+    <script src="/static/js/apexcharts-column.js"></script>
+    <script src="/static/js/apexcharts-line.js"></script>
+    <script src="/static/js/apexcharts-pie.js"></script>
+    <script src="/static/js/jobs-dashboard.js"></script>
 
-      var facturationoptions = { title: "Facturations", width: 550, height: 400 };
-      const facturationjson = {{ facturationgraph|tojson }}
-        var facturationdata = google.visualization.arrayToDataTable(
-         
-        facturationjson   
-          
-      );      
-        // Optional; add a title and set the width and height of the chart
-        
+    <!-- Datatables Cdn -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Internal Datatables JS -->
+    <script src="/static/js/datatables.js"></script>
 
-        // Display the chart inside the <div> element with id="piechart"
-        var piechart = new google.visualization.PieChart(
-          document.getElementById("piechart")
-        );
-        piechart.draw(encdata, encoptions);
+    <!-- Dragula JS -->
+    <script src="/static/libs/dragula/dragula.min.js"></script>
+    <!-- Internal Dragula JS -->
+    <script src="/static/js/draggable-cards.js"></script>
 
-        try{
-        var columnChart = new google.visualization.ColumnChart(
-          document.getElementById("columnChart")
-        );
-
-        columnChart.draw(paymentdata, payoptions);
-        }
-        catch(err)
-        {
-
-        }
-
-        var barchart = new google.visualization.BarChart(
-          document.getElementById("barchart")
-        );
-
-        barchart.draw(facturationdata, facturationoptions);
-        var areaChart = new google.visualization.AreaChart(
-          document.getElementById("areaChart")
-        );
-        areaChart.draw(paymentdata, payoptions);
-
-      }
-    </script>
-    <script>
-        /* When the user clicks on the button, 
-        toggle between hiding and showing the dropdown content */
-        function myFunction() {
-          document.getElementById("myDropdown").classList.toggle("show");
-        }
-        
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-          if (!event.target.matches('.dropbtn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-              var openDropdown = dropdowns[i];
-              if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-              }
-            }
-          }
-        }
-        </script>
-        <script type="text/javascript">
-          function generatePDF() {
-                
-                // Choose the element id which you want to export.
-                var element = document.getElementById('report2get');
-                var title_element = document.createElement('h1')
-                //title_element.innerText="Report Title"
-                //element.insertBefore(title_element,element.firstChild)
-                console.log(element)
-                //element.style.width = '1000px';
-                //element.style.height = '1000px';
-                var opt = {
-                    margin:       0.5,
-                    filename:     'TableauDeBordRapport.pdf',
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 1 },
-                    jsPDF:        { unit: 'mm', format: 'A4', orientation: 'landscape'},
-                    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-                    
-                  };
-                
-                // choose the element and pass it to html2pdf() function and call the save() on it to save as pdf.
-                html2pdf().set(opt).from(element).save();
-              }
-        </script>
+    <!-- Date JS -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.0.5/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="/static/libs/nouislider/nouislider.min.js"></script>
+    <script src="/static/js/nouislider.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 
 </html>
