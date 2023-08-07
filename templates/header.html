@@ -92,17 +92,15 @@
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                     <li>
-                        <a class="dropdown-item d-flex" href="">Gestion des utilisateurs</a>
+                        <a class="dropdown-item d-flex" href="{{url_for('user')}}">Gestion des utilisateurs</a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex" href="">Modifier le mot de passe</a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex border-block-end" href="#">Déconnexion</a>
+                        <a class="dropdown-item d-flex border-block-end" href="{{url_for('logout')}}">Déconnexion</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item d-flex" href="">Login</a>
-                    </li>
+                    
                 </ul>
             </div>
             <!-- End::header-element -->
