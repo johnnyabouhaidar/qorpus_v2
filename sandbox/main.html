@@ -13,9 +13,14 @@
     populate_table()
     async function populate_table(){
         const response = await fetch("http://localhost:5000/get_users_data");
-        const movies = await response.json();
-        console.log(movies);
-        var table = document.createElement("table");
+        const users = await response.json();
+        console.log(users);
+        for (var i=0;i<users.length;i++)
+        {
+            console.log(users[i])
+        }
+        
+        //var table = document.createElement("table");
 
     }
     
