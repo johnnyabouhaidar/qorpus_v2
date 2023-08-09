@@ -1,110 +1,347 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- Start::app-content -->
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <!-- Start::row-1 -->
+        <div class="row mt-4">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Gestion des Utilisateurs</div>
+                        <div class="btn-list">
+                            <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#userManagmentModal">
+                                + Ajouter
+                            </a>
+                            <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                    Sélectionner des actions groupées
+                </button>
+                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center text-danger" id="deleteSelected">Effacer la sélection</button>
+                    </li>
+                </ul>
+                        </div>
+                        <div class="modal fade effect-rotate-left" id="userManagmentModal">
+                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                <div class="modal-content modal-content-demo">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body text-start">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p class="mb-2 text-muted">First Name</p><input type="text" class="form-control" id="input">
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                <p class="mb-2 text-muted">Last Name</p><input type="text" class="form-control" id="input">
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                <p class="mb-2 text-muted">Role</p> <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin" checked>
+                                                <label class="form-check-label ms-2" for="adminRadio">Admin</label>
+                                                <input class="form-check-input ms-2" type="radio" name="userType" id="userRadio" value="user">
+                                                <label class="form-check-label ms-2" for="userRadio">User</label>
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                                    <p class="mb-2 text-muted">Accès</p>
+                                                                    <div>
+                                                                        <input class="form-check-input ms-2" type="checkbox" value="" id="selectAllCheckboxAddMethod2">
+                                                                        <span>Tout</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Paiement</span>
+                                                                    </div>
+                                                                    <div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Utilisateurs</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Facturation</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Retrocession</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Dentisterie</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Encaissement Avance</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Médecins</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Dentiste et Hygieniste</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Employé(e)s</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
+                                                                        <span>Patients</span>
+                                                                    </div>
+                                                                </div>
 
-<body class="margin0">
-   <!--  <div><a href="{{url_for('dashboard')}}"><img src="./../static/back-btn.png" class="back-btn"></a> </div>
-    <h1 class="header"> Gestion des utilisateurs</h1> -->
-     <div class="row-view">
-<div class="allMenu">
-    <ul>
-        <div class="padding">
-            <a href="{{url_for('dashboard')}}" ><img class="img" src="./../static/logo.png" alt="Trulli" width="230" height="auto" /></a>
-        </div>
-        <br />
-        {%if user_role == 'admin'%}
-        <!-- <li><a href="{{url_for('user')}}"><span class="white">Gestion des Utilisateurs</span></a></li> -->
-        <li> <a href="{{url_for('setup')}}"><span class="iconMenu"><img src="./../static/configuration.svg" alt="Configuration" width="20" height="20" /></span><span class="white">Configuration des Constantes</span></a></li>
-        {%endif%}
-        <li><a href="{{url_for('doctor')}}"><span class="iconMenu"><img src="./../static/medecine.svg" alt="Medecine" width="20" height="20" /></span><span class="white">Paramètre du Médecin</span></a></li>
-          <hr />
-        <li><a href="{{url_for('payment')}}"><span class="iconMenu"><img src="./../static/donnees-paiment.svg" alt="Paiement" width="20" height="20" /></span><span class="white">Paiements</span></a></li>
-        <li><a href="{{url_for('facturation')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Facturation" width="20" height="20" /></span><span class="white">Facturation</span></a></li>
-        <li><a href="{{url_for('retrocession')}}"><span class="iconMenu"><img src="./../static/facturation.svg" alt="Retrocession" width="20" height="20" /></span><span class="white">Retrocession</span></a></li>
-        <li><a href="{{url_for('fraismateriel')}}"><span class="iconMenu"><img src="./../static/frais.svg" alt="Frais Matériele" width="20" height="20" /></span><span class="white">Frais Materièl Medical</span></a></li>
-        <li><a href="{{url_for('dentisterie')}}"><span class="iconMenu"><img src="./../static/donnees-dentaire.svg" alt="Donnees Dentaire" width="20" height="20" /></span><span class="white">Dentisterie</span></a></li>
-        <hr />
-        <li><a href="{{url_for('encaissement')}}"><span class="iconMenu"><img src="./../static/encaissement.svg" alt="Encaissements Avance" width="20" height="20" /></span><span class="white">Encaissements-Avance</span></a></li>
-        <li><a href="{{url_for('doctorpayment')}}"><span class="iconMenu"><img src="./../static/paiment-med.svg" alt="Paiement Médecin" width="20" height="20" /></span><span class="white">Materièl/Mobilier</span></a></li>
-        <hr />
-        <li class="rapportTab"><a href="{{url_for('reporting')}}">Génération de Rapports</a></li>
-        <!-- <hr /> -->
-        <!-- <li><a href="{{url_for('logout')}}"><span class="white">Déconnecter</span></a></li> -->
-    </ul>
-    </div>
-        <div class="bodyCont padding10px">
-          <div class="header-content">
-          <div class="dash-title">Gestion des utilisateurs</div>
-        </div>
-    <div>
-        <div class="section-view margintop20 bgWhite">
-            Ajouter/modifier un utilisateur
-            <form method="POST" action="">
-                {{form.hidden_tag()}}
-                <div class="margin-top"></div>
-                {{form.username}}
-                {{form.password}}
-                <br>
-                <br>
-                {{form.access.label}}
-                <br>
-                <div class="margin-top"></div>
-                {{form.access}}
-                <br>
-                <br>
-                {{form.isAdmin.label}}
-                {{form.isAdmin}}
-                <br><br>
-                <hr/>
-                <div class="align-center-div">
-                {{form.submit}}
+                                            <div class="col-12 mt-4">
+                                                <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="responsiveDataTable" class="table table-bordered text-nowrap" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
+                                    <th>Action</th>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Role</th>
+                                    <th>Accès</th>
+                                    <th>Dernière connection</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 ">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+
+                                            <div class="modal fade effect-rotate-left" id="editUserManagmentModal">
+                                                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                    <div class="modal-content modal-content-demo">
+                                                        <div class="modal-header">
+                                                            <h6 class="modal-title">Modifier Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body text-start">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <p class="mb-2 text-muted">First Name</p><input type="text" class="form-control" id="input" value="Admin">
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <p class="mb-2 text-muted">Last Name</p><input type="text" class="form-control" id="input" value="Admin">
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <p class="mb-2 text-muted">Role</p> <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin" checked>
+                                                                    <label class="form-check-label ms-2" for="adminRadio">Admin</label>
+                                                                    <input class="form-check-input ms-2" type="radio" name="userType" id="userRadio" value="user">
+                                                                    <label class="form-check-label ms-2" for="userRadio">User</label>
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <p class="mb-2 text-muted">Accès</p>
+                                                                    <div>
+                                                                        <input class="form-check-input ms-2" type="checkbox" value="" id="selectAllCheckboxAddMethod">
+                                                                        <span>Tout</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="" checked>
+                                                                        <span>Paiement</span>
+                                                                    </div>
+                                                                    <div>
+
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Facturation</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Retrocession</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Dentisterie</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Encaissement Avance</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Médecins</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Dentiste et Hygieniste</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Employé(e)s</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
+                                                                        <span>Patients</span>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                                <div class="col-12 mt-4">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td> Admin </td>
+                                    <td> Admin </td>
+                                    <td>   <span
+                                      
+                                        tabindex="0"
+                                        data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Propriétaire du compte"
+                                    >
+                                    Admin <i class="bi bi-key"></i>
+                                    </span>  </td>
+                                    <td><span class="badge rounded-pill bg-primary-transparent">Tout</span></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel22" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>Ramy </td>
+                                    <td> Abi Mansour </td>
+                                    <td> User</td>
+                                    <td><span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel3" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>Johnny </td>
+                                    <td>Abou Haidar</td>
+                                    <td>User</td>
+                                    <td></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel13" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                    <td>User</td>
+                                    <td></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                    <td>User</td>
+                                    <td></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                    <td>User</td>
+                                    <td></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                    <td>User</td>
+                                    <td></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>
+                                                                                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            </form>
         </div>
-<br/>
-        <div>
-            <table class="fl-table" border="1">
-                <thead>
-                    <tr>
-                        {%for title in headers%}
-                        <th>{{title}}</th>
-                        {%endfor%}
-                        <th></th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                {% for value in table %}
-                <tr>
-                    {%for item in value%}
-                    <td>
-                        {{item}}
-                    </td>
-                    {%endfor%}
-                    {%if user_role == 'admin'%}
-                    {%if loop.index0!=0%}
-                    <td><a class="ic-view" href="{{url_for('edit_entry',tbl=dbtable,id=value[0])}}"> <span><img src="./../static/icons8-edit.svg" alt="Edit" width="26" height="26" /></span></a></td>
-                    <td><a class="ic-view" href="{{url_for('delete_entry',tbl=dbtable,tblid=dbtableid,id=value[0])}}"><span><img src="./../static/icons8-trash.svg" alt="Edit" width="26" height="26" /></span></a></td>
-                    {%endif%}
-                    {%endif%}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-<br/>
-        <!-- <a href="{{url_for('dashboard')}}">Go Back</a> -->
+        <!--End::row-1 -->
     </div>
-    </div>
-    </div>
-</body>
+</div>
+<!-- End::app-content -->
+<script>
+    const selectAllCheckbox = document.getElementById("selectAllCheckboxAddMethod");
+    const otherCheckboxes = document.querySelectorAll(".rowCheckbox2");
 
-</html>
+    selectAllCheckbox.addEventListener("change", function() {
+        const isChecked = selectAllCheckbox.checked;
+        otherCheckboxes.forEach(function(checkbox) {
+            checkbox.checked = isChecked;
+        });
+    });
+</script>
+<script>
+    const selectAllCheckbox2 = document.getElementById("selectAllCheckboxAddMethod2");
+    const otherCheckboxes2 = document.querySelectorAll(".rowCheckbox3");
+
+    selectAllCheckbox2.addEventListener("change", function() {
+        const isChecked = selectAllCheckbox2.checked;
+        otherCheckboxes2.forEach(function(checkbox) {
+            checkbox.checked = isChecked;
+        });
+    });
+</script>

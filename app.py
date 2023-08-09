@@ -15,6 +15,7 @@ from datetime import timedelta,date
 from dateutil import relativedelta
 import urllib.parse
 import json
+from flask_cors import CORS
 
 
 
@@ -24,7 +25,7 @@ import json
 
 app = Flask(__name__)
 
-
+CORS(app, support_credentials=True)
 
 file_download_location= r"C:\Users\Public\Documents"
 
@@ -301,7 +302,7 @@ def dashboard():
         return redirect(url_for('dashboard',fromdate=dterngeForm.startdate.data,todate=dterngeForm.enddate.data))
 
 
-    return render_template('dashboard.html',username=(current_user.username).title(),user_role=current_user.role,encdf=encls,paymentgrph=paymentls,paysum=paysum,pnl=pnl,facturationgraph=facturationls,facturationsum=facturationsum,enctotal=enctotal,fraissum=fraissum,retrocessionsum=retrocessionsum,dterngeForm=dterngeForm)
+    return render_template('app.html',username=(current_user.username).title(),user_role=current_user.role,encdf=encls,paymentgrph=paymentls,paysum=paysum,pnl=pnl,facturationgraph=facturationls,facturationsum=facturationsum,enctotal=enctotal,fraissum=fraissum,retrocessionsum=retrocessionsum,dterngeForm=dterngeForm)
 
 
 @app.route('/doctorpayment',methods=['GET','POST'])
@@ -1541,6 +1542,29 @@ def validate_entry(tbl,tblid,id):
     db.session.commit()
     return redirect(url_for(tbl))
 
+def convert_list_to_json(inputlist):
+    returnedjson = []
+    for item in inputlist:
+        line = {}
+        for idx,value in enumerate(item):
+            line[idx]=value
+        #print(item)
+        #print(json.dumps(item))
+        returnedjson.append(line)
+    #print(returnedjson)
+    return returnedjson
+
+def get_users_data():
+    userlist=db.engine.execute("""Select * from [Flask_DataEntry_DB].[dbo].[user]""")
+    userlistjson=convert_list_to_json(userlist)
+    return (userlistjson)
+
+@app.route('/get_users_data')
+#@login_required
+def getusersdata():   
+    return jsonify(get_users_data()) 
+    
+
 
 
 @app.route('/user',methods=['GET','POST'])
@@ -1562,7 +1586,7 @@ def user():
         db.session.commit()
         return redirect(url_for('user'))
     if current_user.role=="admin":
-        return render_template("user.html",form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
+        return render_template("app.html",content='usermanagement',form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
     else:
         return render_template("NOT_AUTHORIZED.html")
 
@@ -2224,17 +2248,7 @@ def getpnlhistory():
     return jsonify(getpnlforyear(startdate,enddate))
 
 
-def convert_list_to_json(inputlist):
-    returnedjson = []
-    for item in inputlist:
-        line = {}
-        for idx,value in enumerate(item):
-            line[idx]=value
-        #print(item)
-        #print(json.dumps(item))
-        returnedjson.append(line)
-    #print(returnedjson)
-    return returnedjson
+
 
 
 

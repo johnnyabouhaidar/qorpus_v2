@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    populate_table()
+    async function populate_table(){
+        const response = await fetch("http://localhost:5000/get_users_data");
+        const movies = await response.json();
+        console.log(movies);
+        var table = document.createElement("table");
+
+    }
+    
+</script>
+</html>
