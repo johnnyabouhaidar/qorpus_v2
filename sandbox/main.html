@@ -17,12 +17,65 @@
         console.log(users);
         for (var i=0;i<users.length;i++)
         {
-            console.log(users[i][0])
+            
+            var table_row= document.createElement("tr");
+            var table_row_header = document.createElement("th");
+            table_row_header.setAttribute("class","form-check-input rowCheckbox")
+            table_row_header.setAttribute("type","checkbox")
+            table_row_header.setAttribute("id","checkboxNoLabel22")
+            table_row_header.setAttribute("value","")
+            table_row_header.setAttribute("aria-label","...")
+
+            var table_row_functions = document.createElement("td");
+            table_row_functions.innerHTML=`
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>`
+                                    
+            table_row.appendChild(table_row_header)
+            table_row.appendChild(table_row_functions)
+
+            rowitem=document.createElement("td")
+            rowitem.innerHTML=users[i][0]//id
+            table_row.appendChild(rowitem)
+            rowitem=document.createElement("td")
+            rowitem.innerHTML=users[i][1]//user
+            table_row.appendChild(rowitem)
+            rowitem=document.createElement("td")
+            rowitem.innerHTML=users[i][2]//pass
+            table_row.appendChild(rowitem)
+            rowitem=document.createElement("td")
+            rowitem.innerHTML=users[i][3]//role
+            table_row.appendChild(rowitem)
+
+            
+            console.log(table_row.innerHTML)
         }
         
         //var table = document.createElement("table");
 
     }
     
+/*                                <tr>
+                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel22" value="" aria-label="..." /></th>
+                                    <td>
+                                        <div class="hstack gap-2 fs-15">
+
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
+                                    <td> 12345 </td>
+                                    <td>Ramy </td>
+                                    <td> Abi Mansour </td>
+                                    <td> User</td>
+                                    <td><span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span></td>
+                                    <td>30/5/2023 17:08:52</td>
+                                </tr>*/
+
 </script>
 </html>
