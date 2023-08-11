@@ -1584,6 +1584,7 @@ def user():
         
         db.session.add(new_user)
         db.session.commit()
+        
         return redirect(url_for('user'))
     if current_user.role=="admin":
         return render_template("app.html",content='usermanagement',form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
