@@ -1,5 +1,6 @@
 <!-- Start::app-content -->
 <script src="/static/js/usermanagementfunctions.js"></script>
+
 <div class="main-content app-content">
     <div class="container-fluid">
         <!-- Start::row-1 -->
@@ -27,70 +28,33 @@
                                     <div class="modal-header">
                                         <h6 class="modal-title">Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
+                                    <form method="POST" action="">
                                     <div class="modal-body text-start">
                                         <div class="row">
                                             <div class="col-12">
-                                                <p class="mb-2 text-muted">First Name</p><input type="text" class="form-control" id="input">
+                                                <p class="mb-2 text-muted">Username</p>
+                                                <input class="form-control" id="username" maxlength="20" minlength="4" name="username" placeholder="Username" required="" type="text" value="">
                                             </div>
                                             <div class="col-12 mt-4">
-                                                <p class="mb-2 text-muted">Last Name</p><input type="text" class="form-control" id="input">
+                                                <p class="mb-2 text-muted">Password</p>
+                                                <input class="form-control" id="password" maxlength="20" minlength="4" name="password" placeholder="Password" required="" type="password" value="">
                                             </div>
                                             <div class="col-12 mt-4">
-                                                <p class="mb-2 text-muted">Role</p> <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin" checked>
-                                                <label class="form-check-label ms-2" for="adminRadio">Admin</label>
-                                                <input class="form-check-input ms-2" type="radio" name="userType" id="userRadio" value="user">
-                                                <label class="form-check-label ms-2" for="userRadio">User</label>
+                                                <p class="mb-2 text-muted">Role</p>
+                                                {{form.isAdmin}} {{form.isAdmin.label}}
                                             </div>
                                             <div class="col-12 mt-4">
                                                                     <p class="mb-2 text-muted">Accès</p>
-                                                                    <div>
-                                                                        <input class="form-check-input ms-2" type="checkbox" value="" id="selectAllCheckboxAddMethod2">
-                                                                        <span>Tout</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Paiement</span>
-                                                                    </div>
-                                                                    <div>
-
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Facturation</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Retrocession</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Dentisterie</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Encaissement Avance</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Médecins</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Dentiste et Hygieniste</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Employé(e)s</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox3 ms-2" type="checkbox" value="">
-                                                                        <span>Patients</span>
-                                                                    </div>
+                                                                    {{form.access}}
                                                                 </div>
 
                                             <div class="col-12 mt-4">
-                                                <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                                
+                                                <input class="form-control btn btn-primary" id="submit" name="submit" type="submit" value="Enregistrer">
                                             </div>
                                         </div>
                                     </div>
+                                </form>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +66,7 @@
                                     <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
                                     <th>Action</th>
                                     <th>ID</th>
+                                    <th>Username</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Role</th>
@@ -109,7 +74,7 @@
                                     <th>Dernière connection</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="bodyid">
                                 <tr>
                                     <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
                                     <td>
@@ -199,6 +164,7 @@
                                     <td> 12345 </td>
                                     <td> Admin </td>
                                     <td> Admin </td>
+                                    <td></td>
                                     <td>   <span
                                       
                                         tabindex="0"
@@ -225,92 +191,8 @@
                                     <td>Ramy </td>
                                     <td> Abi Mansour </td>
                                     <td> User</td>
+                                    <td></td>
                                     <td><span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span></td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel3" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td> 12345 </td>
-                                    <td>Johnny </td>
-                                    <td>Abou Haidar</td>
-                                    <td>User</td>
-                                    <td></td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel13" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td> 12345 </td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>User</td>
-                                    <td></td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td> 12345 </td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>User</td>
-                                    <td></td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td> 12345 </td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>User</td>
-                                    <td></td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td> 12345 </td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>User</td>
-                                    <td></td>
                                     <td>30/5/2023 17:08:52</td>
                                 </tr>
                                                                                                 
@@ -327,7 +209,10 @@
 <script>
     //var users_table = populate_table()
     //console.log(users_table)
-    //var table_element = document.getElementById("");
+    
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        populate_table()
+});
 </script>
 <script>
     const selectAllCheckbox = document.getElementById("selectAllCheckboxAddMethod");
@@ -350,4 +235,6 @@
             checkbox.checked = isChecked;
         });
     });
+    
 </script>
+

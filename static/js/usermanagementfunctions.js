@@ -1,19 +1,27 @@
+baseurl = window.location.origin
+function populate_table(){
+    const response = fetch(`${baseurl}/get_users_data`).then((response) => {
+        return response.json();
+      }).then((json) => {let users = json
+      console.log(users)
 
-async function populate_table(){
-    const response = await fetch("http://localhost:5000/get_users_data");
-    const users = await response.json();
-    //console.log(users);
-    var tabe_body = document.createElement("body");
+    var table_body = document.createElement("tbody");
+    var table_element = document.getElementById("responsiveDataTable");
+    tbodyelement = document.getElementById("bodyid");
+
     for (var i=0;i<users.length;i++)
     {
-        
-        var table_row= document.createElement("tr");
+
         var table_row_header = document.createElement("th");
-        table_row_header.setAttribute("class","form-check-input rowCheckbox")
-        table_row_header.setAttribute("type","checkbox")
-        table_row_header.setAttribute("id","checkboxNoLabel22")
-        table_row_header.setAttribute("value","")
-        table_row_header.setAttribute("aria-label","...")
+        table_row_header.setAttribute("class","dtr-control sorting_1");
+        table_row_header.setAttribute("tabindex","0");
+        var input_cell = document.createElement("input")
+        input_cell.setAttribute("class","form-check-input rowCheckbox")
+        input_cell.setAttribute("type","checkbox")
+        input_cell.setAttribute("id","checkboxNoLabel22")
+        input_cell.setAttribute("value","")
+        input_cell.setAttribute("aria-label","...")
+        table_row_header.appendChild(input_cell)
 
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
@@ -24,32 +32,14 @@ async function populate_table(){
                                         <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>`
                                 
-        table_row.appendChild(table_row_header)
-        table_row.appendChild(table_row_functions)
 
-        rowitem=document.createElement("td")
-        rowitem.innerHTML=users[i][0]//id
-        table_row.appendChild(rowitem)
-        rowitem=document.createElement("td")
-        rowitem.innerHTML=users[i][1]//user
-        table_row.appendChild(rowitem)
-        rowitem=document.createElement("td")
-        rowitem.innerHTML=users[i][2]//pass
-        table_row.appendChild(rowitem)
-        rowitem=document.createElement("td")
-        rowitem.innerHTML=users[i][3]//role
-        table_row.appendChild(rowitem)
 
-        
+        var t = $('#responsiveDataTable').DataTable();
+        t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",users[i][3],'7','8']).draw(false);
 
     }
-    table_body.appendChild(table_row)
-
-    //console.log(table_row.innerHTML)
-
-    //return table_body
-    var table_element = document.getElementById("responsiveDataTable");
-    table_element.appendChild(table_body)
     
-    console.log(tabble_body.innerHTML)
+
+
+});
 }

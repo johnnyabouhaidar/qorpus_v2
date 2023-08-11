@@ -1560,7 +1560,7 @@ def get_users_data():
     return (userlistjson)
 
 @app.route('/get_users_data')
-#@login_required
+@login_required
 def getusersdata():   
     return jsonify(get_users_data()) 
     
