@@ -1562,7 +1562,20 @@ def get_users_data():
 @app.route('/get_users_data')
 @login_required
 def getusersdata():   
-    return jsonify(get_users_data()) 
+    return jsonify(get_users_data())
+
+@app.route('/delete_user',methods=["POST"])
+@login_required
+def delete_users():
+    #db.engine.execute("""Delete from "user" where id = {0}""".format(2012))
+    try:
+        for id in request.json["ids"]:
+            #print(id)
+            db.engine.execute("""Delete from "user" where id = {0}""".format(id))
+    except:
+        return(jsonify({"Status":"Not all records were deleted"}))    
+    return(jsonify({"Status":"OK"}))
+    
     
 
 
