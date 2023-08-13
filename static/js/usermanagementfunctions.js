@@ -89,7 +89,7 @@ function populate_table(){
         var role="";
         if (users[i][3]=="admin" && users[i][4]=="all")
         {
-            document.createelement("")
+            //document.createelement("")
         }
         t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",users[i][3],tmp_div.innerHTML,'---']).draw(false);
 
