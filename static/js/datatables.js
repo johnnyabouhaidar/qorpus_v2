@@ -36,11 +36,12 @@ $(function (e) {
   });
 
   $('.deleterow').on('click', function () {
+    
     var tablename = $(this).closest('table').DataTable();
     var button = this; // Store the reference to the button
     
     var row = $(button).closest('tr'); // Get the closest row
-
+    
     // Wait for 1 second before removing the row
     setTimeout(function () {
       tablename.row(row).remove().draw();
