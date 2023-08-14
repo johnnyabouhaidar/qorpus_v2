@@ -1583,6 +1583,7 @@ def delete_users():
 @app.route('/user',methods=['GET','POST'])
 def user():
     form=RegisterForm()
+    editform=EditRegisterForm()
     userlslist=db.engine.execute("select id as ID,username as Utilisateur ,role ,access as accès from \"user\"")
     userlslistitems=userlslist.fetchall()
     headersuserlslist=userlslist.keys()
@@ -1600,7 +1601,7 @@ def user():
         
         return redirect(url_for('user'))
     if current_user.role=="admin":
-        return render_template("app.html",content='usermanagement',form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
+        return render_template("app.html",content='usermanagement',editform=editform,form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
     else:
         return render_template("NOT_AUTHORIZED.html")
 
