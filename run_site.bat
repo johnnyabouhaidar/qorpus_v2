@@ -1,2 +1,2 @@
-.\flask2\Scripts\activate.bat
+.\flask2\Scripts\python.exe app.py
 

@@ -1,5 +1,21 @@
 
 baseurl = window.location.origin
+function delete_multiple()
+{
+    var array = []
+var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+for (var i = 0; i < checkboxes.length; i++) {
+  array.push(checkboxes[i].value)
+  tablename = $(this).closest("table").DataTable();
+  row = $(this).closest("tr").prev()
+  tablename.row(row).remove().draw();
+
+}
+//delete_records(array)
+alert(array)
+}
+
 function delete_records(array){
     const response = fetch(`${baseurl}/delete_user`,{
         method: 'POST',
@@ -32,8 +48,9 @@ function populate_table(){
         var input_cell = document.createElement("input")
         input_cell.setAttribute("class","form-check-input rowCheckbox")
         input_cell.setAttribute("type","checkbox")
+        input_cell.setAttribute("name","type")
         input_cell.setAttribute("id",`checkboxNoLabel${users[i][0]}`)
-        input_cell.setAttribute("value","")
+        input_cell.setAttribute("value",`${users[i][0]}`)
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
         
@@ -173,5 +190,7 @@ function populate_table(){
           tablename.row(row).remove().draw();
         }, 500);
       });
+
+      
 });
 }
