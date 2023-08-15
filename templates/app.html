@@ -67,7 +67,10 @@
         {% include 'sidebar.html' %}
 
         {%if content=='usermanagement'%}
-        {% include 'user.html' %}
+            {% include 'user.html' %}
+        
+        {%elif content == 'installation'%}
+            {% include 'setup.html'%}
 
         {%endif%}
         {% include 'footer.html' %}
