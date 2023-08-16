@@ -1,5 +1,5 @@
 ﻿from DB_layer import *
-from flask import Flask, render_template, url_for,redirect, flash,send_file, jsonify,request,session
+from flask import Flask,Blueprint, render_template, url_for,redirect, flash,send_file, jsonify,request,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin,login_user,LoginManager,login_required,logout_user,current_user
 from flask_wtf import FlaskForm
@@ -16,6 +16,7 @@ from dateutil import relativedelta
 import urllib.parse
 import json
 from flask_cors import CORS
+from approutes import approutes
 
 
 
@@ -24,6 +25,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
+
 
 CORS(app, support_credentials=True)
 
@@ -57,6 +59,7 @@ login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view="login"
 
+app.register_blueprint(approutes)
 
 
 @login_manager.user_loader
@@ -1542,6 +1545,7 @@ def validate_entry(tbl,tblid,id):
     db.session.commit()
     return redirect(url_for(tbl))
 
+    
 def convert_list_to_json(inputlist):
     returnedjson = []
     for item in inputlist:
@@ -1559,6 +1563,27 @@ def get_users_data():
     userlistjson=convert_list_to_json(userlist)
     return (userlistjson)
 
+def get_types_data():
+    facturationtypels = db.engine.execute("""Select *,'Facturation' as 'Name' from facturationtype""")
+    facturationtypejson = convert_list_to_json(facturationtypels)
+
+    paymenttypels = db.engine.execute("""Select *, 'Paiement' as 'Name' from paymenttype""")
+    paymenttypejson = convert_list_to_json(paymenttypels)
+
+    retrocessiontypels = db.engine.execute("""Select *,'Retrocession' as 'Name' from retrocessiontype""")
+    retrocessiontypejson = convert_list_to_json(retrocessiontypels)
+
+    dentisterietypels = db.engine.execute("""Select *,'Dentisterie' as 'Name' from dentisterietype""")
+    dentisterietypejson = convert_list_to_json(dentisterietypels)
+
+    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson)
+    
+
+@app.route('/get_types_data')
+@login_required
+def gettypesdata():
+    return jsonify(get_types_data())
+
 @app.route('/get_users_data')
 @login_required
 def getusersdata():   
@@ -1574,9 +1599,7 @@ def delete_users():
             db.engine.execute("""Delete from "user" where id = {0}""".format(id))
     except:
         return(jsonify({"Status":"Not all records were deleted"}))    
-    return(jsonify({"Status":"OK"}))
-    
-    
+    return(jsonify({"Status":"OK"}))    
 
 
 
@@ -2147,7 +2170,7 @@ def setup():
 
 
     if "setup" in current_user.access  or current_user.access=="all":        
-        return render_template('app.html',content="installation",settingsForms=[settingsForm,staticitemsForm],titlescards=["Mois Avant","Paramètres Constants"],forms=[form1,form2,formretro,form3,form4],table=[paymenttypesitems,facturationtypesitems,retrocessiontypesitems,dentisterietypesitems,fraismaterielitems],headers=[headerspaymenttypes,headersfacturationtypes,headersretrocessiontypes,headersdentisterietypes,headersfraismaterieltypes],dbtable=["paymenttype","facturationtype","retrocessiontype","dentisterietype","fraismaterieltype"],dbtableid=["paiementstypeid","facturationtypeid","retrocessiontypeid","dentisterietypeid","fraismaterieltypeid"],titles=["Type de Paiement","Type de Facturation","Type de Retrocession","Type de Dentisterie","Type de Frais Materiel"],user_role=current_user.role)
+        return render_template('app.html',username=(current_user.username).title(),content="installation",settingsForms=[settingsForm,staticitemsForm],titlescards=["Mois Avant","Paramètres Constants"],forms=[form1,form2,formretro,form3,form4],table=[paymenttypesitems,facturationtypesitems,retrocessiontypesitems,dentisterietypesitems,fraismaterielitems],headers=[headerspaymenttypes,headersfacturationtypes,headersretrocessiontypes,headersdentisterietypes,headersfraismaterieltypes],dbtable=["paymenttype","facturationtype","retrocessiontype","dentisterietype","fraismaterieltype"],dbtableid=["paiementstypeid","facturationtypeid","retrocessiontypeid","dentisterietypeid","fraismaterieltypeid"],titles=["Type de Paiement","Type de Facturation","Type de Retrocession","Type de Dentisterie","Type de Frais Materiel"],user_role=current_user.role)
     else:
         return render_template('NOT_AUTHORIZED.html')
 

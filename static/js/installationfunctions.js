@@ -1,40 +1,8 @@
-
 baseurl = window.location.origin
-function delete_multiple()
-{
-    var array = []
-var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
 
-for (var i = 0; i < checkboxes.length; i++) {
-  array.push(checkboxes[i].value)
-//$("#table").DataTable().clear()
-}
-delete_records(array)
-var table = $('table').DataTable();
- 
-table
-    .clear()
-    .draw();
-populate_table()
 
-//alert(array)
-}
-
-function delete_records(array){
-    const response = fetch(`${baseurl}/delete_user`,{
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"ids":array})
-      }).then((response) => {
-        return response.json();
-      }).then((json) => {})
-}
-
-function populate_table(){
-    const response = fetch(`${baseurl}/get_users_data`).then((response) => {
+function populate_types_table(){
+    const response = fetch(`${baseurl}/get_types_data`).then((response) => {
         return response.json();
       }).then((json) => {let users = json
       console.log(users)
@@ -178,46 +146,10 @@ function populate_table(){
                                             </div>`*/
                                 
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
-        var access_items_arr=users[i][4].split(" ")
-        tmp_div=document.createElement("div")
-        for (var j=0;j<access_items_arr.length;j++){
-            var access_items=document.createElement("span");
-            access_items.setAttribute("class","badge rounded-pill bg-primary-transparent");
-            access_items.innerText=access_items_arr[j];
-            tmp_div.appendChild(access_items)
-            //access_items_text=access_items_text+access_items.innerHTML
-        }
         
-
-        var t = $('#responsiveDataTable').DataTable();
-        /*   <span
-                                      
-                                        tabindex="0"
-                                        data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus"
-                                        data-bs-content="Propriétaire du compte"
-                                    >
-                                    Admin <i class="bi bi-key"></i>
-                                    </span>  
-                                     */
-        var role="";
-        if (users[i][3]=="admin" && users[i][4]=="all")
-        {
-            divelement = document.createElement("div")
-            divelement.innerHTML=`<span
-                                      
-            tabindex="0"
-            data-bs-toggle="popover"
-            data-bs-trigger="hover focus"
-            data-bs-content="Propriétaire du compte"
-        >
-        Admin <i class="bi bi-key"></i>
-        </span> `
-                role = divelement.innerHTML
-        }else{
-            role = users[i][3]
-        }
-        t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);
+        
+                                            var t = $('#responsiveDataTable').DataTable();
+                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1], users[i][2]]).draw(false);
 
     }
     
