@@ -1601,6 +1601,23 @@ def delete_users():
         return(jsonify({"Status":"Not all records were deleted"}))    
     return(jsonify({"Status":"OK"}))    
 
+@app.route('/edit_user',methods=["POST"])
+@login_required
+def edit_user():
+    
+    try:    
+        newaccess = ' '.join(request.json["access"])
+        
+        newrole = "admin" if request.json["isAdmin"]==True else "user"
+        
+        db.engine.execute("""UPDATE "user"
+        SET username = '{0}', password = '{1}', role='{2}',access='{3}'
+        WHERE id={4}; """.format(request.json["username"],request.json["password"],newrole,newaccess,request.json["id"]))
+    except:
+        return(jsonify({"Status":"Could not edit record"}))        
+   
+    return(jsonify({"Status":"OK"}))    
+    
 
 
 @app.route('/user',methods=['GET','POST'])
@@ -1624,7 +1641,7 @@ def user():
         
         return redirect(url_for('user'))
     if current_user.role=="admin":
-        return render_template("app.html",content='usermanagement',editform=editform,form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username,user_role=current_user.role,dbtable="user",dbtableid="id")
+        return render_template("app.html",content='usermanagement',editform=editform,form=form,table=userlslistitems,headers=headersuserlslist,username=current_user.username.title(),user_role=current_user.role,dbtable="user",dbtableid="id")
     else:
         return render_template("NOT_AUTHORIZED.html")
 

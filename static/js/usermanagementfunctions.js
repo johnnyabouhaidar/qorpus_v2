@@ -1,12 +1,54 @@
 
 baseurl = window.location.origin
+function edituser(id){
+
+    data = {
+                "id":id,
+                "username":"",
+                "password":"",
+                "isAdmin":"",
+                "access":[],
+
+            }
+    data["username"] = document.getElementById(`username${id}`).value
+    data["password"] = document.getElementById(`password${id}`).value
+    data["isAdmin"] = document.getElementById(`adminRadio${id}`).checked
+    var checkboxes = document.querySelectorAll(`input[name=rolescheckbox${id}]:checked`)
+    accessarrays = []
+    for (var i=0;i<checkboxes.length;i++)
+    {
+        accessarrays.push(checkboxes[i].value)
+    }
+    data["access"]=accessarrays
+    //console.log(data)
+    const response = fetch(`${baseurl}/edit_user`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {})
+
+      var table = $('table').DataTable();
+ 
+table
+    .clear()
+    .draw();
+populate_table()
+
+}
+
 function delete_multiple()
 {
     var array = []
-var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+var checkboxes = document.querySelectorAll('input[name=selectrowtype]:checked')
 
 for (var i = 0; i < checkboxes.length; i++) {
   array.push(checkboxes[i].value)
+  
 //$("#table").DataTable().clear()
 }
 delete_records(array)
@@ -20,8 +62,8 @@ populate_table()
 //alert(array)
 }
 
-function delete_records(array){
-    const response = fetch(`${baseurl}/delete_user`,{
+async function delete_records(array){
+    const response = await fetch(`${baseurl}/delete_user`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -52,7 +94,7 @@ function populate_table(){
         var input_cell = document.createElement("input")
         input_cell.setAttribute("class","form-check-input rowCheckbox")
         input_cell.setAttribute("type","checkbox")
-        input_cell.setAttribute("name","type")
+        input_cell.setAttribute("name","selectrowtype")
         input_cell.setAttribute("id",`checkboxNoLabel${users[i][0]}`)
         input_cell.setAttribute("value",`${users[i][0]}`)
         input_cell.setAttribute("aria-label","...")
@@ -93,89 +135,34 @@ function populate_table(){
                                                         <div class="modal-body text-start">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="input" value="${users[i][1]}">
+                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="username${users[i][0]}" value="${users[i][1]}">
                                                                 </div>
                                                                 <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="input" value="${users[i][2]}">
+                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="password${users[i][0]}" value="${users[i][2]}">
                                                                 </div>
-                                                                <div class="col-12 mt-4">
+                                                                <div class="col-12 mt-4" id ="isAdmin${users[i][0]}">
                                                                     <p class="mb-2 text-muted">Role</p> 
 
                                                                 </div>
-                                                                <div class="col-12 mt-4">
+                                                                <div class="col-12 mt-4" id ="accessrightsdiv${users[i][0]}">
                                                                     
                                                                     <p class="mb-2 text-muted">Accès</p>
-                                                                    <div>
-                                                                        <input class="form-check-input ms-2" type="checkbox" value="" id="selectAllCheckboxAddMethod">
-                                                                        <span>Tout</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="" checked>
-                                                                        <span>Paiement</span>
-                                                                    </div>
-                                                                    <div>
-
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Facturation</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Retrocession</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Dentisterie</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Encaissement Avance</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Médecins</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Dentiste et Hygieniste</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Employé(e)s</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Patients</span>
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 
 
 
 
                                                                 <div class="col-12 mt-4">
-                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button${users[i][0]}" onclick="edituser(${users[i][0]})" value="Modifier" data-bs-dismiss="modal">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>`
-                                    /*`<div class="modal fade mt-4" id="modal${users[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure do you want to delete this row?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal",onclick="delete_records([${users[i][0]}])">Close</button>
-                                                            <button id="delbtn${users[i][0]}" type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`*/
+                                            
+                                    
                                 
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
         var access_items_arr=users[i][4].split(" ")
@@ -190,16 +177,7 @@ function populate_table(){
         
 
         var t = $('#responsiveDataTable').DataTable();
-        /*   <span
-                                      
-                                        tabindex="0"
-                                        data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus"
-                                        data-bs-content="Propriétaire du compte"
-                                    >
-                                    Admin <i class="bi bi-key"></i>
-                                    </span>  
-                                     */
+    
         var role="";
         if (users[i][3]=="admin" && users[i][4]=="all")
         {
@@ -211,13 +189,50 @@ function populate_table(){
             data-bs-trigger="hover focus"
             data-bs-content="Propriétaire du compte"
         >
-        Admin <i class="bi bi-key"></i>
+        admin <i class="bi bi-key"></i>
         </span> `
                 role = divelement.innerHTML
         }else{
             role = users[i][3]
         }
-        t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);
+        
+        if (users[i][1]=="admin"){
+            t.row.add(["","",users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);    
+        }else{
+            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);    
+            var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['reports','Reports Generation']]
+            var accessrightsdiv = document.getElementById(`accessrightsdiv${users[i][0]}`)
+            for (var roleindex=0;roleindex<rolesmapping_dict.length;roleindex++)
+            {
+                //alert(rolesmapping_dict[roleindex][0]);
+                var newitem = document.createElement("div");
+                
+                if (access_items_arr.includes(rolesmapping_dict[roleindex][0]))
+                {
+                    newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}" checked>
+                                    <span>${rolesmapping_dict[roleindex][1]}</span>`
+                }else{
+                    newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}">
+                                    <span>${rolesmapping_dict[roleindex][1]}</span>`
+                }
+                accessrightsdiv.appendChild(newitem)    
+            }
+    
+            var isAdmindiv=document.getElementById(`isAdmin${users[i][0]}`)
+            
+            
+            var admincheck = document.createElement("div")
+            if (users[i][3]=="admin"){
+            admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin" checked>
+            <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
+            else{
+                admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin">
+            <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
+            
+            isAdmindiv.appendChild(admincheck)
+        }
+        
+                              
 
     }
     
