@@ -1624,9 +1624,35 @@ def edit_user():
 @app.route('/get_kpi_cards',methods=['GET'])
 @login_required
 def get_kpi_cards():
-    paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and date BETWEEN '{0}' and '{1}' group by paiementsType """.format(request.args["fromdate"],request.args["todate"]))
+    fromdate = date(2022,1,5)#year month day
+    todate = date(2022,5,20)
 
-    pass
+    daysdiff = (todate-fromdate).days
+
+    oldfrom = (fromdate - timedelta(days=daysdiff))
+    paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and date BETWEEN '{0}' and '{1}' group by paiementsType """.format(fromdate,todate))
+    paymentoldls,paysumold = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and date BETWEEN '{0}' and '{1}' group by paiementsType """.format(oldfrom,fromdate))
+    
+    paymentpercentagechange = ((paysum-paysumold)/(paysum+paysumold))*100
+
+    factls,factsum = get_ls_for_dashboard("""Select facturationtype as FacturationType, SUM(somme)  as somme from facturation where Valide='valide' and date BETWEEN '{0}' and '{1}' group by facturationtype """.format(fromdate,todate))
+    factoldls,factsumold = get_ls_for_dashboard("""Select facturationtype as FacturationType, SUM(somme)  as somme from facturation where Valide='valide' and date BETWEEN '{0}' and '{1}' group by facturationtype """.format(oldfrom,fromdate))
+    
+    facturationpercentagechange = ((factsum-factsumold)/(factsum+factsumold))*100
+    return(jsonify({"payment":
+                    {"newtotal":paysum,
+                     "oldtotal":paysumold,
+                     "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":paymentpercentagechange},
+                    
+                    "facturation":
+                    {"newtotal":factsum,
+                     "oldtotal":factsumold,
+                    "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":facturationpercentagechange}
+                    }))
       
     
 
