@@ -4,14 +4,14 @@ baseurl = window.location.origin
 function populate_types_table(){
     const response = fetch(`${baseurl}/get_types_data`).then((response) => {
         return response.json();
-      }).then((json) => {let users = json
-      console.log(users)
+      }).then((json) => {let types = json
+      console.log(types)
 
     var table_body = document.createElement("tbody");
     var table_element = document.getElementById("responsiveDataTable");
     //tbodyelement = document.getElementById("bodyid");
 
-    for (var i=0;i<users.length;i++)
+    for (var i=0;i<types.length;i++)
     {
         var table_roww = document.createElement("tr")
         var table_row_header = document.createElement("th");
@@ -21,8 +21,8 @@ function populate_types_table(){
         input_cell.setAttribute("class","form-check-input rowCheckbox")
         input_cell.setAttribute("type","checkbox")
         input_cell.setAttribute("name","type")
-        input_cell.setAttribute("id",`checkboxNoLabel${users[i][0]}`)
-        input_cell.setAttribute("value",`${users[i][0]}`)
+        input_cell.setAttribute("id",`checkboxNoLabel${types[i][0]}`)
+        input_cell.setAttribute("value",`${types[i][0]}`)
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
         
@@ -30,12 +30,12 @@ function populate_types_table(){
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${users[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                         <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>-->
-                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${users[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
-                                    <div class="modal fade mt-4" id="deleteUserManagementModal${users[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal fade mt-4" id="deleteUserManagementModal${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -43,16 +43,16 @@ function populate_types_table(){
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete user: ${users[i][1]}?</p>
+                                                        <p>Are you sure you want to delete user: ${types[i][1]}?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick="delete_records([${users[i][0]}])">Delete</button>
+                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick="delete_records([${types[i][0]}])">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${users[i][0]}">
+                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${types[i][0]}">
                                                 <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                                     <div class="modal-content modal-content-demo">
                                                         <div class="modal-header">
@@ -61,10 +61,10 @@ function populate_types_table(){
                                                         <div class="modal-body text-start">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="input" value="${users[i][1]}">
+                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="input" value="${types[i][1]}">
                                                                 </div>
                                                                 <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="input" value="${users[i][2]}">
+                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="input" value="${types[i][2]}">
                                                                 </div>
                                                                 <div class="col-12 mt-4">
                                                                     <p class="mb-2 text-muted">Role</p> 
@@ -127,7 +127,7 @@ function populate_types_table(){
                                                     </div>
                                                 </div>
                                             </div>`
-                                    /*`<div class="modal fade mt-4" id="modal${users[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    /*`<div class="modal fade mt-4" id="modal${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -138,8 +138,8 @@ function populate_types_table(){
                                                             <p>Are you sure do you want to delete this row?</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal",onclick="delete_records([${users[i][0]}])">Close</button>
-                                                            <button id="delbtn${users[i][0]}" type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
+                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal",onclick="delete_records([${types[i][0]}])">Close</button>
+                                                            <button id="delbtn${types[i][0]}" type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,7 +149,14 @@ function populate_types_table(){
         
         
                                             var t = $('#responsiveDataTable').DataTable();
-                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1], users[i][2]]).draw(false);
+                                            var typeframediv = document.createElement("div");
+                                            typeframespan = document.createElement("span");
+                                            
+                                            typeframespan.setAttribute("class","badge rounded-pill bg-primary-transparent")
+                                            typeframespan.innerHTML = types[i][0]
+                                            typeframediv.appendChild(typeframespan)
+
+                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,`${types[i][1]}_${types[i][0]}`, types[i][2], typeframediv.innerHTML]).draw(false);
 
     }
     

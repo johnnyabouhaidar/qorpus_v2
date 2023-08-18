@@ -305,7 +305,7 @@ def dashboard():
         return redirect(url_for('dashboard',fromdate=dterngeForm.startdate.data,todate=dterngeForm.enddate.data))
 
 
-    return render_template('app.html',username=(current_user.username).title(),user_role=current_user.role,encdf=encls,paymentgrph=paymentls,paysum=paysum,pnl=pnl,facturationgraph=facturationls,facturationsum=facturationsum,enctotal=enctotal,fraissum=fraissum,retrocessionsum=retrocessionsum,dterngeForm=dterngeForm)
+    return render_template('app.html',content='widget',username=(current_user.username).title(),user_role=current_user.role,encdf=encls,paymentgrph=paymentls,paysum=paysum,pnl=pnl,facturationgraph=facturationls,facturationsum=facturationsum,enctotal=enctotal,fraissum=fraissum,retrocessionsum=retrocessionsum,dterngeForm=dterngeForm)
 
 
 @app.route('/doctorpayment',methods=['GET','POST'])
@@ -1564,19 +1564,22 @@ def get_users_data():
     return (userlistjson)
 
 def get_types_data():
-    facturationtypels = db.engine.execute("""Select *,'Facturation' as 'Name' from facturationtype""")
+    facturationtypels = db.engine.execute("""Select 'facturationtype' as 'Name', * from facturationtype""")
     facturationtypejson = convert_list_to_json(facturationtypels)
 
-    paymenttypels = db.engine.execute("""Select *, 'Paiement' as 'Name' from paymenttype""")
+    paymenttypels = db.engine.execute("""Select'paymenttype' as 'Name', * from paymenttype""")
     paymenttypejson = convert_list_to_json(paymenttypels)
 
-    retrocessiontypels = db.engine.execute("""Select *,'Retrocession' as 'Name' from retrocessiontype""")
+    retrocessiontypels = db.engine.execute("""Select 'retrocessiontype' as 'Name' ,* from retrocessiontype""")
     retrocessiontypejson = convert_list_to_json(retrocessiontypels)
 
-    dentisterietypels = db.engine.execute("""Select *,'Dentisterie' as 'Name' from dentisterietype""")
+    dentisterietypels = db.engine.execute("""Select 'dentisterietype' as 'Name', * from dentisterietype""")
     dentisterietypejson = convert_list_to_json(dentisterietypels)
 
-    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson)
+    fraismaterieltypels = db.engine.execute("""Select 'fraismaterieltype' as 'Name', * from fraismaterieltype""")
+    fraismaterieltypejson = convert_list_to_json(fraismaterieltypels)
+
+    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson)
     
 
 @app.route('/get_types_data')
@@ -1616,7 +1619,15 @@ def edit_user():
     except:
         return(jsonify({"Status":"Could not edit record"}))        
    
-    return(jsonify({"Status":"OK"}))    
+    return(jsonify({"Status":"OK"}))  
+
+@app.route('/get_kpi_cards',methods=['GET'])
+@login_required
+def get_kpi_cards():
+    paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and date BETWEEN '{0}' and '{1}' group by paiementsType """.format(request.args["fromdate"],request.args["todate"]))
+
+    pass
+      
     
 
 

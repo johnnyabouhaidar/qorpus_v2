@@ -100,6 +100,7 @@ function createDatePicker() {
   $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
     console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
     console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
+    
   });
 }
 
