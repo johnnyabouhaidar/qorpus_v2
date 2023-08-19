@@ -97,11 +97,12 @@ function createDatePicker() {
   });
 
   // Optionally, you can add event listeners to handle date range changes
-  $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
+  /*$('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
     console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
     console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
+    //alert(picker.endDate.format('YYYY-MM-DD'))
     
-  });
+  });*/
 }
 
 // Wait for the document to fully load before creating the date range picker

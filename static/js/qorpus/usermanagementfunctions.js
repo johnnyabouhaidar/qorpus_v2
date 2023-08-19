@@ -52,6 +52,9 @@ for (var i = 0; i < checkboxes.length; i++) {
 //$("#table").DataTable().clear()
 }
 delete_records(array)
+setTimeout(function () {
+    tablename.row(row).remove().draw();
+  }, 1000);
 var table = $('table').DataTable();
  
 table
@@ -62,8 +65,8 @@ populate_table()
 //alert(array)
 }
 
-async function delete_records(array){
-    const response = await fetch(`${baseurl}/delete_user`,{
+function delete_records(array){
+    const response = fetch(`${baseurl}/delete_user`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',

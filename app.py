@@ -1624,8 +1624,13 @@ def edit_user():
 @app.route('/get_kpi_cards',methods=['GET'])
 @login_required
 def get_kpi_cards():
-    fromdate = date(2022,1,5)#year month day
-    todate = date(2022,5,20)
+
+    try:
+        fromdate=datetime.datetime.strptime(request.args["fromdate"],"%Y-%m-%d")
+        todate=datetime.datetime.strptime(request.args["todate"],"%Y-%m-%d")
+    except:
+        fromdate = date(2022,1,5)#year month day
+        todate = date(2022,5,20)
 
     daysdiff = (todate-fromdate).days
 
