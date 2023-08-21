@@ -70,6 +70,15 @@ function reload_kpi_views(fromdate,todate){
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"])
         kpirows.appendChild(paymentkpi)
 
+        facturationkpi = document.createElement("div");
+        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"])
+        kpirows.appendChild(facturationkpi)
+
+        facturationkpi = document.createElement("div");
+        facturationkpi.innerHTML=build_kpi_card("facturationkpdi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"])
+        kpirows.appendChild(facturationkpi)
+        
+
       })
 }
 
