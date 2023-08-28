@@ -1,6 +1,7 @@
+
 var baseurl = window.location.origin;
 var widget_api_response="oldval"
-function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate)
+function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
     var formattedtotal = total.toLocaleString("en-US");
     var percentagechangerouded = Math.round(percentagechange);
@@ -8,7 +9,7 @@ function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtoda
     if (percentagechangerouded<0){
         divcolor = "danger"
     }
-    var inner_text=`<div class="col-lg-6 col-sm-12 col-md-6 col-xl-4 col-xxl-3 widget" id="kpi-${titleid}" data-type="kpi" data-title="${titleid}">    
+    var inner_text=`<div class="col-lg-6 col-sm-12 col-md-6 col-xl-4 col-xxl-3 widget" id="kpi-${cardindex}" data-type="kpi" data-title="${titleid}">    
     <div class="card custom-card specific-height"> <div class="handle">...</div>
         <div class="card-body">
      
@@ -67,15 +68,15 @@ function reload_kpi_views(fromdate,todate){
         var kpirows= document.getElementById("kpis-rows")
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
-        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"])
+        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
         kpirows.appendChild(paymentkpi)
 
         facturationkpi = document.createElement("div");
-        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"])
+        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],2)
         kpirows.appendChild(facturationkpi)
 
         facturationkpi = document.createElement("div");
-        facturationkpi.innerHTML=build_kpi_card("facturationkpdi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"])
+        facturationkpi.innerHTML=build_kpi_card("facturationkpdi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],3)
         kpirows.appendChild(facturationkpi)
         
 
