@@ -28,7 +28,12 @@
             <!-- Start::header-element -->
             <div class="header-element">
                 <!-- Start::header-link|links -->
+                {%if content=='usermanagement'%}<a href="{{url_for('setup')}}" class="header-link active">
+                
+                {%else%}
                 <a href="{{url_for('setup')}}" class="header-link">
+                {%endif%}
+                
                     <div class="d-flex align-items-center">
                         <div class="me-sm-2 me-0"><i class='bx bx-wrench'></i></div>
                         <div class="d-sm-block d-none">
