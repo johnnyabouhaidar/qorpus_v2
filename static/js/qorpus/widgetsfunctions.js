@@ -1,6 +1,35 @@
 
 var baseurl = window.location.origin;
 var widget_api_response="oldval"
+
+function link_drag_cards(){
+    dragula([
+        document.querySelector('#kpi-1'), 
+        document.querySelector('#kpi-2'),
+         document.querySelector('#kpi-3'), 
+         document.querySelector('#kpi-4'), 
+         document.querySelector('#kpi-5'), 
+         document.querySelector('#kpi-6'), 
+         document.querySelector('#kpi-7'), 
+         document.querySelector('#kpi-8'), 
+         document.querySelector('#chart-1'), 
+         document.querySelector('#chart-2'), 
+         document.querySelector('#chart-3'), 
+         document.querySelector('#chart-4'), 
+         document.querySelector('#table-1'), 
+         document.querySelector('#table-2'), 
+         document.querySelector('#table-3'),
+          document.querySelector('#table-4'), 
+          document.querySelector('#table-5'),
+           document.querySelector('#table-6')],
+           {
+
+
+            moves: function (el, container, handle) {
+                return handle.classList.contains('handle');
+            }
+        });
+}
 function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
     var formattedtotal = total.toLocaleString("en-US");
@@ -69,16 +98,21 @@ function reload_kpi_views(fromdate,todate){
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
-        kpirows.appendChild(paymentkpi)
+        kpirows.appendChild(paymentkpi.firstChild)
+        
+        
 
         facturationkpi = document.createElement("div");
         facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],2)
-        kpirows.appendChild(facturationkpi)
+        kpirows.appendChild(facturationkpi.firstChild)
 
-        facturationkpi = document.createElement("div");
-        facturationkpi.innerHTML=build_kpi_card("facturationkpdi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],3)
-        kpirows.appendChild(facturationkpi)
+        retrocessionkpi = document.createElement("div");
+        retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession Total",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
+        kpirows.appendChild(retrocessionkpi.firstChild)
         
+        link_drag_cards()
+
+
 
       })
 }
@@ -89,3 +123,6 @@ $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
     //alert(picker.endDate.format('YYYY-MM-DD'))
     reload_kpi_views(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
   });
+
+
+

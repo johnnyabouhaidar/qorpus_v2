@@ -1,6 +1,44 @@
 baseurl = window.location.origin
 
 
+function delete_multiple()
+{
+    var array = []
+var checkboxes = document.querySelectorAll('input[name=selectrowtype]:checked')
+
+for (var i = 0; i < checkboxes.length; i++) {
+  array.push(checkboxes[i].value)
+  
+//$("#table").DataTable().clear()
+}
+delete_records(array)
+setTimeout(function () {
+    tablename.row(row).remove().draw();
+  }, 1000);
+var table = $('table').DataTable();
+ 
+table
+    .clear()
+    .draw();
+populate_table()
+
+//alert(array)
+}
+
+function delete_type_records(array){
+    //console.log(array.toString())
+    const response = fetch(`${baseurl}/delete_type`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"ids":array})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {})
+}
+
 function populate_types_table(){
     const response = fetch(`${baseurl}/get_types_data`).then((response) => {
         return response.json();
@@ -30,12 +68,12 @@ function populate_types_table(){
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                         <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>-->
-                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
-                                    <div class="modal fade mt-4" id="deleteUserManagementModal${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal fade mt-4" id="deleteUserManagementModal${types[i][1]}${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -43,16 +81,16 @@ function populate_types_table(){
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete user: ${types[i][1]}?</p>
+                                                        <p>Are you sure you want to delete item: ${types[i][1]}?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick="delete_records([${types[i][0]}])">Delete</button>
+                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick="delete_type_records([{'type':'${types[i][0]}','id':${types[i][1]}}])">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${types[i][0]}">
+                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${types[i][1]}${types[i][0]}">
                                                 <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                                     <div class="modal-content modal-content-demo">
                                                         <div class="modal-header">

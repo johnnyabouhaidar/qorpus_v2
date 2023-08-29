@@ -1587,6 +1587,19 @@ def get_types_data():
 def gettypesdata():
     return jsonify(get_types_data())
 
+@app.route('/delete_type',methods=["POST"])
+@login_required
+def delete_types():
+    #db.engine.execute("""Delete from "user" where id = {0}""".format(2012))
+    print(request.json["ids"])
+    #try:
+    for id in request.json["ids"]:
+        print(id["type"],id["id"])
+        db.engine.execute("""Delete from {0} where {0}id = {1}""".format(id["type"],id["id"]))
+    #except:
+    #    return(jsonify({"Status":"Not all records were deleted"}))    
+    return(jsonify({"Status":"OK"}))  
+
 @app.route('/get_users_data')
 @login_required
 def getusersdata():   
@@ -1644,6 +1657,12 @@ def get_kpi_cards():
     factoldls,factsumold = get_ls_for_dashboard("""Select facturationtype as FacturationType, SUM(somme)  as somme from facturation where Valide='valide' and date BETWEEN '{0}' and '{1}' group by facturationtype """.format(oldfrom,fromdate))
     
     facturationpercentagechange = ((factsum-factsumold)/(factsum+factsumold))*100
+
+    retrols,retrosum = get_ls_for_dashboard("""Select retrocessiontype as RetrocessionType, SUM(somme)  as somme from retrocession where Valide='valide' and date BETWEEN '{0}' and '{1}' group by retrocessiontype """.format(fromdate,todate))
+    retrooldls,retrosumold = get_ls_for_dashboard("""Select retrocessiontype as RetrocessionType, SUM(somme)  as somme from retrocession where Valide='valide' and date BETWEEN '{0}' and '{1}' group by retrocessiontype """.format(oldfrom,fromdate))
+    
+    retrocessionpercentagechange = ((retrosum-retrosumold)/(retrosum+retrosumold))*100
+
     return(jsonify({"payment":
                     {"newtotal":paysum,
                      "oldtotal":paysumold,
@@ -1656,7 +1675,14 @@ def get_kpi_cards():
                      "oldtotal":factsumold,
                     "oldfrom":oldfrom,
                      "oldto":fromdate,
-                    "percentagechange":facturationpercentagechange}
+                    "percentagechange":facturationpercentagechange},
+
+                    "retrocession":
+                    {"newtotal":retrosum,
+                     "oldtotal":retrosumold,
+                    "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":retrocessionpercentagechange}
                     }))
       
     
