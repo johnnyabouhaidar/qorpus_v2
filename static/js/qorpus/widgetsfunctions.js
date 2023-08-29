@@ -30,6 +30,36 @@ function link_drag_cards(){
             }
         });
 }
+
+function build_pnl_chart_widget()
+{
+    var inner_text = `<div class="col-xl-12 " id="chart-1">
+    <div class="card custom-card">  <div class="handle">...</div>
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">Compte de pertes et profits</div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="dropdown">
+                    <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">last 12 months</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">year to date</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">2023</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">2022</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="subscriptionOverview" class="px-3 mt-sm-0 mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>`
+
+return inner_text;
+}
 function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
     var formattedtotal = total.toLocaleString("en-US");
@@ -95,6 +125,8 @@ function reload_kpi_views(fromdate,todate){
         
         //alert(kpis["payment"]["newtotal"])
         var kpirows= document.getElementById("kpis-rows")
+        var chartrows=document.getElementById("pnlchart-rows")
+        //chartrows.innerHTML="";
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
@@ -110,9 +142,194 @@ function reload_kpi_views(fromdate,todate){
         retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession Total",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
         kpirows.appendChild(retrocessionkpi.firstChild)
         
+        pnlchart = document.createElement("div");
+        pnlchart.innerHTML = build_pnl_chart_widget();
+        chartrows.appendChild(pnlchart.firstChild);
+
         link_drag_cards()
 
-
+        var options = {
+            series: [{
+                name: "2022",
+                data: [75, 78, 38, 39, 38, 73, 73, 53, 53, 16, 16, 53]
+            },
+            {
+                name: "2023",
+                data: [35, 35, 62, 63, 13, 13, 60, 60, 41, 41, 82, 82]
+            }
+            ],
+            chart: {
+                toolbar: {
+                    show: false
+                },
+                height: 285,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                dropShadow: {
+                    enabled: true,
+                    enabledOnSeries: undefined,
+                    top: 5,
+                    left: 0,
+                    blur: 3,
+                    color: '#000',
+                    opacity: 0.15
+                },
+            },
+            grid: {
+                borderColor: '#f1f1f1',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: [2, 2],
+                curve: ['smooth', 'smooth'],
+                lineCap: 'butt',
+                dashArray: [0, 0]
+            },
+            title: {
+                text: undefined,
+            },
+            legend: {
+                show: true,
+                position: 'top',
+                horizontalAlign: 'center',
+                fontWeight: 600,
+                fontSize: '11px',
+                tooltipHoverFormatter: function (val, opts) {
+                    return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
+                },
+                labels: {
+                    colors: '#74767c',
+                },
+                markers: {
+                    width: 7,
+                    height: 7,
+                    strokeWidth: 0,
+                    radius: 12,
+                    offsetX: 0,
+                    offsetY: 0
+                },
+            },
+            markers: {
+                discrete: [{
+                    seriesIndex: 0,
+                    dataPointIndex: 5,
+                    fillColor: '#305cfc',
+                    strokeColor: '#fff',
+                    size: 4,
+                    shape: "circle"
+                },
+                {
+                    seriesIndex: 0,
+                    dataPointIndex: 11,
+                    fillColor: '#305cfc',
+                    strokeColor: '#fff',
+                    size: 4,
+                    shape: "circle"
+                },
+                {
+                    seriesIndex: 1,
+                    dataPointIndex: 10,
+                    fillColor: '#23b7e5',
+                    strokeColor: '#fff',
+                    size: 4,
+                    shape: "circle"
+                }, {
+                    seriesIndex: 1,
+                    dataPointIndex: 4,
+                    fillColor: '#23b7e5',
+                    strokeColor: '#fff',
+                    size: 4,
+                    shape: "circle"
+                }],
+                hover: {
+                    sizeOffset: 6
+                }
+            },
+            yaxis: {
+                title: {
+                    style: {
+                        color: '#adb5be',
+                        fontSize: '14px',
+                        fontFamily: 'poppins, sans-serif',
+                        fontWeight: 600,
+                        cssClass: 'apexcharts-yaxis-label',
+                    },
+                },
+                labels: {
+                    formatter: function (y) {
+                        return y.toFixed(0) + "";
+                    },
+                    show: true,
+                    style: {
+                        colors: "#8c9097",
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        cssClass: 'apexcharts-xaxis-label',
+                    },
+                }
+            },
+            xaxis: {
+                type: 'day',
+                categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
+                    '10 Jan', '11 Jan', '12 Jan'
+                ],
+                axisBorder: {
+                    show: true,
+                    color: 'rgba(119, 119, 142, 0.05)',
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+                axisTicks: {
+                    show: true,
+                    borderType: 'solid',
+                    color: 'rgba(119, 119, 142, 0.05)',
+                    width: 6,
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                labels: {
+                    rotate: -90,
+                    style: {
+                        colors: "#8c9097",
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        cssClass: 'apexcharts-xaxis-label',
+                    },
+                }
+            },
+            tooltip: {
+                y: [
+                    {
+                        title: {
+                            formatter: function (val) {
+                                return val
+                            }
+                        }
+                    },
+                    {
+                        title: {
+                            formatter: function (val) {
+                                return val
+                            }
+                        }
+                    },
+                    {
+                        title: {
+                            formatter: function (val) {
+                                return val;
+                            }
+                        }
+                    }
+                ]
+            },
+            colors: ["rgb(132, 90, 223)", "#23b7e5"],
+        };
+        var chart = new ApexCharts(document.querySelector("#subscriptionOverview"), options);
+      chart.render();
 
       })
 }

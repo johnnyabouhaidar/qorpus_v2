@@ -28,7 +28,7 @@
             <!-- Start::header-element -->
             <div class="header-element">
                 <!-- Start::header-link|links -->
-                {%if content=='usermanagement'%}<a href="{{url_for('setup')}}" class="header-link active">
+                {%if content=='installation'%}<a href="{{url_for('setup')}}" class="header-link active">
                 
                 {%else%}
                 <a href="{{url_for('setup')}}" class="header-link">
@@ -86,7 +86,11 @@
             <!-- Start::header-element -->
             <div class="header-element">
                 <!-- Start::header-link|dropdown-toggle -->
+                {%if content =='usermanagement'%}
+                <a href="#" class="header-link active  dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                {%else%}
                 <a href="#" class="header-link  dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                {%endif%}
                     <div class="d-flex align-items-center">
                         <div class="me-sm-2 me-0"><i class='bx bx-user-circle'></i></div>
                         <div class="d-sm-block d-none">
