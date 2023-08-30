@@ -2172,6 +2172,7 @@ from doctor where isActive=1""")
 @app.route('/setup',methods=['GET','POST'])
 @login_required
 def setup():
+    addgeneraltype=AddNewType()
     form1 =Addpaymenttype()
     paymenttypes=db.engine.execute("select * from paymenttype")
     paymenttypesitems=paymenttypes.fetchall()
@@ -2186,6 +2187,9 @@ def setup():
 
     staticitemsForm=StaticItemsForm(obj=staticitemsqry)
 
+    if addgeneraltype.validate_on_submit():
+        print(addgeneraltype.typename.data,"!!!!!!!!!!!!!!!!")
+        return redirect(url_for('setup'))
     if staticitemsForm.validate_on_submit():
         try:
             new_static =Constants(nbdentistehygieniste=staticitemsForm.nbdentistehygieniste.data,nbmedecins=staticitemsForm.nbmedecins.data,nbept=staticitemsForm.nbept.data,nbemployes=staticitemsForm.nbemployes.data,year=datetime.datetime.now().year)
@@ -2264,7 +2268,7 @@ def setup():
 
 
     if "setup" in current_user.access  or current_user.access=="all":        
-        return render_template('app.html',username=(current_user.username).title(),content="installation",settingsForms=[settingsForm,staticitemsForm],titlescards=["Mois Avant","Paramètres Constants"],forms=[form1,form2,formretro,form3,form4],table=[paymenttypesitems,facturationtypesitems,retrocessiontypesitems,dentisterietypesitems,fraismaterielitems],headers=[headerspaymenttypes,headersfacturationtypes,headersretrocessiontypes,headersdentisterietypes,headersfraismaterieltypes],dbtable=["paymenttype","facturationtype","retrocessiontype","dentisterietype","fraismaterieltype"],dbtableid=["paiementstypeid","facturationtypeid","retrocessiontypeid","dentisterietypeid","fraismaterieltypeid"],titles=["Type de Paiement","Type de Facturation","Type de Retrocession","Type de Dentisterie","Type de Frais Materiel"],user_role=current_user.role)
+        return render_template('app.html',username=(current_user.username).title(),content="installation",addgeneraltype=addgeneraltype,settingsForms=[settingsForm,staticitemsForm],titlescards=["Mois Avant","Paramètres Constants"],forms=[form1,form2,formretro,form3,form4],table=[paymenttypesitems,facturationtypesitems,retrocessiontypesitems,dentisterietypesitems,fraismaterielitems],headers=[headerspaymenttypes,headersfacturationtypes,headersretrocessiontypes,headersdentisterietypes,headersfraismaterieltypes],dbtable=["paymenttype","facturationtype","retrocessiontype","dentisterietype","fraismaterieltype"],dbtableid=["paiementstypeid","facturationtypeid","retrocessiontypeid","dentisterietypeid","fraismaterieltypeid"],titles=["Type de Paiement","Type de Facturation","Type de Retrocession","Type de Dentisterie","Type de Frais Materiel"],user_role=current_user.role)
     else:
         return render_template('NOT_AUTHORIZED.html')
 

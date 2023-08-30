@@ -111,47 +111,7 @@ function populate_types_table(){
                                                                 <div class="col-12 mt-4">
                                                                     
                                                                     <p class="mb-2 text-muted">Accès</p>
-                                                                    <div>
-                                                                        <input class="form-check-input ms-2" type="checkbox" value="" id="selectAllCheckboxAddMethod">
-                                                                        <span>Tout</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="" checked>
-                                                                        <span>Paiement</span>
-                                                                    </div>
-                                                                    <div>
-
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Facturation</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Retrocession</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Dentisterie</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Encaissement Avance</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Médecins</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Dentiste et Hygieniste</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Employé(e)s</span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <input class="form-check-input rowCheckbox2 ms-2" type="checkbox" value="">
-                                                                        <span>Patients</span>
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 
 

@@ -95,11 +95,18 @@ class AddDoctorPaymentForm(FlaskForm):
 
     submit=SubmitField("Soumettre")
 
+
+
 class Addpaymenttype(FlaskForm):
     paymenttype=StringField(label="Paiement Type ",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
 
     submit =SubmitField("Soumettre")
 
+class AddNewType(FlaskForm):
+    typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
+    category = SelectField('Catégorie',choices=[('UBS','UBS'),('Postfinance ','Postfinance')])
+
+    submit = SubmitField("Soumettre")
 
 class AddPaymentForm(FlaskForm):
     paiementsType= SelectField('PaiementsType',choices=[],validators=[InputRequired()])

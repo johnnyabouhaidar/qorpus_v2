@@ -65,28 +65,26 @@
                           <h6 class="modal-title">Ajouter Gestion des type</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
                       <div class="modal-body text-start">
-                          <div class="row">
-                              <div class="col-12">
-                                  <p class="mb-2 text-muted">ID</p><input type="text" class="form-control" id="input">
-                              </div>
+                        <form id="typeaddForm" method="POST" action="">
+                            {{addgeneraltype.hidden_tag()}}
+                        <div class="row">
+                              
                               <div class="col-12 mt-4">
-                                  <p class="mb-2 text-muted">Type</p><input type="text" class="form-control" id="input">
+                                  <p class="mb-2 text-muted">Type</p>
+                                  {{addgeneraltype.typename(class="form-control")}}
                               </div>
                               <div class="col-12 mt-4">
                                   <p class="mb-2 text-muted">Catégorie</p>
-                                  <select class="js-example-basic-single text-muted" id="modifier-gestion-type" name="modifier-gestion-type">
-                                      <option value="catégorie" disabled selected>Catégorie</option>
-                                      <option value="paiement">Paiement</option>
-                                      <option value="facturation">Facturation</option>
-                                      <option value="rétrocession">Rétrocession</option>
-                                      <option value="dentisterie">Dentisterie</option>
-
-                                  </select>
+                                  
+                                  {{addgeneraltype.category(class="js-example-basic-single text-muted")}}
                               </div>
+                              
                               <div class="col-12 mt-4">
-                                  <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                  
+                                  {{addgeneraltype.submit(class="form-control btn btn-primary")}}
                               </div>
                           </div>
+                        </form>  
                       </div>
                   </div>
               </div>
