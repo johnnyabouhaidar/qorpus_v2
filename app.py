@@ -1592,12 +1592,21 @@ def gettypesdata():
 def delete_types():
     #db.engine.execute("""Delete from "user" where id = {0}""".format(2012))
     print(request.json["ids"])
-    #try:
-    for id in request.json["ids"]:
-        print(id["type"],id["id"])
-        db.engine.execute("""Delete from {0} where {0}id = {1}""".format(id["type"],id["id"]))
-    #except:
-    #    return(jsonify({"Status":"Not all records were deleted"}))    
+    try:
+        for id in request.json["ids"]:
+            print(id["type"],id["id"])
+            if id["type"]=="facturationtype":
+                db.engine.execute("""Delete from facturationtype where facturationtypeid = {1}""".format(id["type"],id["id"]))
+            elif id["type"]=="paymenttype":
+                db.engine.execute("""Delete from paymenttype where paiementstypeid = {1}""".format(id["type"],id["id"]))
+            elif id["type"]=="retrocessiontype":
+                db.engine.execute("""Delete from retrocessiontype where retrocessiontypeid = {1}""".format(id["type"],id["id"]))
+            elif id["type"]=="dentisterietype":
+                db.engine.execute("""Delete from dentisterietype where dentisterietypeId = {1}""".format(id["type"],id["id"])) 
+            elif id["type"]=="fraismaterieltype":
+                db.engine.execute("""Delete from fraismaterieltype where fraismaterieltypeId = {1}""".format(id["type"],id["id"]))                                    
+    except:
+        return(jsonify({"Status":"Not all records were deleted"}))    
     return(jsonify({"Status":"OK"}))  
 
 @app.route('/get_users_data')
