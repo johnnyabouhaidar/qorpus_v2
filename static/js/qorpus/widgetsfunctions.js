@@ -60,6 +60,7 @@ function build_pnl_chart_widget()
 
 return inner_text;
 }
+
 function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
     var formattedtotal = total.toLocaleString("en-US");
@@ -104,8 +105,8 @@ function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtoda
             </div>
         </div>
     </div>
-</div>
-`
+</div>`
+
 return inner_text;
 }
 
@@ -126,7 +127,7 @@ function reload_kpi_views(fromdate,todate){
         //alert(kpis["payment"]["newtotal"])
         var kpirows= document.getElementById("kpis-rows")
         var chartrows=document.getElementById("pnlchart-rows")
-        //chartrows.innerHTML="";
+        chartrows.innerHTML="";
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
