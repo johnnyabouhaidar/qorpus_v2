@@ -7,20 +7,22 @@ function delete_multiple()
 var checkboxes = document.querySelectorAll('input[name=selectrowtype]:checked')
 
 for (var i = 0; i < checkboxes.length; i++) {
-  array.push(checkboxes[i].value)
+    var objectt = {"type":checkboxes[i].value.split("_")[0],"id":checkboxes[i].value.split("_")[1]}
+    array.push(objectt)
   
 //$("#table").DataTable().clear()
 }
-delete_records(array)
+console.log(array)
+delete_type_records(array)
 setTimeout(function () {
-    tablename.row(row).remove().draw();
+    
   }, 1000);
 var table = $('table').DataTable();
  
 table
     .clear()
     .draw();
-populate_table()
+populate_types_table()
 
 //alert(array)
 }
@@ -58,9 +60,9 @@ function populate_types_table(){
         var input_cell = document.createElement("input")
         input_cell.setAttribute("class","form-check-input rowCheckbox")
         input_cell.setAttribute("type","checkbox")
-        input_cell.setAttribute("name","type")
+        input_cell.setAttribute("name","selectrowtype")
         input_cell.setAttribute("id",`checkboxNoLabel${types[i][0]}`)
-        input_cell.setAttribute("value",`${types[i][0]}`)
+        input_cell.setAttribute("value",`${types[i][0]}_${types[i][1]}`)
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
         
@@ -98,24 +100,11 @@ function populate_types_table(){
                                                         </div>
                                                         <div class="modal-body text-start">
                                                             <div class="row">
-                                                                <div class="col-12">
-                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="input" value="${types[i][1]}">
-                                                                </div>
+                                                                
                                                                 <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="input" value="${types[i][2]}">
-                                                                </div>
-                                                                <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Role</p> 
-
-                                                                </div>
-                                                                <div class="col-12 mt-4">
-                                                                    
-                                                                    <p class="mb-2 text-muted">Accès</p>
-                                                                    
+                                                                    <p class="mb-2 text-muted">Type</p><input type="text" class="form-control" id="input" value="${types[i][2]}">
                                                                 </div>
                                                                 
-
-
 
                                                                 <div class="col-12 mt-4">
                                                                     <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal">

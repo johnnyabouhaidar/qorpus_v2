@@ -104,7 +104,7 @@ class Addpaymenttype(FlaskForm):
 
 class AddNewType(FlaskForm):
     typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
-    category = SelectField('Catégorie',choices=[('UBS','UBS'),('Postfinance ','Postfinance')])
+    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel')])
 
     submit = SubmitField("Soumettre")
 

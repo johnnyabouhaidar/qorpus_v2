@@ -2188,7 +2188,19 @@ def setup():
     staticitemsForm=StaticItemsForm(obj=staticitemsqry)
 
     if addgeneraltype.validate_on_submit():
-        print(addgeneraltype.typename.data,"!!!!!!!!!!!!!!!!")
+        
+        if addgeneraltype.category.data == "Paiement":
+            db.engine.execute("""Insert into paymenttype VALUES ('{0}')""".format(addgeneraltype.typename.data)) 
+        elif addgeneraltype.category.data == "Facturation":
+            db.engine.execute("""insert into facturationtype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))
+        elif addgeneraltype.category.data == "Dentisterie":
+            db.engine.execute("""insert into dentisterietype VALUES ('{0}')""".format(addgeneraltype.typename.data))   
+        elif addgeneraltype.category.data == "Frais Materiel":
+            db.engine.execute("""insert into fraismaterieltype VALUES ('{0}')""".format(addgeneraltype.typename.data)) 
+        elif addgeneraltype.category.data == "Retrocession":
+            db.engine.execute("""insert into retrocessiontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))                                
+
+
         return redirect(url_for('setup'))
     if staticitemsForm.validate_on_submit():
         try:
