@@ -1,7 +1,7 @@
 {
    "servername":"localhost",
-   "instancename":"SQLEXPRESS",
-   "username":"flask1",
-   "password":"flaskPass",
+   "instancename":"SQLEXPRESS03",
+   "username":"johnny",
+   "password":"pass123456",
    "databasename":"Flask_DataEntry_DB"
 }

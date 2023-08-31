@@ -32,12 +32,14 @@ function edituser(id){
         return response.json();
       }).then((json) => {})
 
-      var table = $('table').DataTable();
+      
+    const myTimeout = setTimeout(function(){var table = $('table').DataTable();
  
-table
-    .clear()
-    .draw();
-populate_table()
+    table
+        .clear()
+        .draw();
+        populate_table()}, 1000);
+    
 
 }
 
@@ -52,15 +54,12 @@ for (var i = 0; i < checkboxes.length; i++) {
 //$("#table").DataTable().clear()
 }
 delete_records(array)
-setTimeout(function () {
-    tablename.row(row).remove().draw();
-  }, 1000);
-var table = $('table').DataTable();
+const myTimeout = setTimeout(function(){var table = $('table').DataTable();
  
 table
     .clear()
     .draw();
-populate_table()
+    populate_table()}, 1000);
 
 //alert(array)
 }

@@ -1,7 +1,7 @@
 baseurl = window.location.origin
 
 
-function delete_multiple()
+function delete_types_multiple()
 {
     var array = []
 var checkboxes = document.querySelectorAll('input[name=selectrowtype]:checked')
@@ -14,15 +14,12 @@ for (var i = 0; i < checkboxes.length; i++) {
 }
 console.log(array)
 delete_type_records(array)
-setTimeout(function () {
-    
-  }, 1000);
-var table = $('table').DataTable();
+const myTimeout = setTimeout(function(){var table = $('table').DataTable();
  
 table
     .clear()
     .draw();
-populate_types_table()
+    populate_types_table()}, 1000);
 
 //alert(array)
 }
