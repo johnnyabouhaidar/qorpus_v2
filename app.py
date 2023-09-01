@@ -2374,7 +2374,28 @@ def getpnlforyear(startdate,enddate):
             pnl_year[day]=day_pnl
         years.append({year:pnl_year})
     return(years)
+
+def get_pnl_values(year):
+    returned_pnls=[]
+    for month in range(1,13):
+        encls,enctotal = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and YEAR(encaissementDate)={0} and DATEPART(DAYOFYEAR,encaissementDate)={1}  group by banque""".format(year,day))
+        paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and YEAR(date)={0} and DATEPART(DAYOFYEAR,date)={1} group by paiementsType """.format(year,day))
+        retrols,retrosum = get_ls_for_dashboard("""select retrocession.retrocessiontype as RetrocessionType, Sum(somme) as somme from retrocession  inner join retrocessiontype on retrocession.retrocessionType=retrocessiontype.retrocessionType where Valide='valide'  and YEAR(date)={0} and DATEPART(DAYOFYEAR,date) = {1} and retrocessiontype.pnl_included=1  group by retrocession.retrocessionType""".format(year,day))
+        if enctotal<0.001:
+            enctotal=0.0
+        if paysum<0.001:
+            paysum=0.0
+        if retrosum<0.001:
+            retrosum=0.0
+        current_pnl = enctotal-(paysum+retrosum)
+        returned_pnls.append(current_pnl)
     
+    return returned_pnls
+        #print(enctotal,paysum,retrosum)
+        
+    
+get_pnl_values(2023)
+
 def getpaymentasjson(startdate,enddate):
     pass
 
