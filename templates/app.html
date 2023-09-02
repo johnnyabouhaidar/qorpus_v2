@@ -75,6 +75,9 @@
         
         {%elif content == 'widget'%}
             {%include 'dashboard.html'%}
+                    
+        {%elif content == 'payment'%}
+            {%include 'payment.html'%}
 
         {%endif%}
         {% include 'footer.html' %}
@@ -146,6 +149,8 @@
     <script src="/static/js/script.js"></script>    <script src="/static/js/qorpus/usermanagementfunctions.js"></script>
     <script src="/static/js/qorpus/installationfunctions.js"></script>
     <script src="/static/js/qorpus/widgetsfunctions.js"></script>
+    <script src="/static/js/select2.js"></script>
+    
 </body>
 
 </html>

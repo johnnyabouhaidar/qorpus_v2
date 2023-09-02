@@ -22,7 +22,7 @@
     var chart = new ApexCharts(document.querySelector("#pie-basic"), options);
     chart.render();
 
-    /* simple donut chart */
+    /* simple donut chart used in the web*/
     var options = {
         series: [44, 55, 41, 17, 15],
         chart: {
@@ -37,6 +37,7 @@
             },
           },
         legend: {
+            show: true,
             position: 'bottom'
         },
         colors: ["#845adf", "#23b7e5", "#f5b849", "#49b6f5", "#cc3399"],

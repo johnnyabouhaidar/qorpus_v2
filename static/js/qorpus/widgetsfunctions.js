@@ -148,16 +148,16 @@ function reload_kpi_views(fromdate,todate){
         chartrows.appendChild(pnlchart.firstChild);
 
         link_drag_cards()
-
+        fetch(`${baseurl}/getpnlhistory`).then(function (response) {
+            response.json().then(function (yearpnl) {
+                
+           
         var options = {
             series: [{
                 name: "2022",
-                data: [75, 78, 38, 39, 38, 73, 73, 53, 53, 16, 16, 53]
+                data: yearpnl
             },
-            {
-                name: "2023",
-                data: [35, 35, 62, 63, 13, 13, 60, 60, 41, 41, 82, 82]
-            }
+            
             ],
             chart: {
                 toolbar: {
@@ -275,8 +275,7 @@ function reload_kpi_views(fromdate,todate){
             },
             xaxis: {
                 type: 'day',
-                categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
-                    '10 Jan', '11 Jan', '12 Jan'
+                categories: ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'
                 ],
                 axisBorder: {
                     show: true,
@@ -331,7 +330,8 @@ function reload_kpi_views(fromdate,todate){
         };
         var chart = new ApexCharts(document.querySelector("#subscriptionOverview"), options);
       chart.render();
-
+    });
+});
       })
 }
 

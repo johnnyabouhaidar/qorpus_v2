@@ -1012,7 +1012,7 @@ def payment(search=""):
 
     
     if "payments" in current_user.access or current_user.access=="all":
-        return render_template('generalform.html',forms=[form],hasDynamicSelector=True,table=paymentitems_disp,headers=headerspayments,dbtable="payment",dbtableid="paiementsId",user_role=current_user.role,searchform=searchform,module_name="Paiement",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+        return render_template('app.html',content='payment',forms=[form],hasDynamicSelector=True,table=paymentitems_disp,headers=headerspayments,dbtable="payment",dbtableid="paiementsId",user_role=current_user.role,searchform=searchform,module_name="Paiement",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
     else:
         return render_template('NOT_AUTHORIZED.html')
 
@@ -2378,9 +2378,9 @@ def getpnlforyear(startdate,enddate):
 def get_pnl_values(year):
     returned_pnls=[]
     for month in range(1,13):
-        encls,enctotal = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and YEAR(encaissementDate)={0} and DATEPART(DAYOFYEAR,encaissementDate)={1}  group by banque""".format(year,day))
-        paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and YEAR(date)={0} and DATEPART(DAYOFYEAR,date)={1} group by paiementsType """.format(year,day))
-        retrols,retrosum = get_ls_for_dashboard("""select retrocession.retrocessiontype as RetrocessionType, Sum(somme) as somme from retrocession  inner join retrocessiontype on retrocession.retrocessionType=retrocessiontype.retrocessionType where Valide='valide'  and YEAR(date)={0} and DATEPART(DAYOFYEAR,date) = {1} and retrocessiontype.pnl_included=1  group by retrocession.retrocessionType""".format(year,day))
+        encls,enctotal = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and YEAR(encaissementDate)={0} and MONTH(encaissementDate)={1}  group by banque""".format(year,month))
+        paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and YEAR(date)={0} and MONTH(date)={1} group by paiementsType """.format(year,month))
+        retrols,retrosum = get_ls_for_dashboard("""select retrocession.retrocessiontype as RetrocessionType, Sum(somme) as somme from retrocession  inner join retrocessiontype on retrocession.retrocessionType=retrocessiontype.retrocessionType where Valide='valide'  and YEAR(date)={0} and MONTH(date)={1}  and retrocessiontype.pnl_included=1  group by retrocession.retrocessionType""".format(year,month))
         if enctotal<0.001:
             enctotal=0.0
         if paysum<0.001:
@@ -2388,7 +2388,7 @@ def get_pnl_values(year):
         if retrosum<0.001:
             retrosum=0.0
         current_pnl = enctotal-(paysum+retrosum)
-        returned_pnls.append(current_pnl)
+        returned_pnls.append(round(current_pnl,2))
     
     return returned_pnls
         #print(enctotal,paysum,retrosum)
@@ -2412,9 +2412,8 @@ def getpaymentdata():
 @app.route('/getpnlhistory')
 @login_required
 def getpnlhistory():
-    startdate=request.args["startdate"]
-    enddate=request.args["enddate"]
-    return jsonify(getpnlforyear(startdate,enddate))
+
+    return jsonify(get_pnl_values(2023))
 
 
 

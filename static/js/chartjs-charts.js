@@ -2,7 +2,7 @@
     "use strict";
 
     /* line chart  */
-    Chart.defaults.borderColor = "rgba(142, 156, 173,0.1)", Chart.defaults.color = "#8c9097";
+    myChart.defaults.borderColor = "rgba(142, 156, 173,0.1)", Chart.defaults.color = "#8c9097";
     const labels = [
         'January',
         'February',
@@ -77,7 +77,7 @@
             }
         },
     };
-    const myChart1 = new Chart(
+    const myChart1 = new myChart(
         document.getElementById('chartjs-bar'),
         config1
     );
@@ -111,11 +111,7 @@
 
     /* doughnut chart */
     const data3 = {
-        labels: [
-            'Red',
-            'Blue',
-            'Yellow'
-        ],
+        labels: ['Red', 'Blue', 'Yellow'],
         datasets: [{
             label: 'My First Dataset',
             data: [300, 50, 100],
@@ -127,10 +123,21 @@
             hoverOffset: 4
         }]
     };
+    
     const config4 = {
         type: 'doughnut',
         data: data3,
     };
+    
+    // Make sure the Chart constructor is available
+    if (typeof Chart !== 'undefined') {
+        const myChart3 = new Chart(
+            document.getElementById('chartjs-doughnut'),
+            config4
+        );
+    } else {
+        console.error('Chart constructor is not defined.');
+    }
     const myChart3 = new Chart(
         document.getElementById('chartjs-doughnut'),
         config4
