@@ -2,12 +2,12 @@ var baseurl = window.location.origin;
 
 function populate_payment_table()
 {
-    const myTimeout = setTimeout(function(){var table = $('table').DataTable();
+    /*const myTimeout = setTimeout(function(){var table = $('table').DataTable();
  
 table
     .clear()
     .draw();
-    }, 1000);
+    }, 1000);*/
 }
 
 

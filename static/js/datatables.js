@@ -52,7 +52,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
 
@@ -88,7 +88,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
               last = group;
@@ -124,7 +124,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
 
