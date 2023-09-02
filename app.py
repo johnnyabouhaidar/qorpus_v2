@@ -1012,7 +1012,7 @@ def payment(search=""):
 
     
     if "payments" in current_user.access or current_user.access=="all":
-        return render_template('app.html',content='payment',forms=[form],hasDynamicSelector=True,table=paymentitems_disp,headers=headerspayments,dbtable="payment",dbtableid="paiementsId",user_role=current_user.role,searchform=searchform,module_name="Paiement",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+        return render_template('app.html',username=(current_user.username).title(),content='payment',forms=[form],hasDynamicSelector=True,table=paymentitems_disp,headers=headerspayments,dbtable="payment",dbtableid="paiementsId",user_role=current_user.role,searchform=searchform,module_name="Paiement",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
     else:
         return render_template('NOT_AUTHORIZED.html')
 

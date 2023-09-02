@@ -23,7 +23,11 @@
                     </a>
                 </li>
                 <li class="slide">
+                    {%if content == 'payment'%}
+                    <a href="{{url_for('payment')}}" class="side-menu__item active">
+                    {%else%}
                     <a href="{{url_for('payment')}}" class="side-menu__item">
+                    {%endif%}
                         <i class='ti ti-report-money side-menu__icon'></i>
                         <span class="side-menu__label">Paiement</span>
                     </a>

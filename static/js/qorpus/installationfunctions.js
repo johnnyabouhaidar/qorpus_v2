@@ -132,7 +132,7 @@ function populate_types_table(){
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
         
         
-                                            var t = $('#responsiveDataTable').DataTable();
+                                            var t = $('#responsiveDataTable2').DataTable();
                                             var typeframediv = document.createElement("div");
                                             typeframespan = document.createElement("span");
                                             
