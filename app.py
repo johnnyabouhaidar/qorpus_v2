@@ -1558,6 +1558,15 @@ def convert_list_to_json(inputlist):
     #print(returnedjson)
     return returnedjson
 
+def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount):
+    if moduletype=='payment':
+        listitems = db.engine.execute("""Select * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3}""".format(strtdte,enddte,minamount,maxamount))
+    
+    listitemsjson = convert_list_to_json(listitems)
+    return (listitemsjson)
+
+
+
 def get_users_data():
     userlist=db.engine.execute("""Select * from [Flask_DataEntry_DB].[dbo].[user]""")
     userlistjson=convert_list_to_json(userlist)
@@ -1581,6 +1590,22 @@ def get_types_data():
 
     return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson)
     
+
+@app.route('/get_module_data')
+@login_required
+def getmoduledata():
+    try:
+        startDate = request.args["startDate"]
+        endDate = request.args["endDate"]
+        minamount = request.args["minamount"]
+        maxamount = request.args["maxamount"]
+    except:
+        startDate = datetime.datetime(1900, 5, 17)
+        endDate = datetime.datetime(3000, 5, 17)
+        minamount = 0
+        maxamount=99999999
+    if request.args["moduletype"]=='payment':
+        return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount)))
 
 @app.route('/get_types_data')
 @login_required
