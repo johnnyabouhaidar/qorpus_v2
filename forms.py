@@ -118,7 +118,7 @@ class AddPaymentForm(FlaskForm):
 
     comment=StringField('Comment',widget=TextArea())
 
-    submit = SubmitField("Soumettre")
+    submit = SubmitField("Ajouter")
 
 class AddDentistrytype(FlaskForm):
     dentisterieType=StringField(label='Dentisterie Type',validators=[InputRequired()],render_kw={"placeholder":"(i.e: Facturation hygiéniste...)"})

@@ -61,6 +61,8 @@
                         <div class="modal-header">
                             <h6 class="modal-title">Ajouter Nouveau Paiement</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
+                        <form method="POST" action="">
+                            {{forms[0].hidden_tag()}}
                         <div class="modal-body text-start">
                             <div class="row">
                                 <div class="col-12">
@@ -70,29 +72,36 @@
                                 </div>
                                 <div class="col-12 mt-4">
                                     <p class="mb-2 text-muted">Nom</p>
-                                    <select class="js-example-basic-single text-muted" id="paiement-nom" name="paiement-nom">
-                                        <option value="option1">option1</option>
-                                        <option value="option2">option2</option>
-                                        <option value="option3">option3</option>
-                                    </select>
+                                    {{forms[0].paiementsNom(class="js-example-basic-single text-muted",id="paiement-nom")}}
+                                    
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
+                                    <p class="mb-2 text-muted">Nouveau Nom</p>
+                                    {{forms[0].paiementsNomALT(class="form-control", id="input")}}
+                                    
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <p class="mb-2 text-muted">Montant</p><input type="text" class="form-control" id="input">
+                                    <p class="mb-2 text-muted">Montant</p>
+                                    
+                                    {{forms[0].somme(class="form-control", id="input")}}
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <p class="mb-2 text-muted">Date</p> <input type="text" name="dates" id="addDatePicker1" class="form-control text-muted" />
+                                    <p class="mb-2 text-muted">Date</p> 
+                                    {{forms[0].date(class="form-control text-muted")}}
+                                    
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input"></textarea>
+                                    <p class="mb-2 text-muted">Commentaire</p>
+                                    {{forms[0].comment(class="form-control")}}
+                                    
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                    
+                                    {{forms[0].submit(class="form-control btn btn-primary")}}
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
