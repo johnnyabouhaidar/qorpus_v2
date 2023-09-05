@@ -1,6 +1,4 @@
 var baseurl = window.location.origin;
-
-        
 let paymenttype_select = document.getElementById('paiement-type');
         
 let paymentname_select = document.getElementById('paiement-nom');
@@ -22,7 +20,13 @@ response.json().then(function (data) {
     paymentname_select.innerHTML = optionHTML;
 });
 });
+
 }
+
+
+
+        
+
 
 
 function apply_payment_filters()
@@ -117,15 +121,16 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <p class="mb-2 text-muted">Type</p>
-                                                        <select class="js-example-basic-single text-muted" id="modifier-paiement-type" name="modifier-paiement-type">
+                                                        <select class="js-example-basic-single text-muted drop" id="modifier-paiement-type${items[i][0]}" name="modifier-paiement-type${items[i][0]}">
                                                             <option value="option1">testing</option>
                                                             <option value="option2">option2</option>
                                                             <option value="option3">option3</option>
                                                         </select>
+                                                        
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Nom</p>
-                                                        <select class="js-example-basic-single text-muted" id="modifier-paiement-nom" name="modifier-paiement-nom">
+                                                        <select class="js-example-basic-single text-muted" id="modifier-paiement-nom${items[i][0]}" name="modifier-paiement-nom${items[i][0]}">
                                                             <option value="option1">Carte EC frais divers</option>
                                                             <option value="option2">option2</option>
                                                             <option value="option3">option3</option>
@@ -135,13 +140,13 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Montant</p><input type="text" class="form-control" id="input" value="montant">
+                                                        <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="input" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="text" name="dates" id="addDatePicker2" class="form-control text-muted" />
+                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" />
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">Payé avec la carte de crédit</textarea>
+                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">${items[i][4]}</textarea>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
@@ -157,7 +162,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                 
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
       
-        
+                                            
 
         var t = $('#responsiveDataTable').DataTable();
     
@@ -170,8 +175,30 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             
         }
        
-                              
-
+              
+        var paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
+        
+        var paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+        
+        paymenttype_select.onchange = function () {
+        paymenttype = paymenttype_select.value;
+        
+        
+        
+        fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let paymentname of data.paymentnames) {
+                optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
+            }
+        
+            paymentname_select.innerHTML = optionHTML;
+        });
+        });
+        
+        }
     }
     
 
@@ -206,5 +233,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
       
 });
 }
+
+
 
 
