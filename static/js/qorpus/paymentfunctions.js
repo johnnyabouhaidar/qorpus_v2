@@ -84,63 +84,74 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                        <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>-->
-                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editPaymenttModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletePaymentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
-                                    <div class="modal fade mt-4" id="deleteUserManagementModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal fade mt-4" id="deletePaymentModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure do you want to delete this row?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade effect-rotate-left" id="editPaymenttModal${items[i][0]}">
+                                    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                        <div class="modal-content modal-content-demo">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title">Modifier Paiement</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body text-start">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p class="mb-2 text-muted">Type</p>
+                                                        <select class="js-example-basic-single text-muted" id="modifier-paiement-type" name="modifier-paiement-type">
+                                                            <option value="option1">testing</option>
+                                                            <option value="option2">option2</option>
+                                                            <option value="option3">option3</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to delete item: ${items[i][1]} - ${items[i][2]}?</p>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Nom</p>
+                                                        <select class="js-example-basic-single text-muted" id="modifier-paiement-nom" name="modifier-paiement-nom">
+                                                            <option value="option1">Carte EC frais divers</option>
+                                                            <option value="option2">option2</option>
+                                                            <option value="option3">option3</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick="delete_records([${items[i][0]}])">Delete</button>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
+                                                    </div>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Montant</p><input type="text" class="form-control" id="input" value="montant">
+                                                    </div>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Date</p> <input type="text" name="dates" id="addDatePicker2" class="form-control text-muted" />
+                                                    </div>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">Payé avec la carte de crédit</textarea>
+                                                    </div>
+                                                    <div class="col-12 mt-4">
+                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${items[i][0]}">
-                                                <div class="modal-dialog modal-dialog-centered text-center" role="document">
-                                                    <div class="modal-content modal-content-demo">
-                                                        <div class="modal-header">
-                                                            <h6 class="modal-title">Modifier Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body text-start">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <p class="mb-2 text-muted">Username</p><input type="text" class="form-control" id="username${items[i][0]}" value="${items[i][1]}">
-                                                                </div>
-                                                                <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="password${items[i][0]}" value="${items[i][2]}">
-                                                                </div>
-                                                                <div class="col-12 mt-4" id ="isAdmin${items[i][0]}">
-                                                                    <p class="mb-2 text-muted">Role</p> 
-
-                                                                </div>
-                                                                <div class="col-12 mt-4" id ="accessrightsdiv${items[i][0]}">
-                                                                    
-                                                                    <p class="mb-2 text-muted">Accès</p>
-                                                                    
-                                                                </div>
-                                                                
-
-
-
-                                                                <div class="col-12 mt-4">
-                                                                    <input type="button" class="form-control btn btn-primary" id="input-button${items[i][0]}" onclick="edituser(${items[i][0]})" value="Modifier" data-bs-dismiss="modal">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`
+                                    </div>
+                                </div>                                    
+                                    `
                                             
                                     
                                 
@@ -158,7 +169,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,items[i][0], items[i][1],items[i][2],items[i][3],items[i][5],items[i][4],items[i][6]]).draw(false);    
             
         }
-        
+       
                               
 
     }
@@ -177,6 +188,21 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         }, 500);
       });
 
+      $('.duplicaterow').on('click', function () {
+        var table = $(this).closest('table').DataTable();
+        var button = this;
+        var row = $(button).closest('tr');
+        var clonedRow = row.clone(); // Clone the row
+    
+        // Insert the cloned row after the original row
+        table.row.add(clonedRow);
+    
+        // Sort the table by column 3 in descending order
+        table.order([[3, 'asc']]);
+    
+        // Redraw the table to apply the sorting
+        table.draw();
+      });
       
 });
 }
