@@ -84,6 +84,9 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
         
+        let paymenttypeitems = document.getElementById("paiement-type").innerHTML
+       
+
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
@@ -122,18 +125,14 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                     <div class="col-12">
                                                         <p class="mb-2 text-muted">Type</p>
                                                         <select class="js-example-basic-single text-muted drop" id="modifier-paiement-type${items[i][0]}" name="modifier-paiement-type${items[i][0]}">
-                                                            <option value="option1">testing</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
+                                                            ${paymenttypeitems}
                                                         </select>
                                                         
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Nom</p>
                                                         <select class="js-example-basic-single text-muted" id="modifier-paiement-nom${items[i][0]}" name="modifier-paiement-nom${items[i][0]}">
-                                                            <option value="option1">Carte EC frais divers</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
+                                                            
                                                         </select>
                                                     </div>
                                                     <div class="col-12 mt-4">
@@ -175,10 +174,11 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             
         }
        
-              
-        var paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
         
-        var paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+        
+        let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
+        
+        let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
         
         paymenttype_select.onchange = function () {
         paymenttype = paymenttype_select.value;
