@@ -102,7 +102,7 @@ function populate_table(){
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
         
-        var table_row_functions = document.createElement("td");
+        let table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
@@ -200,8 +200,10 @@ function populate_table(){
         
         if (users[i][1]=="admin"){
             t.row.add(["","",users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);    
+            
         }else{
             t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);    
+            
             var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['reports','Reports Generation']]
             var accessrightsdiv = document.getElementById(`accessrightsdiv${users[i][0]}`)
             for (var roleindex=0;roleindex<rolesmapping_dict.length;roleindex++)

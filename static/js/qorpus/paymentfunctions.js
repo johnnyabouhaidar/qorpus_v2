@@ -33,7 +33,6 @@ function apply_payment_filters()
 {
 
 
-    
     var daterange = document.getElementById("mainCalendar")
     var startDatee = new Date(daterange.value.split(" - ")[0])
     var endDatee = new Date(daterange.value.split(" - ")[1])
@@ -44,7 +43,7 @@ function apply_payment_filters()
     var montantlower=document.getElementById("lower-value").innerText
     var montanthigher=document.getElementById("upper-value").innerText
     
-    alert(montanthigher)
+    //alert(montanthigher)
     const myTimeout = setTimeout(function(){var table = $('table').DataTable();
  
     table
@@ -69,6 +68,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     var table_element = document.getElementById("responsiveDataTable");
     //tbodyelement = document.getElementById("bodyid");
 
+    
     for (var i=0;i<items.length;i++)
     {
         var table_roww = document.createElement("tr")
@@ -105,7 +105,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure do you want to delete this row?</p>
+                                                <p>Are you sure do you want to delete this row? ${items[i][1]} - ${items[i][2]}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -163,10 +163,10 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
       
                                             
 
-        var t = $('#responsiveDataTable').DataTable();
+        
     
         
-        
+                                            var t = $('#responsiveDataTable').DataTable();
         if (items[i][1]=="admin"){
             t.row.add(["","",items[i][0], items[i][1],items[i][2],items[i][3],items[i][4],items[i][5],items[i][6]]).draw(false);    
         }else{

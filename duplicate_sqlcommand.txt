@@ -1,0 +1,4 @@
+insert into payment (paiementsType, paiementsNom,somme,comment,"date")
+select paiementsType, paiementsNom,somme,comment,"date"
+from payment
+where paiementsId = 1
