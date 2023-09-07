@@ -92,26 +92,25 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         </select>*/
 
 
-
+        
         let paymenttype_select = document.createElement("select");
         paymenttype_select.setAttribute("class","");
         paymenttype_select.setAttribute("id",`modifier-paiement-type${items[i][0]}`);
         paymenttype_select.setAttribute("name",`modifier-paiement-type${items[i][0]}`);
-        let paymenttype_items = document.createElement('div');
-        paymenttype_items.innerHTML=paymenttypeitems
-        paymenttype_select.appendChild(paymenttype_items)
-        paymenttypeshtml =  paymenttype_select.outerHTML
-
-
-
-                
-        //let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
         
-        //let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+        //paymenttype_items.innerHTML=paymenttypeitems
+        var typeitems = document.getElementById("paiement-type").options;
+        for (let i=0;i<typeitems.length;i++)
+        {
+            let opt = document.createElement("option");
+            opt.value = typeitems[i].text;
+            opt.innerHTML = typeitems[i].text;
+            paymenttype_select.appendChild(opt)
+            //alert(typeitems[i].text)
+        }
         
         paymenttype_select.onchange = function () {
-            alert("changed")
-                paymenttype = paymenttype_select.value;
+            paymenttype = paymenttype_select.value;
             
             
             
@@ -129,6 +128,17 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             });
             
             }
+            
+        paymenttypeshtml =  paymenttype_select.outerHTML
+        
+
+
+
+                
+        //let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
+        
+        //let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+      
 
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`

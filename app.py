@@ -1560,7 +1560,7 @@ def convert_list_to_json(inputlist):
 
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount):
     if moduletype=='payment':
-        listitems = db.engine.execute("""Select top 100  * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3}""".format(strtdte,enddte,minamount,maxamount))
+        listitems = db.engine.execute("""Select top 10  * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3}""".format(strtdte,enddte,minamount,maxamount))
     
     listitemsjson = convert_list_to_json(listitems)
     return (listitemsjson)
