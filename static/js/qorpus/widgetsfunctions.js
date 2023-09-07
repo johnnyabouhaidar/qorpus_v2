@@ -2,6 +2,8 @@
 var baseurl = window.location.origin;
 var widget_api_response="oldval"
 
+
+
 function link_drag_cards(){
     dragula([
         document.querySelector('#kpi-1'), 
@@ -31,6 +33,15 @@ function link_drag_cards(){
         });
 }
 
+
+
+$('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
+    console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
+    console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
+    console.log('!!!!')
+    alert(picker.endDate.format('YYYY-MM-DD'))
+    reload_kpi_views(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
+  });
 function build_pnl_chart_widget()
 {
     var inner_text = `<div class="col-xl-12 " id="chart-1">
@@ -148,6 +159,10 @@ function reload_kpi_views(fromdate,todate){
         chartrows.appendChild(pnlchart.firstChild);
 
         link_drag_cards()
+
+
+
+
         fetch(`${baseurl}/getpnlhistory`).then(function (response) {
             response.json().then(function (yearpnl) {
                 
@@ -335,12 +350,7 @@ function reload_kpi_views(fromdate,todate){
       })
 }
 
-$('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
-    console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
-    console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
-    alert(picker.endDate.format('YYYY-MM-DD'))
-    reload_kpi_views(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
-  });
+
 
 
 

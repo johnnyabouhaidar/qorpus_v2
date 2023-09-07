@@ -93,42 +93,42 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
 
 
 
-        let paymenttype_select2 = document.createElement("select");
-        paymenttype_select2.setAttribute("class","js-example-basic-single text-muted drop");
-        paymenttype_select2.setAttribute("id",`modifier-paiement-type${items[i][0]}`);
-        paymenttype_select2.setAttribute("name",`modifier-paiement-type${items[i][0]}`);
+        let paymenttype_select = document.createElement("select");
+        paymenttype_select.setAttribute("class","");
+        paymenttype_select.setAttribute("id",`modifier-paiement-type${items[i][0]}`);
+        paymenttype_select.setAttribute("name",`modifier-paiement-type${items[i][0]}`);
         let paymenttype_items = document.createElement('div');
         paymenttype_items.innerHTML=paymenttypeitems
-        paymenttype_select2.appendChild(paymenttype_items)
-        paymenttypeshtml =  paymenttype_select2.outerHTML
+        paymenttype_select.appendChild(paymenttype_items)
+        paymenttypeshtml =  paymenttype_select.outerHTML
 
 
 
                 
         //let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
         
-        let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+        //let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
         
-        paymenttype_select2.onchange = function () {
-        alert("changed")
-            paymenttype = paymenttype_select.value;
-        
-        
-        
-        fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
-        response.json().then(function (data) {
-            let optionHTML = '';
-        
-            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
-            for (let paymentname of data.paymentnames) {
-                optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
+        paymenttype_select.onchange = function () {
+            alert("changed")
+                paymenttype = paymenttype_select.value;
+            
+            
+            
+            fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
+            response.json().then(function (data) {
+                let optionHTML = '';
+            
+                optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+                for (let paymentname of data.paymentnames) {
+                    optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
+                }
+            
+                paymentname_select.innerHTML = optionHTML;
+            });
+            });
+            
             }
-        
-            paymentname_select.innerHTML = optionHTML;
-        });
-        });
-        
-        }
 
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
@@ -215,7 +215,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             
         }
        
-        
+   
 
     }
     
