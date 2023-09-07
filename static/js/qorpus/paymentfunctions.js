@@ -87,6 +87,49 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         let paymenttypeitems = document.getElementById("paiement-type").innerHTML
        
 
+        /*<select class="js-example-basic-single text-muted drop" id="modifier-paiement-type${items[i][0]}" name="modifier-paiement-type${items[i][0]}">
+                                                            ${paymenttypeitems}
+                                                        </select>*/
+
+
+
+        let paymenttype_select2 = document.createElement("select");
+        paymenttype_select2.setAttribute("class","js-example-basic-single text-muted drop");
+        paymenttype_select2.setAttribute("id",`modifier-paiement-type${items[i][0]}`);
+        paymenttype_select2.setAttribute("name",`modifier-paiement-type${items[i][0]}`);
+        let paymenttype_items = document.createElement('div');
+        paymenttype_items.innerHTML=paymenttypeitems
+        paymenttype_select2.appendChild(paymenttype_items)
+        paymenttypeshtml =  paymenttype_select2.outerHTML
+
+
+
+                
+        //let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
+        
+        let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
+        
+        paymenttype_select2.onchange = function () {
+        alert("changed")
+            paymenttype = paymenttype_select.value;
+        
+        
+        
+        fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let paymentname of data.paymentnames) {
+                optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
+            }
+        
+            paymentname_select.innerHTML = optionHTML;
+        });
+        });
+        
+        }
+
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
@@ -124,9 +167,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <p class="mb-2 text-muted">Type</p>
-                                                        <select class="js-example-basic-single text-muted drop" id="modifier-paiement-type${items[i][0]}" name="modifier-paiement-type${items[i][0]}">
-                                                            ${paymenttypeitems}
-                                                        </select>
+                                                        ${paymenttypeshtml}
                                                         
                                                     </div>
                                                     <div class="col-12 mt-4">
@@ -175,30 +216,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         }
        
         
-        
-        let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
-        
-        let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
-        
-        paymenttype_select.onchange = function () {
-        paymenttype = paymenttype_select.value;
-        
-        
-        
-        fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
-        response.json().then(function (data) {
-            let optionHTML = '';
-        
-            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
-            for (let paymentname of data.paymentnames) {
-                optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
-            }
-        
-            paymentname_select.innerHTML = optionHTML;
-        });
-        });
-        
-        }
+
     }
     
 

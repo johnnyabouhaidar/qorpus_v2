@@ -101,6 +101,61 @@ function populate_table(){
         input_cell.setAttribute("value",`${users[i][0]}`)
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
+
+        var accessrightsdiv = document.createElement(`div`);
+        accessrightsdiv.setAttribute('id',`accessrightsdiv${users[i][0]}`);
+        accessrightsdiv.setAttribute('class',`col-12 mt-4`);
+        accessrightsdiv.innerHTML = `<p class="mb-2 text-muted">Accès</p>`
+
+        var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['reports','Reports Generation']]
+
+        var access_items_arr=users[i][4].split(" ")
+        tmp_div=document.createElement("div")
+        for (var j=0;j<access_items_arr.length;j++){
+            var access_items=document.createElement("span");
+            access_items.setAttribute("class","badge rounded-pill bg-primary-transparent");
+            access_items.innerText=access_items_arr[j];
+            tmp_div.appendChild(access_items)
+            //access_items_text=access_items_text+access_items.innerHTML
+        }
+        //var accessrightsdiv = document.getElementById(`accessrightsdiv${users[i][0]}`)
+        for (var roleindex=0;roleindex<rolesmapping_dict.length;roleindex++)
+        {
+            //alert(rolesmapping_dict[roleindex][0]);
+            var newitem = document.createElement("div");
+            
+            if (access_items_arr.includes(rolesmapping_dict[roleindex][0]))
+            {
+                newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}" checked>
+                                <span>${rolesmapping_dict[roleindex][1]}</span>`
+            }else{
+                newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}">
+                                <span>${rolesmapping_dict[roleindex][1]}</span>`
+            }
+            accessrightsdiv.appendChild(newitem)    
+        }
+
+        var accessrighthtml = accessrightsdiv.outerHTML
+
+
+        var isAdmindiv = document.createElement(`div`);
+        isAdmindiv.setAttribute('id',`isAdmin${users[i][0]}`);
+        isAdmindiv.setAttribute('class',`col-12 mt-4`);
+        isAdmindiv.innerHTML = `<p class="mb-2 text-muted">Role</p>`
+        
+            
+            
+        var admincheck = document.createElement("div")
+        if (users[i][3]=="admin"){
+        admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin" checked>
+        <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
+        else{
+            admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin">
+        <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
+        
+        isAdmindiv.appendChild(admincheck)
+        var isadminhtml = isAdmindiv.outerHTML
+        
         
         let table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
@@ -142,15 +197,8 @@ function populate_table(){
                                                                 <div class="col-12 mt-4">
                                                                     <p class="mb-2 text-muted">Password</p><input type="text" class="form-control" id="password${users[i][0]}" value="${users[i][2]}">
                                                                 </div>
-                                                                <div class="col-12 mt-4" id ="isAdmin${users[i][0]}">
-                                                                    <p class="mb-2 text-muted">Role</p> 
-
-                                                                </div>
-                                                                <div class="col-12 mt-4" id ="accessrightsdiv${users[i][0]}">
-                                                                    
-                                                                    <p class="mb-2 text-muted">Accès</p>
-                                                                    
-                                                                </div>
+                                                                ${isadminhtml}
+                                                                ${accessrighthtml}
                                                                 
 
 
@@ -167,15 +215,7 @@ function populate_table(){
                                     
                                 
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
-        var access_items_arr=users[i][4].split(" ")
-        tmp_div=document.createElement("div")
-        for (var j=0;j<access_items_arr.length;j++){
-            var access_items=document.createElement("span");
-            access_items.setAttribute("class","badge rounded-pill bg-primary-transparent");
-            access_items.innerText=access_items_arr[j];
-            tmp_div.appendChild(access_items)
-            //access_items_text=access_items_text+access_items.innerHTML
-        }
+
         
 
         var t = $('#responsiveDataTable').DataTable();
@@ -204,36 +244,9 @@ function populate_table(){
         }else{
             t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,users[i][0], users[i][1],"","",role,tmp_div.innerHTML,'---']).draw(false);    
             
-            var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['reports','Reports Generation']]
-            var accessrightsdiv = document.getElementById(`accessrightsdiv${users[i][0]}`)
-            for (var roleindex=0;roleindex<rolesmapping_dict.length;roleindex++)
-            {
-                //alert(rolesmapping_dict[roleindex][0]);
-                var newitem = document.createElement("div");
-                
-                if (access_items_arr.includes(rolesmapping_dict[roleindex][0]))
-                {
-                    newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}" checked>
-                                    <span>${rolesmapping_dict[roleindex][1]}</span>`
-                }else{
-                    newitem.innerHTML = `<input class="form-check-input rowCheckbox3 ms-2" name="rolescheckbox${users[i][0]}" type="checkbox" value="${rolesmapping_dict[roleindex][0]}">
-                                    <span>${rolesmapping_dict[roleindex][1]}</span>`
-                }
-                accessrightsdiv.appendChild(newitem)    
-            }
+
     
-            var isAdmindiv=document.getElementById(`isAdmin${users[i][0]}`)
-            
-            
-            var admincheck = document.createElement("div")
-            if (users[i][3]=="admin"){
-            admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin" checked>
-            <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
-            else{
-                admincheck.innerHTML=`<input class="form-check-input" type="checkbox" name="userType" id="adminRadio${users[i][0]}" value="admin">
-            <label class="form-check-label ms-2" for="adminRadio">Admin</label>`}
-            
-            isAdmindiv.appendChild(admincheck)
+
         }
         
                               
