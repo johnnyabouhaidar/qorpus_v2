@@ -1558,11 +1558,23 @@ def convert_list_to_json(inputlist):
     #print(returnedjson)
     return returnedjson
 
+def convert_list_to_json_for_modules(inputlist):
+    returnedjson = []
+    for item in inputlist:
+        line = {}
+        for idx,value in enumerate(item):
+            line[idx]=value
+        #print(item)
+        #print(json.dumps(item))
+        returnedjson.append(line)
+    #print(returnedjson)
+    return {"data":returnedjson}
+
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
-        listitems = db.engine.execute("""Select top 10  * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '%{4}%'""".format(strtdte,enddte,minamount,maxamount,validefilter))
+        listitems = db.engine.execute("""Select   * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '%{4}%'""".format(strtdte,enddte,minamount,maxamount,validefilter))
     
-    listitemsjson = convert_list_to_json(listitems)
+    listitemsjson = convert_list_to_json_for_modules(listitems)
     return (listitemsjson)
 
 

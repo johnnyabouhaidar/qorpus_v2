@@ -55,227 +55,58 @@ function apply_payment_filters()
 }
 
 
+
+
 function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamount=0,maxamount=99999999,validefilter='')
 {
 
-
-    const response = fetch(`${baseurl}/get_module_data?moduletype=payment&startDate=${startdte}&endDate=${enddte}&minamount=${minamount}&maxamount=${maxamount}&validefilter=${validefilter}`).then((response) => {
-        return response.json();
-      }).then((json) => {let items = json
-      console.log(items)
-
-    var table_body = document.createElement("tbody");
-    var table_element = document.getElementById("responsiveDataTable");
-    //tbodyelement = document.getElementById("bodyid");
-
-    
-    for (var i=0;i<items.length;i++)
-    {
-        var table_roww = document.createElement("tr")
-        var table_row_header = document.createElement("th");
-        table_row_header.setAttribute("class","dtr-control sorting_1");
-        table_row_header.setAttribute("tabindex","0");
-        var input_cell = document.createElement("input")
-        input_cell.setAttribute("class","form-check-input rowCheckbox")
-        input_cell.setAttribute("type","checkbox")
-        input_cell.setAttribute("name","selectrowtype")
-        input_cell.setAttribute("id",`checkboxNoLabel${items[i][0]}`)
-        input_cell.setAttribute("value",`${items[i][0]}`)
-        input_cell.setAttribute("aria-label","...")
-        table_row_header.appendChild(input_cell)
-        
-    
+  
+    var table2 = $('#responsiveDataTablepayment').DataTable({
        
-
-        /*<select class="js-example-basic-single text-muted drop" id="modifier-paiement-type${items[i][0]}" name="modifier-paiement-type${items[i][0]}">
-                                                            ${paymenttypeitems}
-                                                        </select>*/
-
-
-        
-        let paymenttype_select = document.createElement("select");
-        paymenttype_select.setAttribute("class","");
-        paymenttype_select.setAttribute("id",`modifier-paiement-type${items[i][0]}`);
-        paymenttype_select.setAttribute("name",`modifier-paiement-type${items[i][0]}`);
-        
-
-        let paymentname_select = document.createElement("select");
-        paymentname_select.setAttribute("class","");
-        paymentname_select.setAttribute("id",`modifier-paiement-nom${items[i][0]}`);
-        paymentname_select.setAttribute("name",`modifier-paiement-nom${items[i][0]}`);
-        
-        //paymenttype_items.innerHTML=paymenttypeitems
-        let typeitems = document.getElementById("paiement-type").options;
-        for (let i=0;i<typeitems.length;i++)
-        {
-            let opt = document.createElement("option");
-            opt.value = typeitems[i].text;
-            opt.innerHTML = typeitems[i].text;
-            paymenttype_select.appendChild(opt)
-            //alert(typeitems[i].text)
-        }
-
-        $(document).on("change", `#modifier-paiement-type${items[i][0]}`, function(){
-            
-            var paymenttype = $(this).val();
-            let index_no = ($(this)[0].id).replace(/^\D+/g, '')
-            
-            $(`#modifier-paiement-nom${index_no}`)
-    .find('option')
-    .remove()
-    .end()
-            
-            fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*')).then(function (response) {
-            response.json().then(function (data) {
-                let optionHTML = '';
-            
-                
-                $(`#modifier-paiement-nom${index_no}`).append("<option value='addnew'>Ajouter nouveau ?</option>")
-                for (let paymentname of data.paymentnames) {
-                    
-                    
-                    $(`#modifier-paiement-nom${index_no}`).append('<option value="' + paymentname.name + '">' + paymentname.name + '</option>')
-                }
-                
-                
-            });
-            });
-            
-          });
-        
-      
-            
-        paymenttypeshtml =  paymenttype_select.outerHTML
-        paymentnomhtml =  paymentname_select.outerHTML
-        
-
-
-
-                
-        //let paymenttype_select = document.getElementById(`modifier-paiement-type${items[i][0]}`);
-        
-        //let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
-      
-        /*var full_year=items[i][5].getFullYear();
-        alert(full_year)*/
-        var table_row_functions = document.createElement("td");
-        table_row_functions.innerHTML=`
-                                    <div class="hstack gap-2 fs-15">
-
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editPaymenttModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletePaymentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                    </div>
-                                    
-                                    <div class="modal fade mt-4" id="deletePaymentModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure do you want to delete this row? ${items[i][1]} - ${items[i][2]}</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade effect-rotate-left" id="editPaymenttModal${items[i][0]}">
-                                    <div class="modal-dialog modal-dialog-centered text-center" role="document">
-                                        <div class="modal-content modal-content-demo">
-                                            <div class="modal-header">
-                                                <h6 class="modal-title">Modifier Paiement</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body text-start">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <p class="mb-2 text-muted">Type</p>
-                                                        ${paymenttypeshtml}
-                                                        
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Nom</p>
-                                                        ${paymentnomhtml}
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="input" value="${items[i][3]}">
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" value= "${items[i][5]}"/>
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">${items[i][4]}</textarea>
-                                                    </div>
-                                                    <div class="col-12 mt-4">
-                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                                    
-                                    `
-                                            
-                                    
-                                
-                                            //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
-      
-                                            
-
-        
-    
-        
-                                            var t = $('#responsiveDataTable').DataTable();
-        if (items[i][1]=="admin"){
-            t.row.add(["","",items[i][0], items[i][1],items[i][2],items[i][3],items[i][4],items[i][5],items[i][6]]).draw(false);    
-        }else{
-            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,items[i][0], items[i][1],items[i][2],items[i][3],items[i][5],items[i][4],items[i][6]]).draw(false);    
-            
-        }
        
+        ajax: {
+            url: `${baseurl}/get_module_data?moduletype=payment&startDate=${startdte}&endDate=${enddte}&minamount=${minamount}&maxamount=${maxamount}&validefilter=${validefilter}`,
+            type: 'GET',
+            
+        },
+        columns: [
+            // Checkbox column
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    return '<input class="form-check-input rowCheckbox" type="checkbox" value="' + data[0] + '" />';
+                },
+            },
+            // Action column
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    return `
+                        <div class="hstack gap-2 fs-15">
+                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light "><i class="ri-check-line"></i></a>
+                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow "><i class="ri-file-copy-line"></i></a>
+                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                        </div>
+                    `;
+                },
+            },
+            { data: 0 },
+            { data: 1 },
+            { data: 2 },
+            { data: 3 },
+            { data: 4 },
+            { data: 5 },
+        ],
+    });
+    table2.draw()
+    // Handle payment type change
 
 
-    }
-    
-
-    $('.deleterow').on('click', function () {
-        
-        var tablename = $(this).closest('table').DataTable();
-        var button = this; // Store the reference to the button
-        
-        var row = $(button).closest('tr'); // Get the closest row
-        
-        // Wait for 1 second before removing the row
-        setTimeout(function () {
-          tablename.row(row).remove().draw();
-        }, 500);
-      });
-
-      $('.duplicaterow').on('click', function () {
-        var table = $(this).closest('table').DataTable();
-        var button = this;
-        var row = $(button).closest('tr');
-        var clonedRow = row.clone(); // Clone the row
-    
-        // Insert the cloned row after the original row
-        table.row.add(clonedRow);
-    
-        // Sort the table by column 3 in descending order
-        table.order([[3, 'asc']]);
-    
-        // Redraw the table to apply the sorting
-        table.draw();
-      });
-      
-});
 }
 
 
