@@ -156,7 +156,8 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         
         //let paymentname_select = document.getElementById(`modifier-paiement-nom${items[i][0]}`);
       
-
+        /*var full_year=items[i][5].getFullYear();
+        alert(full_year)*/
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
@@ -208,7 +209,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="input" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" />
+                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" value= "${items[i][5]}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">${items[i][4]}</textarea>

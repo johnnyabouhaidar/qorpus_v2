@@ -38,6 +38,15 @@ function delete_type_records(array){
       }).then((json) => {})
 }
 
+function edit_type_item(id){
+    
+    var row = $(`#${id}`).closest('tr');
+    let table = $('#responsiveDataTable2').DataTable();
+    table.cell( row ,2).data( "ds" ).draw( false );
+    table.cell( row ,3).data( "ds" ).draw( false );
+    table.cell( row ,4).data( "ds" ).draw( false );
+}
+
 function populate_types_table(){
     const response = fetch(`${baseurl}/get_types_data`).then((response) => {
         return response.json();
@@ -62,17 +71,35 @@ function populate_types_table(){
         input_cell.setAttribute("value",`${types[i][0]}_${types[i][1]}`)
         input_cell.setAttribute("aria-label","...")
         table_row_header.appendChild(input_cell)
+
+        let type_select = document.createElement("select");
+        type_select.setAttribute("class","");
+        type_select.setAttribute("id",`modifier-type${types[i][0]}`);
+        type_select.setAttribute("name",`modifier-type${types[i][0]}`);
         
+        //paymenttype_items.innerHTML=paymenttypeitems
+        let typeitems = document.getElementById("category").options;
+        for (let i=0;i<typeitems.length;i++)
+        {
+            let opt = document.createElement("option");
+            opt.value = typeitems[i].text;
+            opt.innerHTML = typeitems[i].text;
+            type_select.appendChild(opt)
+            //alert(typeitems[i].text)
+        }
+
+        typeshtml =  type_select.outerHTML
+
         var table_row_functions = document.createElement("td");
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editUserManagmentModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editTypeModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                         <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light"><i class="ri-file-copy-line"></i></a>-->
-                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserManagementModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteTypeManagementModal${types[i][1]}${types[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
-                                    <div class="modal fade mt-4" id="deleteUserManagementModal${types[i][1]}${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal fade mt-4" id="deleteTypeManagementModal${types[i][1]}${types[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -89,11 +116,11 @@ function populate_types_table(){
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="modal fade effect-rotate-left" id="editUserManagmentModal${types[i][1]}${types[i][0]}">
+                                    <div class="modal fade effect-rotate-left" id="editTypeModal${types[i][1]}${types[i][0]}">
                                                 <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                                     <div class="modal-content modal-content-demo">
                                                         <div class="modal-header">
-                                                            <h6 class="modal-title">Modifier Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            <h6 class="modal-title">Modifier le type: </h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
                                                         <div class="modal-body text-start">
                                                             <div class="row">
@@ -101,10 +128,13 @@ function populate_types_table(){
                                                                 <div class="col-12 mt-4">
                                                                     <p class="mb-2 text-muted">Type</p><input type="text" class="form-control" id="input" value="${types[i][2]}">
                                                                 </div>
+                                                                <div><p class="mb-2 text-muted">Categorie</p>
+                                                                ${typeshtml}
+                                                                </div>
                                                                 
 
                                                                 <div class="col-12 mt-4">
-                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick="edit_type_item('${types[i][0]}${types[i][1]}')">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -140,7 +170,8 @@ function populate_types_table(){
                                             typeframespan.innerHTML = types[i][0]
                                             typeframediv.appendChild(typeframespan)
 
-                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,`${types[i][1]}_${types[i][0]}`, types[i][2], typeframediv.innerHTML]).draw(false);
+                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,`${types[i][1]}_${types[i][0]}`, types[i][2], typeframediv.innerHTML]).node().id = `${types[i][0]}${types[i][1]}`;
+                                            t.draw(false);
 
     }
     
@@ -151,7 +182,7 @@ function populate_types_table(){
         var button = this; // Store the reference to the button
         
         var row = $(button).closest('tr'); // Get the closest row
-        
+        alert(row)
         // Wait for 1 second before removing the row
         setTimeout(function () {
           tablename.row(row).remove().draw();
