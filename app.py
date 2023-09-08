@@ -1558,9 +1558,9 @@ def convert_list_to_json(inputlist):
     #print(returnedjson)
     return returnedjson
 
-def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount):
+def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
-        listitems = db.engine.execute("""Select top 10  * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3}""".format(strtdte,enddte,minamount,maxamount))
+        listitems = db.engine.execute("""Select top 10  * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '%{4}%'""".format(strtdte,enddte,minamount,maxamount,validefilter))
     
     listitemsjson = convert_list_to_json(listitems)
     return (listitemsjson)
@@ -1599,13 +1599,15 @@ def getmoduledata():
         endDate = request.args["endDate"]
         minamount = request.args["minamount"]
         maxamount = request.args["maxamount"]
+        validefilter= request.args["validefilter"]
     except:
         startDate = datetime.datetime(1900, 5, 17)
         endDate = datetime.datetime(3000, 5, 17)
         minamount = 0
         maxamount=99999999
+        validefilter = ''
     if request.args["moduletype"]=='payment':
-        return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount)))
+        return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
 
 @app.route('/get_types_data')
 @login_required
