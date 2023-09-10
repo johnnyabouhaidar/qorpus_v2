@@ -5,6 +5,10 @@ $(function (e) {
   var montant = false;
   // responsive datatable
   var table = $('#responsiveDataTable').DataTable({
+    initComplete: function () {
+      console.log('@@@ init complete @@@');
+      $("body").removeClass("loading");
+  },
     order: [],
     responsive: true,
     dom: 'Blfrtip',

@@ -1568,7 +1568,8 @@ def convert_list_to_json_for_modules(inputlist):
         #print(json.dumps(item))
         returnedjson.append(line)
     #print(returnedjson)
-    return {"data":returnedjson}
+    #return {"data":returnedjson}
+    return returnedjson
 
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
