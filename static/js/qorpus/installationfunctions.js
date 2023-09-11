@@ -44,8 +44,20 @@ function edit_type_item(id){
     let table = $('#responsiveDataTable2').DataTable();
     //table.cell( row ,2).data( "ds" ).draw( false );
     var newvalue = document.getElementById(`newtype${id}`).value
+    const response = fetch(`${baseurl}/edit_type`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "new_value":newvalue})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {table.cell( row ,3).data( newvalue ).draw( false );})
+
     
-    table.cell( row ,3).data( newvalue ).draw( false );
+
     //table.cell( row ,4).data( "ds" ).draw( false );
 }
 

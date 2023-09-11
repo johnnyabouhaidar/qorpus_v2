@@ -1623,10 +1623,28 @@ def getmoduledata():
     if request.args["moduletype"]=='payment':
         return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
 
-@app.route('/edit_type')
+@app.route('/edit_type',methods=["POST"])
 @login_required
 def edittype():
-    pass
+    """UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition; """
+    category = request.json["id"].split("_")[0]
+    typeid = request.json["id"].split("_")[1]
+    newvalue = request.json["new_value"]
+    
+    if category == "facturationtype":
+        db.engine.execute("""UPDATE facturationtype SET facturationType = '{0}' WHERE facturationtypeid = {1} """.format(newvalue,typeid))
+    elif category == "paymenttype":
+        db.engine.execute("""UPDATE paymenttype SET paiementsType = '{0}' WHERE paiementstypeid = {1} """.format(newvalue,typeid))
+    elif category == "retrocessiontype":
+        db.engine.execute("""UPDATE retrocessiontype SET retrocessionType = '{0}' WHERE retrocessiontypeid = {1} """.format(newvalue,typeid))
+    elif category == "dentisterietype":
+        db.engine.execute("""UPDATE dentisterietype SET dentisterietype = '{0}' WHERE dentisterietypeid = {1} """.format(newvalue,typeid))    
+    elif category == "fraismaterieltype":
+        db.engine.execute("""UPDATE fraismaterieltype SET fraismaterieltype = '{0}' WHERE fraismaterieltypeid = {1} """.format(newvalue,typeid))        
+
+    return(jsonify({"Status":"OK"})) 
 
 
 @app.route('/get_types_data')
