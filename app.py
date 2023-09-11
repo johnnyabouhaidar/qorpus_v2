@@ -1573,7 +1573,7 @@ def convert_list_to_json_for_modules(inputlist):
 
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
-        listitems = db.engine.execute("""Select   * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '%{4}%'""".format(strtdte,enddte,minamount,maxamount,validefilter))
+        listitems = db.engine.execute("""Select  top 500 * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by paiementsId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
         
     listitemsjson = convert_list_to_json_for_modules(listitems)
     
@@ -1619,9 +1619,45 @@ def getmoduledata():
         endDate = datetime.datetime(3000, 5, 17)
         minamount = 0
         maxamount=99999999
-        validefilter = ''
+        validefilter = ""
     if request.args["moduletype"]=='payment':
         return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
+
+@app.route('/delete_module_items',methods=["POST"])
+@login_required
+def delete_module_items():
+    module=request.json['module']
+    ids = request.json['ids']
+    for id in ids:
+        if module=='payment':
+            db.engine.execute("""DELETE from payment where id ={0}""".format(id))
+
+    return(jsonify({"Status":"OK"})) 
+
+
+@app.route('/duplicate_item',methods=["POST"])
+@login_required
+def duplicateitem():
+    id2duplicate = request.json['id']
+    module = request.json['module']
+    if module == 'payment':
+        db.engine.execute("""insert into payment (paiementsType, paiementsNom,somme,comment,"date")
+select paiementsType, paiementsNom,somme,comment,"date"
+from payment
+where paiementsId = {0}""".format(id2duplicate))
+    
+    return(jsonify({"Status":"OK"})) 
+
+
+@app.route('/validate_item',methods=["POST"])
+@login_required
+def validateitem():
+    id2validate = request.json['id']
+    module = request.json['module']
+    if module == 'payment':
+        db.engine.execute("""UPDATE payment SET Valide='valide' where paiementsId = {0}""".format(id2validate))
+    
+        return(jsonify({"Status":"OK"})) 
 
 @app.route('/edit_type',methods=["POST"])
 @login_required

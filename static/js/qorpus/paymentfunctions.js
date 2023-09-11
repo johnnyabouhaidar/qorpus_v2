@@ -27,7 +27,23 @@ response.json().then(function (data) {
 
 
 
-        
+function validate_item(id){
+    var row = $(`#${id}`).closest('tr');
+    let table = $('#responsiveDataTable').DataTable();
+    
+    const response = fetch(`${baseurl}/validate_item`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "module":"payment"})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {table.cell( row ,8).data( "valide" ).draw( false );})
+
+}        
 
 
 
@@ -57,7 +73,7 @@ function apply_payment_filters()
 }
 
 
-function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamount=0,maxamount=99999999,validefilter='')
+function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamount=0,maxamount=99999999,validefilter='%%')
 {
 
 
@@ -116,9 +132,9 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
             let opt = document.createElement("option");
             opt.value = typeitems[i].text;
             //alert(typeitems[i].text.trim()+ items[i][1].trim())
-            if (typeitems[i].text.trim() == items[i][1].trim()){
+            /*if (typeitems[i].text.trim() == items[i][1].trim()){
                 opt.setAttribute("selected","selected")
-            }
+            }*/
             opt.innerHTML = typeitems[i].text;
             paymenttype_select.appendChild(opt)
             //alert(typeitems[i].text)
@@ -171,9 +187,9 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_item(${items[i][0]})><i class="ri-check-line"></i></a>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editPaymenttModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                    <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></button>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletePaymentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
@@ -245,7 +261,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                                 
                                           
                                             
-        rows2add.push({"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
+        rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
         
 
 
