@@ -42,9 +42,11 @@ function edit_type_item(id){
     
     var row = $(`#${id}`).closest('tr');
     let table = $('#responsiveDataTable2').DataTable();
-    table.cell( row ,2).data( "ds" ).draw( false );
-    table.cell( row ,3).data( "ds" ).draw( false );
-    table.cell( row ,4).data( "ds" ).draw( false );
+    //table.cell( row ,2).data( "ds" ).draw( false );
+    var newvalue = document.getElementById(`newtype${id}`).value
+    
+    table.cell( row ,3).data( newvalue ).draw( false );
+    //table.cell( row ,4).data( "ds" ).draw( false );
 }
 
 function populate_types_table(){
@@ -126,15 +128,13 @@ function populate_types_table(){
                                                             <div class="row">
                                                                 
                                                                 <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Type</p><input type="text" class="form-control" id="input" value="${types[i][2]}">
+                                                                    <p class="mb-2 text-muted">Type</p><input type="text" class="form-control" id="newtype${types[i][0]}_${types[i][1]}" value="${types[i][2]}">
                                                                 </div>
-                                                                <div><p class="mb-2 text-muted">Categorie</p>
-                                                                ${typeshtml}
-                                                                </div>
+                                                                
                                                                 
 
                                                                 <div class="col-12 mt-4">
-                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick="edit_type_item('${types[i][0]}${types[i][1]}')">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick="edit_type_item('${types[i][0]}_${types[i][1]}')">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -170,7 +170,7 @@ function populate_types_table(){
                                             typeframespan.innerHTML = types[i][0]
                                             typeframediv.appendChild(typeframespan)
 
-                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,`${types[i][1]}_${types[i][0]}`, types[i][2], typeframediv.innerHTML]).node().id = `${types[i][0]}${types[i][1]}`;
+                                            t.row.add([table_row_header.innerHTML, table_row_functions.innerHTML,`${types[i][1]}_${types[i][0]}`, types[i][2], typeframediv.innerHTML]).node().id = `${types[i][0]}_${types[i][1]}`;
                                             t.draw(false);
 
     }

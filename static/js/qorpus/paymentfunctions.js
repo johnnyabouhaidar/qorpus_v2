@@ -109,10 +109,16 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         
         //paymenttype_items.innerHTML=paymenttypeitems
         let typeitems = document.getElementById("paiement-type").options;
+        var mydate = new Date(items[i][5]);        
+        var dateisostr=mydate.toISOString().split("T")[0];                           
         for (let i=0;i<typeitems.length;i++)
         {
             let opt = document.createElement("option");
             opt.value = typeitems[i].text;
+            //alert(typeitems[i].text.trim()+ items[i][1].trim())
+            if (typeitems[i].text.trim() == items[i][1].trim()){
+                opt.setAttribute("selected","selected")
+            }
             opt.innerHTML = typeitems[i].text;
             paymenttype_select.appendChild(opt)
             //alert(typeitems[i].text)
@@ -212,7 +218,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="input" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" value= "${items[i][5]}"/>
+                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" value= "${dateisostr}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">${items[i][4]}</textarea>
@@ -236,9 +242,11 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         
     
         
+                                                                
+                                          
                                             
-        rows2add.push({"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":items[i][5],"7":items[i][4],"8":items[i][6]})
-       
+        rows2add.push({"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
+        
 
 
     }
