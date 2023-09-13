@@ -31,19 +31,22 @@ function link_drag_cards(){
                 return handle.classList.contains('handle');
             }
         });
+        $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
+            console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
+            console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
+            console.log('!!!!')
+            
+            reload_kpi_views(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
+          });
+    
 }
 
 
 
-$('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
-    console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
-    console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
-    console.log('!!!!')
-    alert(picker.endDate.format('YYYY-MM-DD'))
-    reload_kpi_views(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
-  });
+
 function build_pnl_chart_widget()
 {
+
     var inner_text = `<div class="col-xl-12 " id="chart-1">
     <div class="card custom-card">  <div class="handle">...</div>
         <div class="card custom-card overflow-hidden">
@@ -74,6 +77,7 @@ return inner_text;
 
 function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
+
     var formattedtotal = total.toLocaleString("en-US");
     var percentagechangerouded = Math.round(percentagechange);
     var divcolor="success"

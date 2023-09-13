@@ -1623,21 +1623,36 @@ def getmoduledata():
     if request.args["moduletype"]=='payment':
         return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
 
-@app.route('/delete_module_items',methods=["POST"])
+
+@app.route('/edit_module_item',methods=["POST"])
 @login_required
-def delete_module_items():
+def editmoduleitem():
     module=request.json['module']
-    ids = request.json['ids']
-    for id in ids:
-        if module=='payment':
-            db.engine.execute("""DELETE from payment where id ={0}""".format(id))
+    id = request.json['id']
+
+    if module=='payment':
+
+        db.engine.execute("""UPDATE payment set
+                          
+    
+                          Where paiementsId={0}""".format(id))
+    return(jsonify({"Status":"OK"})) 
+
+@app.route('/delete_module_item',methods=["POST"])
+@login_required
+def delete_module_item():
+    module=request.json['module']
+    id = request.json['id']
+    
+    if module=='payment':
+        db.engine.execute("""DELETE from payment where paiementsid ={0}""".format(id))
 
     return(jsonify({"Status":"OK"})) 
 
 
-@app.route('/duplicate_item',methods=["POST"])
+@app.route('/duplicate_module_item',methods=["POST"])
 @login_required
-def duplicateitem():
+def duplicatemoduleitem():
     id2duplicate = request.json['id']
     module = request.json['module']
     if module == 'payment':

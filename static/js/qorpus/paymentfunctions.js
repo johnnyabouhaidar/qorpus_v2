@@ -1,3 +1,4 @@
+
 var baseurl = window.location.origin;
 
 
@@ -25,6 +26,79 @@ response.json().then(function (data) {
 
 }
 
+function edit_module_item(id){
+    var type2edit = document.getElementById(`modifier-paiement-type${id}`).value;
+    var name2edit = document.getElementById(`modifier-paiement-nom${id}`).value;
+    var ALTname2edit = document.getElementById(`itemname${id}`).value;
+    var amount2edit = document.getElementById(`itemamount${id}`).value;
+    var date2edit = document.getElementById(`itemdate${id}`).value;
+    var comment2edit = document.getElementById(`itemcomment${id}`).value;
+
+    
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+
+    const response = fetch(`${baseurl}/edit_module_item`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "module":"payment",
+    "newtype":type2edit,
+    "newname":"",
+    "newamount":amount2edit,
+    "newdate":date2edit,
+    "newcomment":comment2edit
+
+})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {
+        table.cell( row ,3).data( type2edit ).draw( false );
+        table.cell( row ,4).data( name2edit ).draw( false );
+        table.cell( row ,5).data( amount2edit ).draw( false );
+        table.cell( row ,6).data( date2edit).draw( false );
+        table.cell( row ,7).data( comment2edit ).draw( false );
+    })    
+
+}
+
+function duplicate_payment_item(id){
+    const response = fetch(`${baseurl}/duplicate_module_item`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "module":"payment"})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {location.reload()})
+}
+
+
+function delete_payment_item(id)
+{
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+    
+    const response = fetch(`${baseurl}/delete_module_item`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "module":"payment"})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {table.row(row).remove().draw(false);})
+}
 
 
 function validate_item(id){
@@ -122,23 +196,33 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         paymentname_select.setAttribute("class","");
         paymentname_select.setAttribute("id",`modifier-paiement-nom${items[i][0]}`);
         paymentname_select.setAttribute("name",`modifier-paiement-nom${items[i][0]}`);
+
+        let nameopt = document.createElement("option");
+        nameopt.value = items[i][2].trim()
+        nameopt.innerHTML = items[i][2].trim()
+        nameopt.setAttribute("selected","selected");
+        paymentname_select.appendChild(nameopt)
         
         //paymenttype_items.innerHTML=paymenttypeitems
         let typeitems = document.getElementById("paiement-type").options;
         var mydate = new Date(items[i][5]);        
         var dateisostr=mydate.toISOString().split("T")[0];                           
-        for (let i=0;i<typeitems.length;i++)
+        for (let j=0;j<typeitems.length;j++)
         {
             let opt = document.createElement("option");
-            opt.value = typeitems[i].text;
+            opt.value = typeitems[j].text;
             //alert(typeitems[i].text.trim()+ items[i][1].trim())
-            /*if (typeitems[i].text.trim() == items[i][1].trim()){
+            
+            if (typeitems[j].text.trim() == items[i][1].trim()){
+                
                 opt.setAttribute("selected","selected")
-            }*/
-            opt.innerHTML = typeitems[i].text;
+            }
+            opt.innerHTML = typeitems[j].text;
             paymenttype_select.appendChild(opt)
             //alert(typeitems[i].text)
         }
+
+
 
         $(document).on("change", `#modifier-paiement-type${items[i][0]}`, function(){
             
@@ -189,8 +273,8 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
 
                                     <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_item(${items[i][0]})><i class="ri-check-line"></i></a>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editPaymenttModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                    <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></button>
-                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletePaymentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow" onclick=duplicate_payment_item(${items[i][0]})><i class="ri-file-copy-line"></i></button>
+                                    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletePaymentModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light" ><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                     
                                     <div class="modal fade mt-4" id="deletePaymentModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -205,7 +289,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
+                                                <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick=delete_payment_item(${items[i][0]})>Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -228,19 +312,19 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         ${paymentnomhtml}
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
+                                                        <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="itemname${items[i][0]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="input" value="${items[i][3]}">
+                                                        <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="itemamount${items[i][0]}" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="addDatePicker2" class="form-control text-muted" value= "${dateisostr}"/>
+                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">${items[i][4]}</textarea>
+                                                        <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="itemcomment${items[i][0]}">${items[i][4]}</textarea>
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
+                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick=edit_module_item(${items[i][0]})>
                                                     </div>
                                                 </div>
                                             </div>
@@ -268,7 +352,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     }
     t.rows.add(rows2add).draw()
     
-    $('.deleterow').on('click', function () {
+   /* $('.deleterow').on('click', function () {
         
       var tablename = $(this).closest('table').DataTable();
       var button = this; // Store the reference to the button
@@ -279,8 +363,8 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
       setTimeout(function () {
         tablename.row(row).remove().draw();
       }, 500);
-    });
-    
+    });*/
+    /*
     $('.duplicaterow').on('click', function () {
       var table = $(this).closest('table').DataTable();
       var button = this;
@@ -295,7 +379,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     
       // Redraw the table to apply the sorting
       table.draw();
-    });
+    });*/
       
 });
 
