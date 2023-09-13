@@ -1629,13 +1629,22 @@ def getmoduledata():
 def editmoduleitem():
     module=request.json['module']
     id = request.json['id']
+    
 
     if module=='payment':
-
+        newtype = request.json['newtype']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
         db.engine.execute("""UPDATE payment set
-                          
+                          paiementsType = '{0}',
+                          paiementsNom = '{1}',
+                          somme='{2}',
+                          comment='{3}',
+                          date='{4}'
     
-                          Where paiementsId={0}""".format(id))
+                          Where paiementsId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
     return(jsonify({"Status":"OK"})) 
 
 @app.route('/delete_module_item',methods=["POST"])

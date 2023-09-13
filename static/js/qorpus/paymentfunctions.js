@@ -25,6 +25,25 @@ response.json().then(function (data) {
 });
 
 }
+function bulk_delete_payment_module()
+{
+    var array = []
+    var checkboxes = document.querySelectorAll('input[name=selectrowpayment]:checked')
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+        delete_payment_item(checkboxes[i].value)
+    }
+}
+
+function bulk_validate_payment_module()
+{
+    var array = []
+    var checkboxes = document.querySelectorAll('input[name=selectrowpayment]:checked')
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+        validate_item(checkboxes[i].value)
+    }
+}
 
 function edit_module_item(id){
     var type2edit = document.getElementById(`modifier-paiement-type${id}`).value;
@@ -33,7 +52,9 @@ function edit_module_item(id){
     var amount2edit = document.getElementById(`itemamount${id}`).value;
     var date2edit = document.getElementById(`itemdate${id}`).value;
     var comment2edit = document.getElementById(`itemcomment${id}`).value;
-
+    if (name2edit=='addnew'){
+        name2edit = ALTname2edit
+    }
     
     var row = $(`#${id}`).closest('tr');
     
@@ -48,7 +69,7 @@ function edit_module_item(id){
         body: JSON.stringify({"id":id,
     "module":"payment",
     "newtype":type2edit,
-    "newname":"",
+    "newname":name2edit,
     "newamount":amount2edit,
     "newdate":date2edit,
     "newcomment":comment2edit
@@ -171,7 +192,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         var input_cell = document.createElement("input")
         input_cell.setAttribute("class","form-check-input rowCheckbox")
         input_cell.setAttribute("type","checkbox")
-        input_cell.setAttribute("name","selectrowtype")
+        input_cell.setAttribute("name","selectrowpayment")
         input_cell.setAttribute("id",`checkboxNoLabel${items[i][0]}`)
         input_cell.setAttribute("value",`${items[i][0]}`)
         input_cell.setAttribute("aria-label","...")
