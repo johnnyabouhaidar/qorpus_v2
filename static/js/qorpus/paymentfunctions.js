@@ -306,7 +306,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure do you want to delete this row? ${items[i][1]} - ${items[i][2]}</p>
+                                                <p>Are you sure do you want to delete this row? <br> ${items[i][1]} - ${items[i][2]}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
