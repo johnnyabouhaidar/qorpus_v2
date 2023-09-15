@@ -17,7 +17,12 @@
             </div>
             <ul class="main-menu">
                 <li class="slide">
-                    <a href="" class="side-menu__item">
+                    {%if content == 'widget'%}
+                    <a href="{{url_for('dashboard')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('dashboard')}}" class="side-menu__item">
+                    {%endif%}
+                    
                         <i class="ti ti-layout-dashboard side-menu__icon"></i>
                         <span class="side-menu__label">Tableaux de bord</span>
                     </a>
@@ -33,35 +38,51 @@
                     </a>
                 </li>
                 <li class="slide">
-                    <a href="" class="side-menu__item">
+                    {%if content == 'facturation'%}
+                    <a href="{{url_for('facturation')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('facturation')}}" class="side-menu__item">
+                    {%endif%}
                         <i class='ti ti-receipt side-menu__icon'></i>
                         <span class="side-menu__label">Facturation</span>
                     </a>
                 </li>
                 <li class="slide">
-                    <a href="" class="side-menu__item">
+                    {%if content == 'retrocession'%}
+                    <a href="{{url_for('retrocession')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('retrocession')}}" class="side-menu__item">
+                    {%endif%}                    
+                   
                         <i class='ti ti-exchange side-menu__icon'></i>
                         <span class="side-menu__label">Rétrocession</span>
                     </a>
                 </li>
+                <!--
                 <li class="slide">
                     <a href="" class="side-menu__item">
                         <i class='ti ti-dental side-menu__icon'></i>
                         <span class="side-menu__label">Dentisterie</span>
                     </a>
-                </li>
+                </li>-->
                 <li class="slide">
-                    <a href="" class="side-menu__item">
+                    {%if content == 'encaissement'%}
+                    <a href="{{url_for('encaissement')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('encaissement')}}" class="side-menu__item">
+                    {%endif%}   
                         <i class='ti ti-credit-card side-menu__icon'></i>
                         <span class="side-menu__label">Encaissement Avance</span>
                     </a>
                 </li>
+                <!--
                 <li class="slide">
                     <a href="" class="side-menu__item">
                         <i class='ti ti-table side-menu__icon'></i>
                         <span class="side-menu__label">Widgets</span>
                     </a>
                 </li>
+            -->
             </ul>
             <div class="slide-right" id="slide-right">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path></svg>

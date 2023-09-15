@@ -1,0 +1,328 @@
+
+<!-- Start::app-content -->
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-18 mb-0">Facturation</h1>
+        </div>
+        <div class="d-md-flex d-block align-items-baseline justify-content-between mt-5 mb-4 page-header-breadcrumb">
+            <div class="row col-10">
+                <div class="col-3">
+                    <input type="text" placeholder="Dates d'attribution" name="dates" id="mainCalendar" class="date-btn text-muted" />
+                </div>
+                <div class="col-3">
+                    <select class="js-example-basic text-muted" name="state" id="filterselect">
+                        <option value="%%" disabled selected>les données validées</option>
+                        <option value="valide">validées</option>
+                        <option value="pasvalide">non validées</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <div class="main-header-end">
+                        <div id="nonlinear"></div>
+                        <div class="d-flex mt-2 justify-content-around">
+                            <div>
+                                montant de<div id="lower-value"></div>
+                            </div>
+                            <div>
+                                montant à<div id="upper-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary-light btn-wave mb-0 w-100" onclick="apply_facturation_filters()">
+                        filter
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="d-md-flex d-block align-items-baseline justify-content-end mt-5 mb-4 page-header-breadcrumb">
+            <div class="btn-list">
+                <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addfacturationtModal">
+                    + Ajouter
+                </a>
+                <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                    Sélectionner l'action au groupe
+                </button>
+                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center" id="activeStatus" onclick="bulk_validate_facturation_module()">Validées</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center text-danger" id="deleteSelectedRowsButton" onclick="bulk_delete_facturation_module()">Supprimer la sélection</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal fade effect-rotate-left" id="addfacturationtModal">
+                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Ajouter Nouveau facturation</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form method="POST" action="">
+                            {{forms[0].hidden_tag()}}
+                        <div class="modal-body text-start">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p class="mb-2 text-muted">Type</p>
+                                    {{forms[0].facturationType(class="js-example-basic-single text-muted", id="facturation-type")}}
+                                    
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <p class="mb-2 text-muted">Nom</p>
+                                    {{forms[0].facturationNom(class="js-example-basic-single text-muted",id="facturation-nom")}}
+                                    
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <p class="mb-2 text-muted">Nouveau Nom</p>
+                                    {{forms[0].facturationNomALT(class="form-control", id="input")}}
+                                    
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <p class="mb-2 text-muted">Montant</p>
+                                    
+                                    {{forms[0].somme(class="form-control", id="input")}}
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <p class="mb-2 text-muted">Date</p> 
+                                    {{forms[0].date(class="form-control text-muted")}}
+                                    
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <p class="mb-2 text-muted">Commentaire</p>
+                                    {{forms[0].comment(class="form-control")}}
+                                    
+                                </div>
+                                <div class="col-12 mt-4">
+                                    
+                                    {{forms[0].submit(class="form-control btn btn-primary")}}
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start::row-1 -->
+        <!-- Used select from select2.js -->
+    <div class="row mt-4">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <div class="mx-1 d-flex gap-3">
+                    <div class="mx-1">
+                        <a href="#" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light sortButton" id="typeButton">Type</a>
+                        <a href="#" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light sortButton" id="nomButton">Nom</a>
+                        <a href="#" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light sortButton" id="montantButton">Montant</a>
+                        <a href="#" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light" id="clearFilterButton"><img src="/static/images/clear-filter-icon.png" width="15"></a>
+                    </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="responsiveDataTable" class="table table-bordered text-nowrap" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
+                                <th>Action</th>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Nom</th>
+                                <th>Montant</th>
+                                <th>Date</th>
+                                <th>Commentaire</th>
+                                <th>Valide</th>  
+                                
+                                                 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editfacturationtModal" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletefacturationModal" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+
+
+                                        <div class="modal fade mt-4" id="deletefacturationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure do you want to delete this row?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade effect-rotate-left" id="editfacturationtModal">
+                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                <div class="modal-content modal-content-demo">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title">Modifier facturation</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <p class="mb-2 text-muted">Type</p>
+                                                                <select class="js-example-basic-single text-muted" id="modifier-facturation-type" name="modifier-facturation-type">
+                                                                    <option value="option1">testing</option>
+                                                                    <option value="option2">option2</option>
+                                                                    <option value="option3">option3</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <p class="mb-2 text-muted">Nom</p>
+                                                                <select class="js-example-basic-single text-muted" id="modifier-facturation-nom" name="modifier-facturation-nom">
+                                                                    <option value="option1">Carte EC frais divers</option>
+                                                                    <option value="option2">option2</option>
+                                                                    <option value="option3">option3</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="input">
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <p class="mb-2 text-muted">Montant</p><input type="text" class="form-control" id="input" value="montant">
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <p class="mb-2 text-muted">Date</p> <input type="text" name="dates" id="addDatePicker2" class="form-control text-muted" />
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="input">Payé avec la carte de crédit</textarea>
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td> 1 </td>
+                                <td> testing </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td>Payé avec la carte de crédit</td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel22" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light "><i class="ri-check-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow "><i class="ri-file-copy-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    </div>
+                                </td>
+                                <td> 2 </td>
+                                <td> hello</td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td>Payé avec la carte de crédit</td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel3" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    </div>
+                                </td>
+                                <td> 3 </td>
+                                <td> Frais Divers </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td>Payé avec la carte de crédit</td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel13" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    </div>
+                                </td>
+                                <td> 4 </td>
+                                <td> Frais  </td>
+                                <td> Carte EC frais </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td>Payé avec la carte de crédit</td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+                                    </div>
+                                </td>
+                                <td> 5 </td>
+                                <td> Frais Divers</td>
+                                <td> Carte EC frais </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td>Payé avec la carte de crédit</td>
+                            </tr>-->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="table-somme">Sommes</td>
+                                <td colspan="4" class="table-somme table-somme-amount">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+</div>
+</div>
+<!-- End::app-content -->
+<script>
+  
+</script>
+<script>
+    //var users_table = populate_table()
+    //console.log(users_table)
+    
+    document.addEventListener("DOMContentLoaded", function(event) { 
+
+       populate_facturation_table()
+});
+</script>
+<script>
+
+</script>

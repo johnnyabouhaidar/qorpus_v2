@@ -82,6 +82,15 @@
         {%elif content == 'payment'%}
             {%include 'payment.html'%}
 
+        {%elif content == 'facturation'%}
+            {%include 'facturation.html'%}
+
+        {%elif content == 'retrocession'%}
+            {%include 'retrocession.html'%}    
+            
+        {%elif content == 'encaissement'%}
+            {%include 'encaissement.html'%}                
+
         {%endif%}
         {% include 'footer.html' %}
 
@@ -153,6 +162,9 @@
     <script src="/static/js/qorpus/installationfunctions.js"></script>
     <script src="/static/js/qorpus/widgetsfunctions.js"></script>
     <script src="/static/js/qorpus/paymentfunctions.js"></script>
+    <script src="/static/js/qorpus/facturationfunctions.js"></script>
+    <script src="/static/js/qorpus/retrocessionfunctions.js"></script>
+    <script src="/static/js/qorpus/encaissementfunctions.js"></script>
     <script src="/static/js/script.js"></script>        <!-- Select2 Cdn -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/static/js/select2.js"></script>

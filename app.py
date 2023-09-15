@@ -508,7 +508,7 @@ def encaissement(search=""):
         return send_file(excel_report_path)
 
     if "encaissement" in current_user.access or current_user.access=="all":
-        return render_template('generalform.html',forms=[form],hasDynamicSelector=True,table=encaissementitems_disp,headers=headersencaissement,dbtable="encaissement",dbtableid="encaissementId",user_role=current_user.role,searchform=searchform,module_name="Encaissement-Avance",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+        return render_template('app.html',content='encaissement',username=(current_user.username).title(),forms=[form],hasDynamicSelector=True,table=encaissementitems_disp,headers=headersencaissement,dbtable="encaissement",dbtableid="encaissementId",user_role=current_user.role,searchform=searchform,module_name="Encaissement-Avance",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
     else:
         return render_template('NOT_AUTHORIZED.html')
 
@@ -731,7 +731,7 @@ def facturation(search=""):
     
 
     if "facturation" in current_user.access or current_user.access=="all":
-        return render_template('generalform.html',forms=[form],hasDynamicSelector=True,table=facturationsitems_disp,headers=headersfacturations,dbtable="facturation",dbtableid="facturationId",user_role=current_user.role,searchform=searchform,module_name="Facturation",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+        return render_template('app.html',content='facturation',username=(current_user.username).title(),forms=[form],hasDynamicSelector=True,table=facturationsitems_disp,headers=headersfacturations,dbtable="facturation",dbtableid="facturationId",user_role=current_user.role,searchform=searchform,module_name="Facturation",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
     else:
         return render_template('NOT_AUTHORIZED.html')
 
@@ -858,7 +858,7 @@ def retrocession(search=""):
     
 
     if "retrocession" in current_user.access or current_user.access=="all":
-        return render_template('generalform.html',forms=[form],hasDynamicSelector=True,table=retrocessionsitems_disp,headers=headersretrocessions,dbtable="retrocession",dbtableid="retrocessionId",user_role=current_user.role,searchform=searchform,module_name="Retrocession",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+        return render_template('app.html',content='retrocession',username=(current_user.username).title(),forms=[form],hasDynamicSelector=True,table=retrocessionsitems_disp,headers=headersretrocessions,dbtable="retrocession",dbtableid="retrocessionId",user_role=current_user.role,searchform=searchform,module_name="Retrocession",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
     else:
         return render_template('NOT_AUTHORIZED.html')
 
@@ -1574,6 +1574,14 @@ def convert_list_to_json_for_modules(inputlist):
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
         listitems = db.engine.execute("""Select  top 500 * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by paiementsId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+    elif moduletype=='facturation':
+        listitems = db.engine.execute("""Select  top 500 * from facturation where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by facturationId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+    elif moduletype=='retrocession':
+        listitems = db.engine.execute("""Select  top 500 * from retrocession where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by retrocessionId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+    elif moduletype=='encaissement':
+        listitems = db.engine.execute("""Select  top 500 * from encaissement where encaissementDate BETWEEN '{0}' and '{1}' and montant BETWEEN {2} and {3} and valide LIKE '{4}' order by encaissementId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+
+
         
     listitemsjson = convert_list_to_json_for_modules(listitems)
     
@@ -1622,6 +1630,12 @@ def getmoduledata():
         validefilter = ""
     if request.args["moduletype"]=='payment':
         return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
+    elif request.args["moduletype"]=='facturation':
+        return(jsonify(get_modules_data('facturation',startDate,endDate,minamount,maxamount,validefilter)))   
+    elif request.args["moduletype"]=='retrocession':
+        return(jsonify(get_modules_data('retrocession',startDate,endDate,minamount,maxamount,validefilter)))    
+    elif request.args["moduletype"]=='encaissement':
+        return(jsonify(get_modules_data('encaissement',startDate,endDate,minamount,maxamount,validefilter)))    
 
 
 @app.route('/edit_module_item',methods=["POST"])
@@ -1645,6 +1659,34 @@ def editmoduleitem():
                           date='{4}'
     
                           Where paiementsId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
+    elif module=='facturation':
+        newtype = request.json['newtype']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
+        db.engine.execute("""UPDATE facturation set
+                          facturationType = '{0}',
+                          facturationNom = '{1}',
+                          somme='{2}',
+                          comment='{3}',
+                          date='{4}'
+    
+                          Where facturationId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))  
+    elif module=='retrocession':
+        newtype = request.json['newtype']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
+        db.engine.execute("""UPDATE retrocession set
+                          retrocessionType = '{0}',
+                          retrocessionNom = '{1}',
+                          somme='{2}',
+                          comment='{3}',
+                          date='{4}'
+    
+                          Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))                
     return(jsonify({"Status":"OK"})) 
 
 @app.route('/delete_module_item',methods=["POST"])
@@ -1655,6 +1697,12 @@ def delete_module_item():
     
     if module=='payment':
         db.engine.execute("""DELETE from payment where paiementsid ={0}""".format(id))
+    elif module=='facturation':
+        db.engine.execute("""DELETE from facturation where facturationid ={0}""".format(id))  
+    elif module=='retrocession':
+        db.engine.execute("""DELETE from retrocession where retrocessionid ={0}""".format(id))    
+    elif module=='encaissement':
+        db.engine.execute("""DELETE from encaissement where encaissementid ={0}""".format(id))                        
 
     return(jsonify({"Status":"OK"})) 
 
@@ -1669,6 +1717,21 @@ def duplicatemoduleitem():
 select paiementsType, paiementsNom,somme,comment,"date"
 from payment
 where paiementsId = {0}""".format(id2duplicate))
+    elif module == 'facturation':
+        db.engine.execute("""insert into facturation (facturationType, facturationNom,somme,comment,"date")
+select facturationType, facturationNom,somme,comment,"date"
+from facturation
+where facturationId = {0}""".format(id2duplicate))      
+    elif module == 'retrocession':
+        db.engine.execute("""insert into retrocession (retrocessionType, retrocessionNom,somme,comment,"date")
+select retrocessionType, retrocessionNom,somme,comment,"date"
+from retrocession
+where retrocessionId = {0}""".format(id2duplicate))
+    elif module == 'encaissement':
+        db.engine.execute("""insert into encaissement (encaissementNom,montant,comment,encaissementDate,banque)
+select encaissementNom,montant,comment,encaissementDate,banque
+from encaissement
+where encaissementId = {0}""".format(id2duplicate))                     
     
     return(jsonify({"Status":"OK"})) 
 
@@ -1680,6 +1743,12 @@ def validateitem():
     module = request.json['module']
     if module == 'payment':
         db.engine.execute("""UPDATE payment SET Valide='valide' where paiementsId = {0}""".format(id2validate))
+    elif module == 'facturation':
+        db.engine.execute("""UPDATE facturation SET Valide='valide' where facturationId = {0}""".format(id2validate))  
+    elif module == 'retrocession':
+        db.engine.execute("""UPDATE retrocession SET Valide='valide' where retrocessionId = {0}""".format(id2validate))      
+    elif module == 'encaissement':
+        db.engine.execute("""UPDATE encaissement SET Valide='valide' where encaissementId = {0}""".format(id2validate))                     
     
         return(jsonify({"Status":"OK"})) 
 
