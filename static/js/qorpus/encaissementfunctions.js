@@ -24,8 +24,9 @@ function bulk_validate_encaissement_module()
 }
 
 function edit_module_item(id){
-    var type2edit = document.getElementById(`modifier-encaissement-type${id}`).value;
+    //var type2edit = document.getElementById(`modifier-encaissement-type${id}`).value;
     var name2edit = document.getElementById(`modifier-encaissement-nom${id}`).value;
+    var banque2edit = document.getElementById(`modifier-encaissement-banque${id}`).value;
     var ALTname2edit = document.getElementById(`itemname${id}`).value;
     var amount2edit = document.getElementById(`itemamount${id}`).value;
     var date2edit = document.getElementById(`itemdate${id}`).value;
@@ -46,7 +47,7 @@ function edit_module_item(id){
         },
         body: JSON.stringify({"id":id,
     "module":"encaissement",
-    "newtype":type2edit,
+    "newbanque":banque2edit,
     "newname":name2edit,
     "newamount":amount2edit,
     "newdate":date2edit,
@@ -56,7 +57,7 @@ function edit_module_item(id){
       }).then((response) => {
         return response.json();
       }).then((json) => {
-        table.cell( row ,3).data( type2edit ).draw( false );
+        table.cell( row ,3).data( banque2edit ).draw( false );
         table.cell( row ,4).data( name2edit ).draw( false );
         table.cell( row ,5).data( amount2edit ).draw( false );
         table.cell( row ,6).data( date2edit).draw( false );
@@ -186,18 +187,55 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
 
         
 
-        
 
         let encaissementname_select = document.createElement("select");
         encaissementname_select.setAttribute("class","");
         encaissementname_select.setAttribute("id",`modifier-encaissement-nom${items[i][0]}`);
         encaissementname_select.setAttribute("name",`modifier-encaissement-nom${items[i][0]}`);
 
+        let encaissementname_options = document.getElementById("encaissement-nom").options;
+        for (let j=0;j<encaissementname_options.length;j++)
+        {
+            let opt = document.createElement("option");
+            opt.value = encaissementname_options[j].text;
+            //alert(typeitems[i].text.trim()+ items[i][1].trim())
+            
+            if (encaissementname_options[j].text.trim() == items[i][1].trim()){
+                
+                opt.setAttribute("selected","selected")
+            }
+            opt.innerHTML = encaissementname_options[j].text;
+            encaissementname_select.appendChild(opt)
+            //alert(typeitems[i].text)
+        }
+
+        let banque_select = document.createElement("select")
+        banque_select.setAttribute("class","");
+        banque_select.setAttribute("id",`modifier-encaissement-banque${items[i][0]}`);
+        banque_select.setAttribute("name",`modifier-encaissement-banque${items[i][0]}`);
+
+        let banque_options = document.getElementById("banque").options;
+        for (let j=0;j<banque_options.length;j++)
+        {
+            let opt = document.createElement("option");
+            opt.value = banque_options[j].text;
+            //alert(typeitems[i].text.trim()+ items[i][1].trim())
+            
+            if (banque_options[j].text.trim() == items[i][4].trim()){
+                
+                opt.setAttribute("selected","selected")
+            }
+            opt.innerHTML = banque_options[j].text;
+            banque_select.appendChild(opt)
+            //alert(typeitems[i].text)
+        }        
+
+        /*
         let nameopt = document.createElement("option");
         nameopt.value = items[i][1].trim()
         nameopt.innerHTML = items[i][1].trim()
         nameopt.setAttribute("selected","selected");
-        encaissementname_select.appendChild(nameopt)
+        encaissementname_select.appendChild(nameopt)*/
         
         //encaissementtype_items.innerHTML=encaissementtypeitems
 
@@ -207,38 +245,13 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
 
 
 
-        $(document).on("change", `#modifier-encaissement-type${items[i][0]}`, function(){
-            
-            var encaissementtype = $(this).val();
-            let index_no = ($(this)[0].id).replace(/^\D+/g, '')
-            
-            $(`#modifier-encaissement-nom${index_no}`)
-    .find('option')
-    .remove()
-    .end()
-            
-            fetch('/encaissementnames/' + encodeURI(encaissementtype.trim()).toString().replaceAll('%','*')).then(function (response) {
-            response.json().then(function (data) {
-                let optionHTML = '';
-            
-                
-                $(`#modifier-encaissement-nom${index_no}`).append("<option value='addnew'>Ajouter nouveau ?</option>")
-                for (let encaissementname of data.encaissementnames) {
-                    
-                    
-                    $(`#modifier-encaissement-nom${index_no}`).append('<option value="' + encaissementname.name + '">' + encaissementname.name + '</option>')
-                }
-                
-                
-            });
-            });
-            
-          });
+       
         
       
             
     
         encaissementnomhtml =  encaissementname_select.outerHTML
+        banqueselecthtml = banque_select.outerHTML
         
 
 
@@ -289,6 +302,10 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Nom</p>
                                                         ${encaissementnomhtml}
+                                                    </div>
+                                                    <div class="col-12 mt-4">
+                                                        <p class="mb-2 text-muted">Banque</p>
+                                                        ${banqueselecthtml}
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Nouveau Nom</p><input type="text" class="form-control" id="itemname${items[i][0]}">

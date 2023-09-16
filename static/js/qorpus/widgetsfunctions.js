@@ -142,7 +142,7 @@ function reload_kpi_views(fromdate,todate){
         //alert(kpis["payment"]["newtotal"])
         var kpirows= document.getElementById("kpis-rows")
         var chartrows=document.getElementById("pnlchart-rows")
-        chartrows.innerHTML="";
+        chartrows.innerHTML="";        
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
@@ -157,6 +157,14 @@ function reload_kpi_views(fromdate,todate){
         retrocessionkpi = document.createElement("div");
         retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession Total",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
         kpirows.appendChild(retrocessionkpi.firstChild)
+
+        encaissementkpi = document.createElement("div");
+        encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Total",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],4)
+        kpirows.appendChild(encaissementkpi.firstChild)
+
+        pnlkpi = document.createElement("div");
+        pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],5)
+        kpirows.appendChild(pnlkpi.firstChild)
         
         pnlchart = document.createElement("div");
         pnlchart.innerHTML = build_pnl_chart_widget();

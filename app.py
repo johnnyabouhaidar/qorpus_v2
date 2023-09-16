@@ -1686,7 +1686,21 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))                
+                          Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,newdate,id)) 
+    elif module=='encaissement':
+        newbanque = request.json['newbanque']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
+        db.engine.execute("""UPDATE encaissement set
+                          banque = '{0}',
+                          encaissementNom = '{1}',
+                          montant='{2}',
+                          comment='{3}',
+                          encaissementDate='{4}'
+    
+                          Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id))                        
     return(jsonify({"Status":"OK"})) 
 
 @app.route('/delete_module_item',methods=["POST"])
@@ -1866,6 +1880,19 @@ def get_kpi_cards():
     
     retrocessionpercentagechange = ((retrosum-retrosumold)/(retrosum+retrosumold))*100
 
+    
+    encls,encsum = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
+    encoldls,encsumold = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
+    
+    encaissementpercentagechange = ((encsum-encsumold)/(encsum+encsumold))*100    
+
+    pnl =  encsum-(paysum+retrosum)  
+    pnlold =   encsumold-(paysumold+retrosumold)
+
+    pnlpercentagechange = ((pnl-pnlold)/(pnl+pnlold))*100
+
+    
+
     return(jsonify({"payment":
                     {"newtotal":paysum,
                      "oldtotal":paysumold,
@@ -1885,7 +1912,21 @@ def get_kpi_cards():
                      "oldtotal":retrosumold,
                     "oldfrom":oldfrom,
                      "oldto":fromdate,
-                    "percentagechange":retrocessionpercentagechange}
+                    "percentagechange":retrocessionpercentagechange},
+
+                    "encaissement":
+                    {"newtotal":encsum,
+                     "oldtotal":encsumold,
+                    "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":encaissementpercentagechange},
+
+                    "pnl":
+                    {"newtotal":pnl,
+                     "oldtotal":pnlold,
+                    "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":pnlpercentagechange}                                       
                     }))
       
     
