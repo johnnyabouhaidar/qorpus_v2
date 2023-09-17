@@ -19,11 +19,11 @@ function bulk_validate_encaissement_module()
     var checkboxes = document.querySelectorAll('input[name=selectrowencaissement]:checked')
     
     for (var i = 0; i < checkboxes.length; i++) {
-        validate_item(checkboxes[i].value)
+        validate_encaissement_item(checkboxes[i].value)
     }
 }
 
-function edit_module_item(id){
+function edit_encaissement_module_item(id){
     //var type2edit = document.getElementById(`modifier-encaissement-type${id}`).value;
     var name2edit = document.getElementById(`modifier-encaissement-nom${id}`).value;
     var banque2edit = document.getElementById(`modifier-encaissement-banque${id}`).value;
@@ -101,7 +101,7 @@ function delete_encaissement_item(id)
 }
 
 
-function validate_item(id){
+function validate_encaissement_item(id){
     var row = $(`#${id}`).closest('tr');
     let table = $('#responsiveDataTable').DataTable();
     
@@ -267,7 +267,7 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_item(${items[i][0]})><i class="ri-check-line"></i></a>
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_encaissement_item(${items[i][0]})><i class="ri-check-line"></i></a>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editencaissementtModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                     <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow" onclick=duplicate_encaissement_item(${items[i][0]})><i class="ri-file-copy-line"></i></button>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteencaissementModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light" ><i class="ri-delete-bin-line"></i></a>
@@ -320,7 +320,7 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="itemcomment${items[i][0]}">${items[i][5]}</textarea>
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick=edit_module_item(${items[i][0]})>
+                                                        <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" data-bs-dismiss="modal" onclick=edit_encaissement_module_item(${items[i][0]})>
                                                     </div>
                                                 </div>
                                             </div>

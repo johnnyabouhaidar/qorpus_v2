@@ -1737,8 +1737,8 @@ select facturationType, facturationNom,somme,comment,"date"
 from facturation
 where facturationId = {0}""".format(id2duplicate))      
     elif module == 'retrocession':
-        db.engine.execute("""insert into retrocession (retrocessionType, retrocessionNom,somme,comment,"date")
-select retrocessionType, retrocessionNom,somme,comment,"date"
+        db.engine.execute("""insert into retrocession (retrocessionType, retrocessionNom,somme,comment,"date",Valide)
+select retrocessionType, retrocessionNom,somme,comment,"date",Valide
 from retrocession
 where retrocessionId = {0}""".format(id2duplicate))
     elif module == 'encaissement':
@@ -1764,7 +1764,7 @@ def validateitem():
     elif module == 'encaissement':
         db.engine.execute("""UPDATE encaissement SET Valide='valide' where encaissementId = {0}""".format(id2validate))                     
     
-        return(jsonify({"Status":"OK"})) 
+    return(jsonify({"Status":"OK"})) 
 
 @app.route('/edit_type',methods=["POST"])
 @login_required
