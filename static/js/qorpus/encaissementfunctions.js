@@ -115,7 +115,8 @@ function validate_encaissement_item(id){
     "module":"encaissement"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {table.cell( row ,8).data( "valide" ).draw( false );})
+      }).then((json) => {table.cell( row ,8).data( "valide" ).draw( false );
+      document.getElementById(`validateencaissementid${id}`).remove()})
 
 }        
 
@@ -266,7 +267,7 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
         var table_row_functions = document.createElement("td");
         if (items[i][6]=='pasvalide')
         {
-            valid_btn=`<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_encaissement_item(${items[i][0]})><i class="ri-check-line"></i></a>`
+            valid_btn=`<a id=validateencaissementid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_encaissement_item(${items[i][0]})><i class="ri-check-line"></i></a>`
         }else
         {
             valid_btn=""
