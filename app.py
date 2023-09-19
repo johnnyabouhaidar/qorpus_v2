@@ -737,7 +737,7 @@ def facturation(search=""):
 
 @app.route('/facturationnames/<facturationtype>')
 def facturationnames(facturationtype):
-    facturationtype_dec= urllib.parse.unquote(facturationtype.replace("*","%"))
+    facturationtype_dec= urllib.parse.unquote(facturationtype.replace("*","%").replace("~","/"))
     facturationnames = Facturation.query.filter_by(facturationType=facturationtype_dec).all()
     doctornames=Doctor.query.all()
     
@@ -1018,7 +1018,7 @@ def payment(search=""):
 
 @app.route('/paymentnames/<paymenttype>')
 def paymentnames(paymenttype):
-    paymenttype_dec= urllib.parse.unquote(paymenttype.replace("*","%"))
+    paymenttype_dec= urllib.parse.unquote(paymenttype.replace("*","%").replace("~","/"))
     paymentnames = Payment.query.filter_by(paiementsType=paymenttype_dec).all()
     doctornames = Doctor.query.all()
     

@@ -11,7 +11,7 @@ retrocessiontype = retrocessiontype_select.value;
 
 
 
-fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*')).then(function (response) {
+fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
 response.json().then(function (data) {
     let optionHTML = '';
 
@@ -255,7 +255,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
     .remove()
     .end()
             
-            fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*')).then(function (response) {
+            fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
             response.json().then(function (data) {
                 let optionHTML = '';
             
@@ -289,10 +289,17 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
         /*var full_year=items[i][5].getFullYear();
         alert(full_year)*/
         var table_row_functions = document.createElement("td");
+        if (items[i][6]=='pasvalide')
+        {
+            valid_btn=`<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_retrocession_item(${items[i][0]})><i class="ri-check-line"></i></a>`
+        }else
+        {
+            valid_btn=""
+        }
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
 
-                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_retrocession_item(${items[i][0]})><i class="ri-check-line"></i></a>
+                                    ${valid_btn}
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editretrocessiontModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                     <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow" onclick=duplicate_retrocession_item(${items[i][0]})><i class="ri-file-copy-line"></i></button>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteretrocessionModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light" ><i class="ri-delete-bin-line"></i></a>
