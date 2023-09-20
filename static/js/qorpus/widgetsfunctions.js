@@ -172,7 +172,8 @@ function reload_kpi_views(fromdate,todate){
 
         link_drag_cards()
 
-
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 
         fetch(`${baseurl}/getpnlhistory`).then(function (response) {

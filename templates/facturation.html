@@ -1,6 +1,40 @@
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
+    <div class="modal fade mt-4" id="deleteAllModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the selected items? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="bulk_delete_facturation_module()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade mt-4" id="validateAllModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">Validate</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to validate the selected items? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="bulk_validate_facturation_module()">Validate</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -48,10 +82,10 @@
                 </button>
                 <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                     <li>
-                        <button class="dropdown-item d-flex align-items-center" id="activeStatus" onclick="bulk_validate_facturation_module()">Validées</button>
+                        <button class="dropdown-item d-flex align-items-center" id="activeStatus" data-bs-toggle="modal" data-bs-target="#validateAllModal">Validées</button>
                     </li>
                     <li>
-                        <button class="dropdown-item d-flex align-items-center text-danger" id="deleteSelectedRowsButton" onclick="bulk_delete_facturation_module()">Supprimer la sélection</button>
+                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteAllModal">Supprimer la sélection</button>
                     </li>
                 </ul>
             </div>

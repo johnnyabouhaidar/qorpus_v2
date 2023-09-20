@@ -31,7 +31,7 @@ function edit_encaissement_module_item(id){
     var amount2edit = document.getElementById(`itemamount${id}`).value;
     var date2edit = document.getElementById(`itemdate${id}`).value;
     var comment2edit = document.getElementById(`itemcomment${id}`).value;
-    if (name2edit=='addnew'){
+    if (name2edit=='Ajouter Nouveau ?'){
         name2edit = ALTname2edit
     }
     
@@ -267,7 +267,7 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
         var table_row_functions = document.createElement("td");
         if (items[i][6]=='pasvalide')
         {
-            valid_btn=`<a id=validateencaissementid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_encaissement_item(${items[i][0]})><i class="ri-check-line"></i></a>`
+            valid_btn=`<a id=validateencaissementid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validateEncaissementModal${items[i][0]}"><i class="ri-check-line"></i></a>`
         }else
         {
             valid_btn=""
@@ -298,6 +298,23 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade mt-4" id="validateEncaissementModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="staticBackdropLabel">Validate</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure do you want to validate this row? <br> ${items[i][1]}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick=validate_encaissement_item(${items[i][0]})>Validate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                                 <div class="modal fade effect-rotate-left" id="editencaissementtModal${items[i][0]}">
                                     <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                         <div class="modal-content modal-content-demo">

@@ -1,4 +1,11 @@
-
+/*$('#mySelect').bind('onchange',function(){
+if (this.value==='other')
+{
+this.myform['other'].style.visibility='visible'
+}
+else {
+this.myform['other'].style.visibility='hidden'};
+}*/ 
 var baseurl = window.location.origin;
 
 
@@ -9,7 +16,7 @@ let paymentname_select = document.getElementById('paiement-nom');
 paymenttype_select.onchange = function () {
 paymenttype = paymenttype_select.value;
 
-
+//document.getElementById("mainCalendar").placeholder="test";
 
 fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
 response.json().then(function (data) {
@@ -292,7 +299,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         var table_row_functions = document.createElement("td");
         if (items[i][6]=='pasvalide')
         {
-            valid_btn=`<a id=validatepaymentid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" onclick=validate_payment_item(${items[i][0]})><i class="ri-check-line"></i></a>`
+            valid_btn=`<a id=validatepaymentid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validatePaymentModal${items[i][0]}"><i class="ri-check-line"></i></a>`
         }else
         {
             valid_btn=""
@@ -319,6 +326,23 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal" onclick=delete_payment_item(${items[i][0]})>Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade mt-4" id="validatePaymentModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="staticBackdropLabel">Validate</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure do you want to validate this row? <br> ${items[i][1]} - ${items[i][2]}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick=validate_payment_item(${items[i][0]})>Validate</button>
                                             </div>
                                         </div>
                                     </div>
@@ -373,7 +397,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         
                                                                 
                                           
-                                            
+                                            //.toLocaleString('fr-FR')                                 
         rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
         
 
