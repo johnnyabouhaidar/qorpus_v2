@@ -25,6 +25,23 @@ response.json().then(function (data) {
 });
 
 }
+
+
+$('#retrocession-nom').change(function(){
+    
+    if (this.value==='addnew')
+    {
+    //this.myform['other'].style.visibility='visible'
+    $('input[name=retrocessionNomALT]').show()
+    $('#nouveaunomlbl').show()
+    }
+    else {
+        $('input[name=retrocessionNomALT]').hide()
+        $('#nouveaunomlbl').hide()
+    
+    };
+    
+    })
 function bulk_delete_retrocession_module()
 {
     var array = []

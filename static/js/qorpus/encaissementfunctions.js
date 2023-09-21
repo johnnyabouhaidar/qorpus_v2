@@ -2,6 +2,23 @@
 var baseurl = window.location.origin;
 
 
+$('#encaissement-nom').change(function(){
+    
+    if (this.value==='addnew')
+    {
+    //this.myform['other'].style.visibility='visible'
+    $('input[name=encaissementNomALT]').show()
+    $('#nouveaunomlbl').show()
+    }
+    else {
+        $('input[name=encaissementNomALT]').hide()
+        $('#nouveaunomlbl').hide()
+    
+    };
+    
+    })
+
+
 
 function bulk_delete_encaissement_module()
 {

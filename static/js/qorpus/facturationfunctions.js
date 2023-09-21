@@ -25,6 +25,22 @@ response.json().then(function (data) {
 });
 
 }
+
+$('#facturation-nom').change(function(){
+    
+    if (this.value==='addnew')
+    {
+    //this.myform['other'].style.visibility='visible'
+    $('input[name=facturationNomALT]').show()
+    $('#nouveaunomlbl').show()
+    }
+    else {
+        $('input[name=facturationNomALT]').hide()
+        $('#nouveaunomlbl').hide()
+    
+    };
+    
+    })
 function bulk_delete_facturation_module()
 {
     var array = []

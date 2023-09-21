@@ -1,11 +1,12 @@
-/*$('#mySelect').bind('onchange',function(){
+/*$('td[name="tcol1"]').bind('onchange',function(){
 if (this.value==='other')
 {
 this.myform['other'].style.visibility='visible'
 }
 else {
-this.myform['other'].style.visibility='hidden'};
-}*/ 
+this.myform['other'].style.visibility='hidden'};})*/
+
+
 var baseurl = window.location.origin;
 
 
@@ -32,6 +33,31 @@ response.json().then(function (data) {
 });
 
 }
+
+/*paymentname_select.onchange = function(){
+    let paymentname = paymentname_select.value;
+    if(paymentname=='addnew'){
+        alert("123")
+    }
+}*/
+
+$('#paiement-nom').change(function(){
+    
+if (this.value==='addnew')
+{
+//this.myform['other'].style.visibility='visible'
+$('input[name=paiementsNomALT]').show()
+$('#nouveaunomlbl').show()
+}
+else {
+    $('input[name=paiementsNomALT]').hide()
+    $('#nouveaunomlbl').hide()
+
+};
+
+})
+
+
 function bulk_delete_payment_module()
 {
     var array = []
