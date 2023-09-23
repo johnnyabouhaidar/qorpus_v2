@@ -26,9 +26,9 @@ async function captureAndConvertToPDF() {
   const opt = {
     margin: [10, 10, 10, 10], // You can adjust the margins as needed
     filename: 'content_as_pdf.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: { scale: 1 }, // You can adjust the scale as needed
-    jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape', compressPDF: true },
+    jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait', compressPDF: true },
   };
 
   await new Promise((resolve) => {
@@ -165,9 +165,8 @@ populateDropdownOptions('donut');
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  const saveDashboardBtn = document.getElementById('saveDashboardBtn');
-  const dashboardNameInput = document.getElementById('dashboardNameInput');
-  const confirmSaveBtn = document.getElementById('confirmSaveBtn');
+
+
   const isDashboardPage = window.location.pathname.includes('/tableau-de-bord');
   const isWidgetPage = !window.location.pathname.includes('/tableau-de-bord');
   const removeButton = document.getElementById('remove-widget-btn');
@@ -194,15 +193,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Set up listeners for drag and drop events (optional)
   drake.on('drag', function (el) {
-    // You can add custom code here for drag start event
   });
 
   drake.on('drop', function (el, target, source, sibling) {
-    // You can add custom code here for drop event
   });
 
   drake.on('over', function (el, container) {
-    // You can add custom code here for drag over event
   });
 
 
@@ -251,6 +247,7 @@ function populateDropdownOptions(type) {
     .catch(error => console.error(`Error populating ${type} dropdown options:`, error));
 }
 
+
 // Function to load and display selected widget
 function loadWidget(type) {
   const selectedWidgetId = document.getElementById(`${type}Dropdown`).value;
@@ -262,21 +259,34 @@ function loadWidget(type) {
       const selectedWidget = doc.getElementById(selectedWidgetId);
 
       if (selectedWidget) {
-        const modalId = `${type}Modal`;
-        const modalContent = document.querySelector(`#${modalId} div`);
         // Create a new widget element based on the selected widget's content
         const newWidget = selectedWidget.cloneNode(true);
 
         // Now, also append the new widget element to the row container in the dashboard
         const widgetRowContainer = document.getElementById('widgetContainer');
         widgetRowContainer.appendChild(newWidget.cloneNode(true));
+        
+        // Reinitialize the script for the new widget
+        const scriptElement = document.createElement('script');
+        scriptElement.src = '/js/apexcharts-pie.js';
+        // You may also set other attributes like 'type' if needed
+        const scriptElement1 = document.createElement('script');
+        scriptElement1.src = '/js/apexcharts-line.js';
 
+        const scriptElement2 = document.createElement('script');
+        scriptElement2.src = '/js/apexcharts-column.js';
+
+        // Append the script element to the document to load and execute the script
+        document.body.appendChild(scriptElement);
+        document.body.appendChild(scriptElement1);
+        document.body.appendChild(scriptElement2);
       }
     })
     .catch(error => console.error('Error loading widget:', error));
 }
-// Load the saved dashboard content from LocalStorage on page load
 
+
+// Load the saved dashboard content from LocalStorage on page load
 function saveDashboard(dashboardName) {
   const widgetContainer = document.getElementById('widgetContainer');
   const dashboardContent = widgetContainer.innerHTML;
@@ -284,7 +294,9 @@ function saveDashboard(dashboardName) {
   console.log(`Dashboard "${dashboardName}" saved.`);
 }
 
-
+  const confirmSaveBtn = document.getElementById('confirmSaveBtn');
+  const saveDashboardBtn = document.getElementById('saveDashboardBtn');
+  const dashboardNameInput = document.getElementById('dashboardNameInput');
 
 confirmSaveBtn.addEventListener('click', function () {
   const dashboardName = dashboardNameInput.value;
@@ -301,8 +313,8 @@ confirmSaveBtn.addEventListener('click', function () {
 function createNewDashboardPage(dashboardName) {
   const newPageUrl = `newdashboard-${dashboardName}`;// you should add .html
   // You can use window.location.href or a similar method to navigate to the new page
-
 }
+
 function displaySavedDashboards() {
   const savedDashboardsList = document.getElementById('savedDashboardsList');
   savedDashboardsList.innerHTML = '';
@@ -321,6 +333,7 @@ function displaySavedDashboards() {
       link.textContent = cleanName;
       link.href = `/dashboard/${cleanName}`; // Use the route function
 
+
       // Create a delete button for each dashboard
       const deleteIcon = document.createElement('i');
       deleteIcon.classList.add('bx', 'bx-x');
@@ -330,6 +343,8 @@ function displaySavedDashboards() {
       listItem.appendChild(link);
       listItem.appendChild(deleteIcon);
       savedDashboardsList.appendChild(listItem);
+   
+     
     }
   }
 

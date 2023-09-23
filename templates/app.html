@@ -91,6 +91,15 @@
         {%elif content == 'encaissement'%}
             {%include 'encaissement.html'%}                
 
+        {%elif content == 'medicins'%}
+            {%include 'medicins.html'%} 
+            
+        {%elif content == 'editmedicins'%}
+            {%include 'doctoredit.html'%}  
+            
+        {%elif content == 'nouveaumedicins'%}
+            {%include 'doctornew.html'%}              
+
         {%endif%}
         {% include 'footer.html' %}
 
@@ -165,6 +174,7 @@
     <script src="/static/js/qorpus/facturationfunctions.js"></script>
     <script src="/static/js/qorpus/retrocessionfunctions.js"></script>
     <script src="/static/js/qorpus/encaissementfunctions.js"></script>
+    <script src="/static/js/qorpus/addmedicinsfunctions.js"></script>
     <script src="/static/js/script.js"></script>        <!-- Select2 Cdn -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/static/js/select2.js"></script>

@@ -75,6 +75,21 @@ class User(db.Model, UserMixin):
 
 
 
+class medicalperson(db.Model):
+    medid=db.Column(db.Integer,primary_key=True)
+    mednom=db.Column(db.String(80),nullable=False)
+    medspeciality=db.Column(db.String(80),nullable=False)
+    medtype=db.Column(db.String(80),nullable=False)
+    medpourcentage = db.Column(db.Float,nullable=False)
+    medchargesociales=db.Column(db.Float,nullable=False)
+    medsurfaceaccordee = db.Column(db.Float,nullable=False)
+    medsalaire = db.Column(db.Float,nullable=False)
+    mednombremoissalaireparan = db.Column(db.Float,nullable=False)
+    medsecretaire = db.Column(db.String(80),nullable=False)
+    medpourcentagesecretaire = db.Column(db.Float,nullable=False)
+    medlogiciels = db.Column(db.String(500),nullable=False)
+
+
 class Doctor(db.Model):
     doctorid=db.Column(db.Integer,primary_key=True)
     doctorname=db.Column(db.String(80),nullable=False,unique=True)
@@ -1043,6 +1058,32 @@ def paymentnames(paymenttype):
             
 
     return jsonify({'paymentnames':Arry})
+
+@app.route('/medicins',methods=['GET','POST'])
+@login_required
+def medicins():
+    if "doctors" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='medicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')
+    
+@app.route('/nouveaumedicins',methods=["POST","GET"])
+@login_required
+def nouveaumedicins():
+    if "doctors" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='nouveaumedicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')
+
+    
+@app.route('/medicinsedit',methods=['POST','GET'])
+@login_required
+def medicinsedit():
+    if "doctors" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='editmedicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')
+
 
 @app.route('/doctors',methods=['GET','POST'])
 @login_required

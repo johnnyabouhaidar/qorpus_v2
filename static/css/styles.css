@@ -154,7 +154,9 @@ typography
   float: right;
 }
 
-
+.w-10{
+  width: 10% !important;
+}
 [data-theme-mode=dark] {
   --body-bg-rgb: 26, 28, 30;
   --menu-bg: rgb(var(--body-bg-rgb));
@@ -19238,7 +19240,8 @@ code[class*=language-] {
   }
 
   [data-vertical-style=overlay][data-toggled=icon-overlay-close]:not([data-icon-overlay=open]) .side-menu__item {
-    justify-content: center;
+    justify-content: left;
+    gap:50px;
   }
 
   [data-vertical-style=overlay][data-toggled=icon-overlay-close] .app-header {
@@ -19937,10 +19940,6 @@ code[class*=language-] {
   box-shadow: 0.125rem 0 0 rgba(10, 10, 10, 0.04);
 }
 
-#savedDashboardsList {
-  margin-left: 20px;
-}
-
 #savedDashboardsList li {
   display: flex;
   align-items: center;
@@ -20011,7 +20010,7 @@ code[class*=language-] {
   align-items: center;
   text-decoration: none;
   font-size: 0.78rem;
-  color: var(--menu-prime-color);
+  color: white;
   font-weight: 500;
   border-radius: 0.5rem;
   width: 100%;

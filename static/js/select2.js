@@ -20,7 +20,9 @@
 
     /* single select used in the web */
     $('.js-example-basic').select2();
-
+   /* multiple select with placeholder */
+   $(".js-example-multiple").select2({
+});
     /* multiple select type used for tables in the web*/
     $('.js-example-basic-multiple-type').select2({
         placeholder: 'Type',

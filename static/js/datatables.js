@@ -5,10 +5,6 @@ $(function (e) {
   var montant = false;
   // responsive datatable
   var table = $('#responsiveDataTable').DataTable({
-    initComplete: function () {
-      console.log('@@@ init complete @@@');
-      $("body").removeClass("loading");
-  },
     order: [],
     responsive: true,
     dom: 'Blfrtip',
@@ -56,7 +52,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
 
@@ -92,7 +88,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
               last = group;
@@ -128,7 +124,7 @@ $(function (e) {
                   '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
-                  '<td colspan="4" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
+                  '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
                   '</td></tr>'
                 );
 
@@ -304,22 +300,6 @@ $(function (e) {
     setTimeout(function () {
       tablename.row(row).remove().draw();
     }, 1500);
-  });
-
-  $('.duplicaterow').on('click', function () {
-    var table = $(this).closest('table').DataTable();
-    var button = this;
-    var row = $(button).closest('tr');
-    var clonedRow = row.clone(); // Clone the row
-
-    // Insert the cloned row after the original row
-    table.row.add(clonedRow);
-
-    // Sort the table by column 3 in descending order
-    table.order([[3, 'asc']]);
-
-    // Redraw the table to apply the sorting
-    table.draw();
   });
 
   // used in add doctors percentage share
