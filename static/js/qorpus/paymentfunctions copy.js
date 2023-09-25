@@ -1,4 +1,10 @@
-
+/*$('td[name="tcol1"]').bind('onchange',function(){
+if (this.value==='other')
+{
+this.myform['other'].style.visibility='visible'
+}
+else {
+this.myform['other'].style.visibility='hidden'};})*/
 
 
 var baseurl = window.location.origin;
@@ -28,7 +34,12 @@ response.json().then(function (data) {
 
 }
 
-
+/*paymentname_select.onchange = function(){
+    let paymentname = paymentname_select.value;
+    if(paymentname=='addnew'){
+        alert("123")
+    }
+}*/
 
 $('#paiement-nom').change(function(){
     
