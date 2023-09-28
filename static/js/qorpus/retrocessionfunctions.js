@@ -105,7 +105,7 @@ function edit_retrocession_module_item(id){
 }
 
 function duplicate_retrocession_item(id){
-    const response = fetch(`${baseurl}/duplicate_module_item`,{
+    /*const response = fetch(`${baseurl}/duplicate_module_item`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -115,7 +115,29 @@ function duplicate_retrocession_item(id){
     "module":"retrocession"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {location.reload()})
+      }).then((json) => {location.reload()})*/
+      var row = $(`#${id}`).closest('tr');
+      let table = $('#responsiveDataTable').DataTable();
+      
+      $("#retrocession-type").val(table.cell( row ,3).data())
+      fetch('/retrocessionnames/' + encodeURI(table.cell( row ,3).data().trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let retrocessionname of data.retrocessionnames) {
+                optionHTML += '<option value="' + retrocessionname.name + '">' + retrocessionname.name + '</option>';
+            }
+        
+            retrocessionname_select.innerHTML = optionHTML;
+            $("#retrocession-nom").val(table.cell( row ,4).data())
+        });
+        });
+      
+      $('input[name="somme"]').val(table.cell( row ,5).data())
+      $('input[name="date"]').val(table.cell( row ,6).data())
+      $('textarea[name="comment"]').val(table.cell( row ,7).data())
+      $("#addretrocessiontModal").modal('show')
 }
 
 

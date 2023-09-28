@@ -104,7 +104,7 @@ function edit_facturation_module_item(id){
 }
 
 function duplicate_facturation_item(id){
-    const response = fetch(`${baseurl}/duplicate_module_item`,{
+    /*const response = fetch(`${baseurl}/duplicate_module_item`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -114,7 +114,29 @@ function duplicate_facturation_item(id){
     "module":"facturation"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {location.reload()})
+      }).then((json) => {location.reload()})*/
+      var row = $(`#${id}`).closest('tr');
+      let table = $('#responsiveDataTable').DataTable();
+      
+      $("#facturation-type").val(table.cell( row ,3).data())
+      fetch('/facturationnames/' + encodeURI(table.cell( row ,3).data().trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let facturationname of data.facturationnames) {
+                optionHTML += '<option value="' + facturationname.name + '">' + facturationname.name + '</option>';
+            }
+        
+            facturationname_select.innerHTML = optionHTML;
+            $("#facturation-nom").val(table.cell( row ,4).data())
+        });
+        });
+      
+      $('input[name="somme"]').val(table.cell( row ,5).data())
+      $('input[name="date"]').val(table.cell( row ,6).data())
+      $('textarea[name="comment"]').val(table.cell( row ,7).data())
+      $("#addfacturationtModal").modal('show')
 }
 
 

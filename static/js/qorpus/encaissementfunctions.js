@@ -84,7 +84,7 @@ function edit_encaissement_module_item(id){
 }
 
 function duplicate_encaissement_item(id){
-    const response = fetch(`${baseurl}/duplicate_module_item`,{
+    /*const response = fetch(`${baseurl}/duplicate_module_item`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -94,7 +94,18 @@ function duplicate_encaissement_item(id){
     "module":"encaissement"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {location.reload()})
+      }).then((json) => {location.reload()})*/
+      var row = $(`#${id}`).closest('tr');
+      let table = $('#responsiveDataTable').DataTable();
+      
+      $("#encaissement-nom").val(table.cell( row ,4).data())
+
+      
+      $('input[name="montant"]').val(table.cell( row ,5).data())
+      $('input[name="encaissementDate"]').val(table.cell( row ,6).data())
+      $('textarea[name="comment"]').val(table.cell( row ,7).data())
+      $('#banque').val(table.cell( row ,3).data())
+      $("#addencaissementtModal").modal('show')
 }
 
 

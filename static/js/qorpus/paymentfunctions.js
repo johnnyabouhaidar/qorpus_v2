@@ -109,7 +109,7 @@ function edit_payment_module_item(id){
 
 }
 
-function duplicate_payment_item(id){
+function duplicate_payment_item(id){/*
     const response = fetch(`${baseurl}/duplicate_module_item`,{
         method: 'POST',
         headers: {
@@ -120,7 +120,29 @@ function duplicate_payment_item(id){
     "module":"payment"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {location.reload()})
+      }).then((json) => {location.reload()})*/
+      var row = $(`#${id}`).closest('tr');
+      let table = $('#responsiveDataTable').DataTable();
+      
+      $("#paiement-type").val(table.cell( row ,3).data())
+      fetch('/paymentnames/' + encodeURI(table.cell( row ,3).data().trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let paymentname of data.paymentnames) {
+                optionHTML += '<option value="' + paymentname.name + '">' + paymentname.name + '</option>';
+            }
+        
+            paymentname_select.innerHTML = optionHTML;
+            $("#paiement-nom").val(table.cell( row ,4).data())
+        });
+        });
+      
+      $('input[name="somme"]').val(table.cell( row ,5).data())
+      $('input[name="date"]').val(table.cell( row ,6).data())
+      $('textarea[name="comment"]').val(table.cell( row ,7).data())
+      $("#addPaymenttModal").modal('show')
 }
 
 
