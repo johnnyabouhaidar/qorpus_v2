@@ -1066,6 +1066,20 @@ def medicins():
         return render_template('app.html',content='medicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
     else:
         return render_template('NOT_AUTHORIZED.html')
+
+def get_person_data(entity):
+    if entity == 'medicins':
+        listt=db.engine.execute("""Select * from medicalperson where medtype = 'medicins'""")
+        listjson=convert_list_to_json(listt)
+    return (listjson)
+
+
+@app.route('/get_person_data')
+@login_required
+def getpersondata():
+    entity = request.args["entity"]
+    if entity == 'medicins':   
+        return jsonify(get_person_data(entity))
     
 @app.route('/nouveaumedicins',methods=["POST","GET"])
 @login_required
@@ -1078,7 +1092,24 @@ def nouveaumedicins():
 @app.route('/addmedicinsitems',methods=['POST'])
 @login_required
 def addmedicinsitems():
-    pass
+    mednom = request.json['mednom']
+    medspeciality = request.json['medspeciality']
+    medtype = request.json['medtype']
+    medpourcentage = request.json['medpourcentage']
+    medchargesociales = request.json['medchargesociales']
+    medsurfaceaccordee = request.json['medsurfaceaccordee']
+    medsalaire = request.json['medsalaire']
+    mednombremoissalaireparan = request.json['mednombremoissalaireparan']
+    medsecretaire = request.json['medsecretaire']
+    medpourcentagesecretaire = request.json['medpourcentagesecretaire']
+    medlogiciels = "||".join(request.json['medlogiciels'])
+    percentage_activities_for_current_doctor = request.json["percentage_activities_for_current_doctor"]
+
+    for perc in percentage_activities_for_current_doctor:
+        db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(mednom,perc[0],perc[1],perc[2]))    
+
+    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels))
+    return(jsonify({"Status":"OK"}))
 
     
 @app.route('/medicinsedit',methods=['POST','GET'])

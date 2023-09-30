@@ -57,7 +57,7 @@ function add_new_doctor(){
     let doctor_salaire = document.getElementById("salaire").value;
     let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
     let doctor_secretaire =document.getElementById("secretaire").value;
-    let doctor_salaire_percentage = document.getElementById("secretaire-pourcentage");
+    let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
     //let doctor_logiciel = document.getElementById("logiciel").options.Length;
     var logiciel_selected = [];
     for (var option of document.getElementById('logiciel').options)
@@ -66,10 +66,38 @@ function add_new_doctor(){
             logiciel_selected.push(option.value);
         }
     }
-    alert(percentage_activities_for_current_doctor)
+    //alert(percentage_activities_for_current_doctor)
     //newdoctorform  
     if($("#newdoctorform")[0].checkValidity()) {
-        alert('validated');
+        //alert('validated');
+        const response = fetch(`${baseurl}/addmedicinsitems`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+        "mednom":doctor_name,
+        "medspeciality":doctor_speciality,
+        "medtype":doctor_type,
+        "medpourcentage":doctor_percentage,
+        "medchargesociales":doctor_charge_sociales,
+        "medsurfaceaccordee":doctor_surface_accordee,
+        "medsalaire":doctor_salaire,
+        "mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
+        "medsecretaire":doctor_secretaire,
+        "medpourcentagesecretaire":doctor_sec_percentage,
+        "medlogiciels":logiciel_selected,
+        "percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
+
+    
+    })
+          }).then((response) => {
+            return response.json();
+          }).then((json) => {
+            //go back to main screen
+            window.location.href = 'medicins';
+        }) 
     }
     else {
         $("#newdoctorform")[0].reportValidity();
