@@ -1074,6 +1074,11 @@ def nouveaumedicins():
         return render_template('app.html',content='nouveaumedicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
     else:
         return render_template('NOT_AUTHORIZED.html')
+    
+@app.route('/addmedicinsitems',methods=['POST'])
+@login_required
+def addmedicinsitems():
+    pass
 
     
 @app.route('/medicinsedit',methods=['POST','GET'])

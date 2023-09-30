@@ -7,8 +7,6 @@ $(function (e) {
   var table = $('#responsiveDataTable').DataTable({
     order: [],
     responsive: true,
-    scrollCollapse: true,
-   scrollY: '400px',
     dom: 'Blfrtip',
     language: {
       searchPlaceholder: 'Search...',
@@ -24,20 +22,19 @@ $(function (e) {
       }
     ],
     pageLength: 10,
-
     drawCallback: function (settings) {
-      // call the pivot tables for the 3 buttons type, nom and montant  
+       // call the pivot tables for the 3 buttons type, nom and montant  
       if (type) {
         var api = this.api();
-        var rows = api.rows({ page: 'all' }).nodes();
+        var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
 
-        api.column(3, { page: 'all' })
+        api.column(3, { page: 'current' })
           .data()
           .each(function (group, i) {
             if (last !== group) {
               var groupSum = 0; // Initialize sum for the group
-              var groupRows = api.rows({ page: 'all', search: 'applied' })
+              var groupRows = api.rows({ page: 'current', search: 'applied' })
                 .nodes()
                 .toArray()
                 .filter(function (row) {
@@ -52,7 +49,7 @@ $(function (e) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="6" class="group-bg">' +
+                  '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -60,23 +57,20 @@ $(function (e) {
                 );
 
               last = group;
-
             }
           });
-
       }
-
       if (nom) {
         var api = this.api();
-        var rows = api.rows({ page: 'all' }).nodes();
+        var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
 
-        api.column(4, { page: 'all' })
+        api.column(4, { page: 'current' })
           .data()
           .each(function (group, i) {
             if (last !== group) {
               var groupSum = 0; // Initialize sum for the group
-              var groupRows = api.rows({ page: 'all', search: 'applied' })
+              var groupRows = api.rows({ page: 'current', search: 'applied' })
                 .nodes()
                 .toArray()
                 .filter(function (row) {
@@ -91,7 +85,7 @@ $(function (e) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="6" class="group-bg">' +
+                  '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -104,15 +98,15 @@ $(function (e) {
 
       if (montant) {
         var api = this.api();
-        var rows = api.rows({ page: 'all' }).nodes();
+        var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
 
-        api.column(5, { page: 'all' })
+        api.column(5, { page: 'current' })
           .data()
           .each(function (group, i) {
             if (last !== group) {
               var groupSum = 0; // Initialize sum for the group
-              var groupRows = api.rows({ page: 'all', search: 'applied' })
+              var groupRows = api.rows({ page: 'current', search: 'applied' })
                 .nodes()
                 .toArray()
                 .filter(function (row) {
@@ -127,7 +121,7 @@ $(function (e) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="6" class="group-bg">' +
+                  '<tr class="group"><td colspan="5" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -144,17 +138,16 @@ $(function (e) {
       var sumColumnIndex = 5;
 
       var sum = api
-        .column(sumColumnIndex, { page: 'all' })
+        .column(sumColumnIndex, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return parseFloat(a) + parseFloat(b);
         }, 0);
-      // somme of montant in the footer 
+// somme of montant in the footer 
       $('.table-somme-amount').html(sum.toFixed(2));
     }
   });
-
-  // open the rows pivot to show the specific datatable of each one
+// open the rows pivot to show the specific datatable of each one
   function toggleGroupAndChildRows() {
     $('#responsiveDataTable tbody tr.group').each(function () {
       var groupRow = $(this);
@@ -186,8 +179,7 @@ $(function (e) {
   });
   // 3 buttons on click
   $('#typeButton').click(function () {
-    table.page.len(-1);
-    // Sort by the third column in ascending order 
+
     table.order([3, 'asc']).draw();
     type = true;
     nom = false;
@@ -198,9 +190,7 @@ $(function (e) {
   });
 
   $('#nomButton').click(function () {
-    table.page.len(-1);
     table.order([4, 'asc']).draw();
-    table.scrollY = '100%'; // Set the scroll height to '100%'
     nom = true;
     type = false;
     montant = false;
@@ -210,10 +200,7 @@ $(function (e) {
   });
 
   $('#montantButton').click(function () {
-
-    table.page.len(-1);
     table.order([5, 'asc']).draw();
-    table.scrollY = '100%'; // Set the scroll height to '100%'
     montant = true;
     nom = false;
     type = false;
@@ -222,11 +209,11 @@ $(function (e) {
     toggleGroupAndChildRows();
   });
 
-  // filter button
+// filter button
   $('#clearFilterButton').click(function () {
     location.reload();
   });
-  // delete Selected Rows (bulk delete)
+// delete Selected Rows (bulk delete)
   $('#deleteSelectedRowsButton').click(function () {
     var selectedRows = $('#responsiveDataTable tbody .rowCheckbox:checked').closest('tr');
 
@@ -234,7 +221,7 @@ $(function (e) {
     table.rows(selectedRows).remove().draw();
   });
 
-  // delete a specific row with modal
+// delete a specific row with modal
   $('.deleterow').on('click', function () {
     var tablename = $(this).closest('table').DataTable();
     var button = this; // Store the reference to the button
@@ -246,7 +233,7 @@ $(function (e) {
     }, 1500);
   });
 
-  // duplicate a specific row 
+// duplicate a specific row 
   $('.duplicaterow').on('click', function () {
     var table = $(this).closest('table').DataTable();
     var button = this;
@@ -279,8 +266,6 @@ $(function (e) {
   var table = $('#responsiveDataTable2').DataTable({
     order: [],
     responsive: true,
-    scrollCollapse: true,
-    scrollY: '400px',
     dom: 'Blfrtip',
     language: {
       searchPlaceholder: 'Search...',
