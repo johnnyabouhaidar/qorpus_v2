@@ -3,7 +3,7 @@ var baseurl = window.location.origin;
 function populate_medicins_table(){
 
 
-    const response = fetch(`${baseurl}/get_module_data?moduletype=payment&startDate=${startdte}&endDate=${enddte}&minamount=${minamount}&maxamount=${maxamount}&validefilter=${validefilter}`).then((response) => {
+    const response = fetch(`${baseurl}/get_person_data?entity=medicins`).then((response) => {
         return response.json();
       }).then((json) => {let items = json
     
