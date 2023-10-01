@@ -4,6 +4,24 @@ var baseurl = window.location.origin;
 let percentage_activities_for_current_doctor=[]
 
 
+function delete_medicins_perc_TMP(id)
+{
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+
+    for (var i=0;i<percentage_activities_for_current_doctor.length;i++){
+        if (percentage_activities_for_current_doctor[i][3]==id){
+            percentage_activities_for_current_doctor.splice(i, 1);
+        }
+    }
+    
+    table.row(row).remove().draw(false);
+    
+}
+
+
+
 function append_percentage_activity(){
 
 }
@@ -20,7 +38,7 @@ function add_item_to_percentage_table(){
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
     <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
-    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
     <div class="modal fade mt-4" id="deletepourcentageshare${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -34,14 +52,14 @@ function add_item_to_percentage_table(){
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     <!-- deleterow is important -->
-                    <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP(${rowUID})">Delete</button>
                 </div>
             </div>
         </div>
     </div>
 
 </div>`
-    percentage_activities_for_current_doctor.push([pour_de,pour_a,pour_perc])
+    percentage_activities_for_current_doctor.push([pour_de,pour_a,pour_perc,rowUID])
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);
 }

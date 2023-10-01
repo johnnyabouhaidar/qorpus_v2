@@ -1074,7 +1074,7 @@ def get_person_data(entity):
     return (listjson)
 
 
-@app.route('/get_person_data')
+@app.route('/get_person_data',methods=['GET'])
 @login_required
 def getpersondata():
     entity = request.args["entity"]
@@ -1793,7 +1793,9 @@ def delete_module_item():
     elif module=='retrocession':
         db.engine.execute("""DELETE from retrocession where retrocessionid ={0}""".format(id))    
     elif module=='encaissement':
-        db.engine.execute("""DELETE from encaissement where encaissementid ={0}""".format(id))                        
+        db.engine.execute("""DELETE from encaissement where encaissementid ={0}""".format(id))      
+    elif module=='medicins':
+        db.engine.execute("""DELETE from medicalperson where medid ={0}""".format(id))      
 
     return(jsonify({"Status":"OK"})) 
 

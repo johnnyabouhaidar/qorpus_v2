@@ -1,5 +1,36 @@
 var baseurl = window.location.origin;
 
+
+function bulk_delete_medicins_module()
+{
+    var array = []
+    var checkboxes = document.querySelectorAll('input[name=selectrowmedicins]:checked')
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+        delete_medicins_item(checkboxes[i].value)
+    }
+}
+
+function delete_medicins_item(id)
+{
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+    
+    const response = fetch(`${baseurl}/delete_module_item`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"id":id,
+    "module":"medicins"})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {table.row(row).remove().draw(false);})
+}
+
+
 function populate_medicins_table(){
 
 
@@ -12,7 +43,30 @@ function populate_medicins_table(){
         for (var i=0;i<items.length;i++)
         {
 
-            rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
+            let checkbox_html = `<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${items[i][0]}"  name="selectrowmedicins" value="${items[i][0]}" aria-label="..." />`;
+            let functions_btns = `<div class="hstack gap-2 fs-15">
+            <a aria-label="anchor" href="medicinsedit?id=${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+            <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+            <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteDoctorsModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+            <div class="modal fade mt-4" id="deleteDoctorsModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure do you want to delete this row? - ${items[i][1]}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_item(${items[i][0]})">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>`;
+            rows2add.push({"DT_RowId":items[i][0],"0":checkbox_html,"1":functions_btns,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":items[i][4]})
         }
         t.rows.add(rows2add).draw()
     

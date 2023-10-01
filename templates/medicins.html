@@ -34,7 +34,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  id="deleteSelectedRowsButton">Delete</button>
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  id="deleteSelectedRowsButton" onclick="bulk_delete_medicins_module()">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -57,220 +57,12 @@
                                     <th>Medecin Nom</th>
                                     <th>Medecin Speciality</th>
                                     <th>Type</th>
-                                    <th>est Actif</th>
+                                    
                                     <th>Pourcentage de Partage</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel1" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteDoctorsModal" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                            <div class="modal fade mt-4" id="deleteDoctorsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure do you want to delete this row?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Delete</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>testing</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>hello</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel3" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel4" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel5" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel6" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel7" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel8" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel9" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel10" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel11" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>256</td>
-                                    <td>Frais Divers</td>
-                                    <td>Carte EC frais divers</td>
-                                    <td>dentiste</td>
-                                    <td>392,32</td>
-                                    <td>30/5/2023 17:08:52</td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -281,3 +73,12 @@
     </div>
 </div>
 <!-- End::app-content -->
+<script>
+    //var users_table = populate_table()
+    //console.log(users_table)
+    
+    document.addEventListener("DOMContentLoaded", function(event) { 
+
+        populate_medicins_table()
+});
+</script>
