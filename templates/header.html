@@ -86,7 +86,7 @@
             <!-- Start::header-element -->
             <div class="header-element">
                 <!-- Start::header-link|dropdown-toggle -->
-                {%if content =='usermanagement'%}
+                {%if content =='usermanagement' or content =='resetpassword'%}
                 <a href="#" class="header-link active  dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                 {%else%}
                 <a href="#" class="header-link  dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -104,7 +104,7 @@
                         <a class="dropdown-item d-flex" href="{{url_for('user')}}">Gestion des utilisateurs</a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex" href="">Modifier le mot de passe</a>
+                        <a class="dropdown-item d-flex" href="{{url_for('resetpassword')}}">Modifier le mot de passe</a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex border-block-end" href="{{url_for('logout')}}">Déconnexion</a>

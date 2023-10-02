@@ -98,7 +98,11 @@
             {%include 'doctoredit.html'%}  
             
         {%elif content == 'nouveaumedicins'%}
-            {%include 'doctornew.html'%}              
+            {%include 'doctornew.html'%}    
+            
+        {%elif content == 'resetpassword'%}
+            {%include 'changepassword.html'%}    
+        
 
         {%endif%}
         {% include 'footer.html' %}

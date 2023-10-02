@@ -1147,6 +1147,13 @@ def doctor():
     else:
         return render_template('NOT_AUTHORIZED.html')
 
+
+@app.route('/resetpassword',methods=['GET','POST'])
+@login_required
+def resetpassword():
+    return render_template('app.html',content='resetpassword',username=(current_user.username).title())
+
+
 @app.route('/fraismateriel',methods=['GET','POST'])
 @app.route('/fraismateriel/search=<search>',methods=['GET','POST'])
 @login_required
