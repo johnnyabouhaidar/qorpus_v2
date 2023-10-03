@@ -1664,6 +1664,7 @@ def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter)
         listitems = db.engine.execute("""Select  top 500 * from retrocession where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by retrocessionId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
     elif moduletype=='encaissement':
         listitems = db.engine.execute("""Select  top 500 * from encaissement where encaissementDate BETWEEN '{0}' and '{1}' and montant BETWEEN {2} and {3} and valide LIKE '{4}' order by encaissementId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+    
 
 
         
@@ -1697,6 +1698,36 @@ def get_types_data():
     return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson)
     
 
+def get_medicins_data(id):
+    doc_info = db.engine.execute("""Select * from medicalperson where medid={0}""".format(id))
+    doctor_json={}
+    for doc in doc_info:
+        doctor_json["id"]=doc[0]
+        doctor_json["name"]=doc[1]
+        doctor_json["speciality"]=doc[2]
+        doctor_json["type"]=doc[3]
+        doctor_json["perc_share"]=doc[4]
+        doctor_json["charge_soc"]=doc[5]
+        doctor_json["surface_accorde"]=doc[6]
+        doctor_json["medsalaire"]=doc[7]
+        doctor_json["salaireparan"]=doc[8]
+        doctor_json["secretaire"]=doc[9]
+        doctor_json["secretaire_perc"]=doc[10]
+        doctor_json["logiciel"]=doc[11]
+
+        perc_activity=[]
+        activities = db.engine.execute("""Select * from percentageactivity where docteur='{0}'""".format(doc[1]))
+        for perc in activities:
+            perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4]})
+
+        doctor_json["activities"]=perc_activity
+
+    return (doctor_json)
+
+
+
+#get_medicins_data(1)
+
 @app.route('/get_module_data')
 @login_required
 def getmoduledata():
@@ -1719,7 +1750,11 @@ def getmoduledata():
     elif request.args["moduletype"]=='retrocession':
         return(jsonify(get_modules_data('retrocession',startDate,endDate,minamount,maxamount,validefilter)))    
     elif request.args["moduletype"]=='encaissement':
-        return(jsonify(get_modules_data('encaissement',startDate,endDate,minamount,maxamount,validefilter)))    
+        return(jsonify(get_modules_data('encaissement',startDate,endDate,minamount,maxamount,validefilter)))  
+    elif request.args["moduletype"]=='medicins':
+        #print(get_medicins_data( request.args["id"]))
+        return(jsonify(get_medicins_data( request.args["id"])) )
+     
 
 
 @app.route('/edit_module_item',methods=["POST"])
