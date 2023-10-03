@@ -1,15 +1,73 @@
 var baseurl = window.location.origin;
+let curr_url=window.location;
+var url = new URL(curr_url);
+var id = url.searchParams.get("id");
 
+function modify_doctor(){
+  let doctor_name = document.getElementById("doctor-name").value;
+  let doctor_speciality = document.getElementById("doctor-speciality").value;
+  let doctor_type = document.getElementById("type-select").value;
+  let doctor_percentage = document.getElementById("pourcentage-medicins").value;
+  let doctor_charge_sociales = document.getElementById("charges-sociales").value;
+  let doctor_surface_accordee = document.getElementById("surface-accordee").value;
+  let doctor_salaire = document.getElementById("salaire").value;
+  let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
+  let doctor_secretaire =document.getElementById("secretaire").value;
+  let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
+  //let doctor_logiciel = document.getElementById("logiciel").options.Length;
+  var logiciel_selected = [];
+  for (var option of document.getElementById('logiciel').options)
+  {
+      if (option.selected) {
+          logiciel_selected.push(option.value);
+      }
+  }
+  //alert(percentage_activities_for_current_doctor)
+  //newdoctorform  
+  if($("#editdoctorform")[0].checkValidity()) {
+      //alert('validated');
+      const response = fetch(`${baseurl}/edit_module_item`,{
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+      "module":"medicins",
+      "id":id,
+      "mednom":doctor_name,
+      "medspeciality":doctor_speciality,
+      "medtype":doctor_type,
+      "medpourcentage":doctor_percentage,
+      "medchargesociales":doctor_charge_sociales,
+      "medsurfaceaccordee":doctor_surface_accordee,
+      "medsalaire":doctor_salaire,
+      "mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
+      "medsecretaire":doctor_secretaire,
+      "medpourcentagesecretaire":doctor_sec_percentage,
+      "medlogiciels":logiciel_selected,
+      //"percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
 
-function modify_medicins_data(){
+  
+  })
+        }).then((response) => {
+          return response.json();
+        }).then((json) => {
+          //go back to main screen
+          window.location.href = 'medicins';
+      }) 
+  }
+  else {
+      $("#editdoctorform")[0].reportValidity();
+  }  
+
+  
 
 }
 
 
 function load_medicins_data(){
-    let curr_url=window.location;
-    var url = new URL(curr_url);
-    var id = url.searchParams.get("id");
+
     const response = fetch(`${baseurl}/get_module_data?moduletype=medicins&id=${id}`).then((response) => {
         return response.json();
       }).then((json) => {let items = json
@@ -39,11 +97,38 @@ function load_medicins_data(){
 
       perc_act = items['activities']
       for (var i=0;i<perc_act.length;i++){
-        
-        table.row.add(["2","2",perc_act[i]["0"],perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"]]).node().id = perc_act[i]["0"];
-        
+        let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" value="" aria-label="..." />`
+
+        let row_functions=`<div class="hstack gap-2 fs-15">
+        <!-- duplicaterow2 and duplicaterow is important -->
+        <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${perc_act[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+        <div class="modal fade mt-4" id="deletepourcentageshare${perc_act[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure do you want to delete this row?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <!-- deleterow is important -->
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP(${perc_act[i]["0"]})">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>`
+
+
+        table.row.add([row_checkbox,row_functions,perc_act[i]["0"],perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"]]).node().id = perc_act[i]["0"];
+        table.draw();
       }
-      table.draw();
+      
       /*table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;*/
       
     

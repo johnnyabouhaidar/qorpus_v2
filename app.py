@@ -1069,7 +1069,7 @@ def medicins():
 
 def get_person_data(entity):
     if entity == 'medicins':
-        listt=db.engine.execute("""Select * from medicalperson where medtype = 'medicins'""")
+        listt=db.engine.execute("""Select * from medicalperson""")
         listjson=convert_list_to_json(listt)
     return (listjson)
 
@@ -1822,22 +1822,38 @@ def editmoduleitem():
                           Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id)) 
 
     elif module=='medicins':
-        id=request.json["id"]
-        name=request.json["name"]
-        speciality=request.json["speciality"]
-        type=request.json["type"]
-        perc_share=request.json["perc_share"]
-        charge_soc=request.json["charge_soc"]
-        surface_accorde=request.json["surface_accorde"]
+        
+        name=request.json["mednom"]
+        speciality=request.json["medspeciality"]
+        typee=request.json["medtype"]
+        perc_share=request.json["medpourcentage"]
+        charge_soc=request.json["medchargesociales"]
+        surface_accorde=request.json["medsurfaceaccordee"]
         medsalaire=request.json["medsalaire"]
-        salaireparan=request.json["salaireparan"]
-        secretaire=request.json["secretaire"]
-        secretaire_perc=request.json["secretaire_perc"]
-        logiciel=request.json["logiciel"]
-        activities=request.json["activities"]
-        db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
-        for act in activities:
-            pass
+        salaireparan=request.json["mednombremoissalaireparan"]
+        secretaire=request.json["medsecretaire"]
+        secretaire_perc=request.json["medpourcentagesecretaire"]
+        logiciel=request.json["medlogiciels"]
+        logiciel = '||'.join(logiciel)
+        #activities=request.json["activities"]
+        db.engine.execute("""UPDATE medicalperson set
+                            mednom = '{0}',
+                            medspeciality = '{1}',
+                            medtype ='{2}',
+                            medpourcentage = {3},
+                            medchargesociales = {4},
+                            medsurfaceaccordee = {5},
+                            medsalaire={6},
+                            mednombremoissalaireparan={7},
+                            medsecretaire='{8}',
+                            medpourcentagesecretaire={9},
+                            medlogiciels='{10}'
+                            where medid={11}
+        
+        """.format(name,speciality,typee,perc_share,charge_soc,surface_accorde,medsalaire,salaireparan,secretaire,secretaire_perc,logiciel,id))
+        #db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
+        #for act in activities:
+        #    pass
         
 
                        
