@@ -1819,7 +1819,28 @@ def editmoduleitem():
                           comment='{3}',
                           encaissementDate='{4}'
     
-                          Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id))                        
+                          Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id)) 
+
+    elif module=='medicins':
+        id=request.json["id"]
+        name=request.json["name"]
+        speciality=request.json["speciality"]
+        type=request.json["type"]
+        perc_share=request.json["perc_share"]
+        charge_soc=request.json["charge_soc"]
+        surface_accorde=request.json["surface_accorde"]
+        medsalaire=request.json["medsalaire"]
+        salaireparan=request.json["salaireparan"]
+        secretaire=request.json["secretaire"]
+        secretaire_perc=request.json["secretaire_perc"]
+        logiciel=request.json["logiciel"]
+        activities=request.json["activities"]
+        db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
+        for act in activities:
+            pass
+        
+
+                       
     return(jsonify({"Status":"OK"})) 
 
 @app.route('/delete_module_item',methods=["POST"])
