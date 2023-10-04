@@ -3,6 +3,65 @@ let curr_url=window.location;
 var url = new URL(curr_url);
 var id = url.searchParams.get("id");
 
+var percentage_activities=[]
+
+
+function delete_medicins_perc_TMP_4edit(id)
+{
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+
+    for (var i=0;i<percentage_activities.length;i++){
+        if (percentage_activities[i][3]==id){
+            percentage_activities.splice(i, 1);
+        }
+    }
+    
+    table.row(row).remove().draw(false);
+    //alert(percentage_activities)
+    
+}
+
+function add_item_to_percentage_table_4edit(){
+    pour_de=document.getElementById("input-de").value;
+    pour_a = document.getElementById("input-a").value;
+    pour_perc = document.getElementById("input-perc").value;
+    let rowUID = new Date().valueOf()
+    let table = $('#responsiveDataTable').DataTable();
+
+    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" value="" aria-label="..." />`
+
+    let row_functions=`<div class="hstack gap-2 fs-15">
+    <!-- duplicaterow2 and duplicaterow is important -->
+    <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+    <div class="modal fade mt-4" id="deletepourcentageshare${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure do you want to delete this row?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <!-- deleterow is important -->
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${rowUID})">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>`
+    percentage_activities.push([pour_de,pour_a,pour_perc,rowUID])
+    table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
+    table.draw(false);
+    //alert(percentage_activities)
+}
+
 function modify_doctor(){
   let doctor_name = document.getElementById("doctor-name").value;
   let doctor_speciality = document.getElementById("doctor-speciality").value;
@@ -46,6 +105,7 @@ function modify_doctor(){
       "medsecretaire":doctor_secretaire,
       "medpourcentagesecretaire":doctor_sec_percentage,
       "medlogiciels":logiciel_selected,
+      "percentage_activities":percentage_activities
       //"percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
 
   
@@ -116,7 +176,7 @@ function load_medicins_data(){
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         <!-- deleterow is important -->
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP(${perc_act[i]["0"]})">Delete</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${perc_act[i]["0"]})">Delete</button>
                     </div>
                 </div>
             </div>
@@ -124,13 +184,14 @@ function load_medicins_data(){
     
     </div>`
 
-
+        percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["0"]])
         table.row.add([row_checkbox,row_functions,perc_act[i]["0"],perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"]]).node().id = perc_act[i]["0"];
         table.draw();
       }
       
       /*table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;*/
-      
+      //alert(percentage_activities)
     
     });
+    
 }

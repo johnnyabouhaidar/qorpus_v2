@@ -1151,7 +1151,23 @@ def doctor():
 @app.route('/resetpassword',methods=['GET','POST'])
 @login_required
 def resetpassword():
-    return render_template('app.html',content='resetpassword',username=(current_user.username).title())
+    resetpass = ResetPasswordForm()
+
+    if resetpass.validate_on_submit():
+        
+        print(current_user.password)
+        if resetpass.oldpassword.data == current_user.password:
+            if resetpass.newpassword.data==resetpass.confirmpassword.data:
+                db.engine.execute("""UPDATE "user"
+                                    SET password = '{0}'
+                                    WHERE username = '{1}'""".format(resetpass.newpassword.data,current_user.username))
+                return redirect(url_for('logout'))
+            else:
+                flash('new password doesnt match confirmed value')    
+        else:
+            flash('old password not matching current')
+
+    return render_template('app.html',content='resetpassword',form=resetpass,username=(current_user.username).title())
 
 
 @app.route('/fraismateriel',methods=['GET','POST'])
@@ -1835,6 +1851,7 @@ def editmoduleitem():
         secretaire_perc=request.json["medpourcentagesecretaire"]
         logiciel=request.json["medlogiciels"]
         logiciel = '||'.join(logiciel)
+        activities=request.json["percentage_activities"]
         #activities=request.json["activities"]
         db.engine.execute("""UPDATE medicalperson set
                             mednom = '{0}',
@@ -1851,9 +1868,9 @@ def editmoduleitem():
                             where medid={11}
         
         """.format(name,speciality,typee,perc_share,charge_soc,surface_accorde,medsalaire,salaireparan,secretaire,secretaire_perc,logiciel,id))
-        #db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
-        #for act in activities:
-        #    pass
+        db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
+        for act in activities:
+            db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 
         
 
                        

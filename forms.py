@@ -43,6 +43,14 @@ class LoginForm(FlaskForm):
 
     submit=SubmitField("Log In")
 
+
+class ResetPasswordForm(FlaskForm):
+    oldpassword = PasswordField(validators=[InputRequired(),Length(min=4,max=20)],render_kw={"placeholder":"Password"})
+    newpassword = PasswordField(validators=[InputRequired(),Length(min=4,max=20)],render_kw={"placeholder":"Password"})
+    confirmpassword = PasswordField(validators=[InputRequired(),Length(min=4,max=20)],render_kw={"placeholder":"Password"})
+
+    submit=SubmitField("Submit")
+
 class AddDoctorForm(FlaskForm):    
     doctorname=StringField(label="Docteur Nom ",validators=[InputRequired()],render_kw={"placeholder":"Doctor Name"})
     doctorspeciality=StringField(label="Docteur Spécialité ",validators=[InputRequired()],render_kw={"placeholder":"Doctor Speciality"})
