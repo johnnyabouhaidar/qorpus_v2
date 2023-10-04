@@ -40,7 +40,7 @@ function add_item_to_percentage_table_4edit(){
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
 
-    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
+    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${rowUID}" aria-label="..." />`
 
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
