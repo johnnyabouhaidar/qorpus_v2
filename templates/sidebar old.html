@@ -16,26 +16,18 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path></svg>
             </div>
             <ul class="main-menu">
-                <div class="mb-5">
-                <li class="slide mt-3">
+                <li class="slide">
                     {%if content == 'widget'%}
-                    <a href="{{url_for('dashboard')}}" class="active">
+                    <a href="{{url_for('dashboard')}}" class="side-menu__item active">
                     {%else%}
-                    <a href="{{url_for('dashboard')}}" class="">
+                    <a href="{{url_for('dashboard')}}" class="side-menu__item">
                     {%endif%}
                     
-                        
-                        <span class="side-menu__label">TABLEAU DU BORD</span>
+                        <i class="ti ti-layout-dashboard side-menu__icon"></i>
+                        <span class="side-menu__label">Tableaux de bord</span>
                     </a>
                 </li>
-                <ul id="savedDashboardsList">
-                </ul>
-                </div>
-                <li class="slide mb-3">
-                    <span class="side-menu__label">DÉPENSES / SORTIES</span>
-               
-                    </li>
-                <li class="slide mb-5">
+                <li class="slide">
                     {%if content == 'payment'%}
                     <a href="{{url_for('payment')}}" class="side-menu__item active">
                     {%else%}
@@ -45,10 +37,6 @@
                         <span class="side-menu__label">Paiement</span>
                     </a>
                 </li>
-                <li class="slide mb-3">
-                    <span class="side-menu__label">DÉPENSES / SORTIES</span>
-               
-                    </li>
                 <li class="slide">
                     {%if content == 'facturation'%}
                     <a href="{{url_for('facturation')}}" class="side-menu__item active">
