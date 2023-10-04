@@ -4,6 +4,17 @@ var baseurl = window.location.origin;
 let percentage_activities_for_current_doctor=[]
 
 
+function bulk_delete_medicins_perc_TMP()
+{
+    var array = []
+    var checkboxes = document.querySelectorAll('input[name=selectrowact]:checked')
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+        delete_medicins_perc_TMP(checkboxes[i].value)
+    }
+}
+
+
 function delete_medicins_perc_TMP(id)
 {
     var row = $(`#${id}`).closest('tr');
@@ -33,7 +44,7 @@ function add_item_to_percentage_table(){
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
 
-    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" value="" aria-label="..." />`
+    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${rowUID}" aria-label="..." />`
 
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->

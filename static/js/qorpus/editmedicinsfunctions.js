@@ -5,6 +5,16 @@ var id = url.searchParams.get("id");
 
 var percentage_activities=[]
 
+function bulk_delete_medicins_perc_TMP_4edit()
+{
+    var array = []
+    var checkboxes = document.querySelectorAll('input[name=selectrowact]:checked')
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+        delete_medicins_perc_TMP_4edit(checkboxes[i].value)
+    }
+}
+
 
 function delete_medicins_perc_TMP_4edit(id)
 {
@@ -30,7 +40,7 @@ function add_item_to_percentage_table_4edit(){
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
 
-    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" value="" aria-label="..." />`
+    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
 
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
@@ -157,7 +167,7 @@ function load_medicins_data(){
 
       perc_act = items['activities']
       for (var i=0;i<perc_act.length;i++){
-        let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" value="" aria-label="..." />`
+        let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
 
         let row_functions=`<div class="hstack gap-2 fs-15">
         <!-- duplicaterow2 and duplicaterow is important -->
