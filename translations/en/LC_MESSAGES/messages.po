@@ -1,0 +1,84 @@
+# English translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-10-07 21:57+0300\n"
+"PO-Revision-Date: 2023-10-07 21:58+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: templates/header.html:79
+msgid "Bureau d'aide"
+msgstr "Help Desk"
+
+#: templates/setup.html:8
+msgid "Installation"
+msgstr "Setup"
+
+#: templates/setup.html:17
+msgid "Management du personnel"
+msgstr "Entity Management"
+
+#: templates/setup.html:21
+msgid "Médecins"
+msgstr ""
+
+#: templates/setup.html:23
+msgid "Employé(e)s"
+msgstr ""
+
+#: templates/setup.html:32
+msgid "Gestion des"
+msgstr ""
+
+#: templates/setup.html:36
+msgid "Fournisseur"
+msgstr ""
+
+#: templates/setup.html:37
+msgid "Catégorie d'article"
+msgstr ""
+
+#: templates/setup.html:38 templates/setup.html:50
+msgid "Article"
+msgstr ""
+
+#: templates/setup.html:53
+msgid "Sélectionner l'action au groupe"
+msgstr ""
+
+#: templates/setup.html:65
+msgid "Ajouter Gestion des type"
+msgstr ""
+
+#: templates/setup.html:97
+msgid "Gestion des Type"
+msgstr ""
+
+#: templates/setup.html:104
+msgid "Action"
+msgstr ""
+
+#: templates/setup.html:105
+msgid "ID"
+msgstr ""
+
+#: templates/setup.html:106
+msgid "Type"
+msgstr ""
+
+#: templates/setup.html:107
+msgid "Catégorie"
+msgstr ""
+

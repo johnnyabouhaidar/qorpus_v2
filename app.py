@@ -8,8 +8,8 @@ from wtforms.validators import InputRequired,Length,ValidationError,DataRequired
 from flask_bcrypt import Bcrypt
 from forms import *
 import datetime
-from report import *
-from doctor_report import *
+#from report import *
+#from doctor_report import *
 import pandas as pd
 from datetime import timedelta,date
 from dateutil import relativedelta
@@ -26,13 +26,25 @@ from flask_babel import Babel
 
 
 app = Flask(__name__)
-app.config['BABEL_DEFAULT_LOCALE']='en'
+app.config['BABEL_DEFAULT_LOCALE']='fr'
 babel = Babel(app)
+
+
 
 @babel.localeselector
 def get_locale():
-    return 'en'
+    if request.args.get('language'):
+        session['language'] = request.args.get('language')
+    return session.get('language', 'en')
 
+@app.route('/language=<language>')
+def set_language(language=None):
+    session['language'] = language
+    
+    return redirect(request.referrer)
+       
+    
+app.jinja_env.globals['get_locale'] = get_locale
 
 CORS(app, support_credentials=True)
 

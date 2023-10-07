@@ -51,17 +51,17 @@
                     <div class="d-flex align-items-center">
                         <div class="me-sm-2 me-0"><i class='bx bx-globe'></i></div>
                         <div class="d-sm-block d-none">
-                            <p class="fw-semibold mb-0 lh-1"> Français <i class='bx bx-chevron-down'></i> </p>
+                            <p class="fw-semibold mb-0 lh-1"> {{get_locale()}} <i class='bx bx-chevron-down'></i> </p>
                         </div>
                     </div>
                 </a>
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"> Français </a>
+                        <a class="dropdown-item d-flex align-items-center" href="language=fr"> Français </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"> English </a>
+                        <a class="dropdown-item d-flex align-items-center" href="language=en"> English </a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"> Español </a>
@@ -119,3 +119,9 @@
     <!-- End::main-header-container -->
 </header>
 <!-- /app-header -->
+<script>
+    function change_lang(language){
+
+    }
+
+</script>

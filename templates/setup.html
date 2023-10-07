@@ -5,7 +5,7 @@
 
       <!-- Page Header -->
       <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-          <h1 class="page-title fw-semibold fs-18 mb-0">Installation</h1>
+          <h1 class="page-title fw-semibold fs-18 mb-0">{{_("Installation")}}</h1>
       </div>
       <!-- Page Header Close -->
 
@@ -14,13 +14,13 @@
           <div class="col-xl-6 col-lg-12">
               <div class="card custom-card">
                   <div class="card-header justify-content-between">
-                      <div class="card-title">Management du personnel</div>
+                      <div class="card-title">{{_("Management du personnel")}}</div>
                   </div>
                   <div class="card-body">
                       <ul class="list-group list-group-flush">
-                          <li class="list-group-item"><a href="{{url_for('medicins')}}">Médecins</a></li>
+                          <li class="list-group-item"><a href="{{url_for('medicins')}}">{{_("Médecins")}}</a></li>
                           <!--<li class="list-group-item"><a href="">Dentiste et Hygieniste</a></li>-->
-                          <li class="list-group-item"><a href="">Employé(e)s</a></li>
+                          <li class="list-group-item"><a href="">{{_("Employé(e)s")}}</a></li>
                           <!--<li class="list-group-item"><a href="">Patients</a></li>-->
                       </ul>
                   </div>
@@ -29,13 +29,13 @@
           <div class="col-xl-6 col-lg-12">
               <div class="card custom-card">
                   <div class="card-header justify-content-between">
-                      <div class="card-title">Gestion des</div>
+                      <div class="card-title">{{_("Gestion des")}}</div>
                   </div>
                   <div class="card-body">
                       <ul class="list-group list-group-flush">
-                          <li class="list-group-item"><a href="#">Fournisseur</a></li>
-                          <li class="list-group-item"><a href="#">Catégorie d'article</a></li>
-                          <li class="list-group-item"><a href="#">Article</a></li>
+                          <li class="list-group-item"><a href="#">{{_("Fournisseur")}}</a></li>
+                          <li class="list-group-item"><a href="#">{{_("Catégorie d'article")}}</a></li>
+                          <li class="list-group-item"><a href="#">{{_("Article")}}</a></li>
                       </ul>
                   </div>
               </div>
@@ -47,10 +47,10 @@
 
           <div class="btn-list">
               <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addGestionTypeModal">
-                  + Ajouter
+                  + {{_("Article")}}
               </a>
               <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-                  Sélectionner l'action au groupe
+                  {{_("Sélectionner l'action au groupe")}}
               </button>
               <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                   <li>
@@ -62,7 +62,7 @@
               <div class="modal-dialog modal-dialog-centered text-center" role="document">
                   <div class="modal-content modal-content-demo">
                       <div class="modal-header">
-                          <h6 class="modal-title">Ajouter Gestion des type</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                          <h6 class="modal-title">{{_("Ajouter Gestion des type")}}</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
                       <div class="modal-body text-start">
                         <form id="typeaddForm" method="POST" action="">
@@ -94,17 +94,17 @@
           <div class="col-xl-12">
               <div class="card custom-card">
                   <div class="card-header justify-content-between">
-                      <div class="card-title">Gestion des Type</div>
+                      <div class="card-title">{{_("Gestion des Type")}}</div>
                   </div>
                   <div class="card-body">
                       <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
                           <thead>
                               <tr>
                                   <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
-                                  <th>Action</th>
-                                  <th>ID</th>
-                                  <th>Type</th>
-                                  <th>Catégorie</th>
+                                  <th>{{_("Action")}}</th>
+                                  <th>{{_("ID")}}</th>
+                                  <th>{{_("Type")}}</th>
+                                  <th>{{_("Catégorie")}}</th>
                               </tr>
                           </thead>
                           <tbody><!--
