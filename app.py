@@ -17,6 +17,7 @@ import urllib.parse
 import json
 from flask_cors import CORS
 from approutes import approutes
+from flask_babel import Babel
 
 
 
@@ -25,6 +26,12 @@ from approutes import approutes
 
 
 app = Flask(__name__)
+app.config['BABEL_DEFAULT_LOCALE']='en'
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    return 'en'
 
 
 CORS(app, support_credentials=True)
