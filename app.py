@@ -153,6 +153,19 @@ class Payment(db.Model):
     comment = db.Column(db.String(250))
     date = db.Column(db.Date,nullable=False)
 
+class Salairetype(db.Model):
+    salairetypeid = db.Column(db.Integer,primary_key=True)
+    salaireType = db.Column(db.String(80),nullable=False)  
+
+
+class Salaire(db.Model):
+    salaireId = db.Column(db.Integer,primary_key=True)
+    salaireType = db.Column(db.String(80),nullable=False)
+    salaireNom = db.Column(db.String(80),nullable=False)
+    somme = db.Column(db.Float,nullable=False)
+    comment = db.Column(db.String(250))
+    date = db.Column(db.Date,nullable=False)    
+
 class Facturationtype(db.Model):
     facturationtypeid = db.Column(db.Integer,primary_key=True)
     facturationType = db.Column(db.String(80),nullable=False)
@@ -927,6 +940,128 @@ def retrocessionnames(retrocessiontype):
 def change_format_for_displayed_table(df,idcol_name):
     
     pass
+
+@app.route('/salaire',methods=['GET','POST'])
+@app.route('/salaire/search=<search>',methods=['GET','POST'])
+#@app.route('/salaire/validfilter=<validfilter>',methods=['GET','POST'])
+@login_required
+def salaire(search=""):
+    try:
+        #print(request.args["validfilter"])
+        validfilter_var=request.args["validfilter"]
+    except:
+        validfilter_var=""
+        
+    try:
+        fromdate_var=request.args["fromdate"]
+        fromdte=True
+        #print(fromdate_var)
+    except:
+        fromdate_var="1990-1-1"
+        fromdte=False
+    
+    try:
+        todate_var=request.args["todate"]
+        todte=True
+    except:
+        curryear=datetime.datetime.now().year
+        todate_var="{0}-1-1".format(str(curryear+200))
+        todte=False
+    try:
+        amountfrom_var=request.args["amountfrom"]
+    except:
+        amountfrom_var=None
+    try:
+        amountto_var=request.args["amountto"]
+    except:
+        amountto_var=None
+
+    form=AddsalaireForm()
+    export2excel_frm=Export_to_excel()
+    searchform=SearchForm(searchstring=search)
+    
+    filtervalid_form=FilterNonValidItemsForm(validity=validfilter_var,fromdate=datetime.datetime.strptime(fromdate_var,'%Y-%m-%d') if fromdte!=False else None,todate=datetime.datetime.strptime(todate_var,'%Y-%m-%d') if todte!=False else None,amountfrom=amountfrom_var,amountto=amountto_var)
+    
+    choices=[]
+    choices.append(("---","---"))
+    choices=choices+[(paytype.salaireType,paytype.salaireType)for paytype in db.engine.execute("select * from salairetype").fetchall()]
+    #choices.append((paytype.salaireType,paytype.salaireType)for paytype in db.engine.execute("select * from salairetype").fetchall())
+    
+    form.salaireType.choices = choices
+    form.salaireNom.choices= [(payname.salaireId,payname.salaireNom) for payname in Salaire.query.filter_by(salaireType='---').all()]
+    #searchform.searchfilter.choices=[(paytype.salaireType,paytype.salaireType)for paytype in db.engine.execute("select * from salairetype").fetchall()]
+
+
+    salaire=db.engine.execute("select salaireId as ID,salaireType as Type, salaireNom as Nom,somme as Somme,date as Date,comment as Comment,Valide as Valide from salaire where salairenom LIKE '%{0}%' and Valide LIKE '{1}%' and date BETWEEN '{2}' and '{3}' and somme BETWEEN '{4}' and '{5}' order by salaireId DESC".format(search,validfilter_var,str(fromdate_var),str(todate_var),0 if amountfrom_var==None else amountfrom_var,99999999 if amountto_var==None else amountto_var))
+
+    print("select * from salaire where Nom LIKE '%{0}%' and Valide LIKE '{1}%' and Date BETWEEN '{2}' and '{3}'and Somme BETWEEN '{4}'and'{5}' order by ID DESC".format(search,validfilter_var,str(fromdate_var),str(todate_var),amountfrom_var,amountto_var))
+    #salaire=db.engine.execute("select * from salaire  order by salaireId DESC")
+    salaireitems=salaire.fetchall()
+    headerssalaire=salaire.keys()
+    salaire_dataframe=pd.DataFrame(salaireitems,columns=headerssalaire)
+
+    salaireitems_disp=[]
+    
+    for item in salaireitems:
+        itemtmp=list(item)
+        s = '{:0,.2f}'.format(float(item[3]))
+
+        
+        itemtmp[3]=s
+        salaireitems_disp.append(itemtmp)
+        
+    
+    
+    #print(type(salaireitems_disp[4]))    
+
+    if filtervalid_form.is_submitted() and filtervalid_form.sub.data:
+        
+        return redirect(url_for('salaire',validfilter=filtervalid_form.validity.data,fromdate=filtervalid_form.fromdate.data,todate=filtervalid_form.todate.data,amountfrom=filtervalid_form.amountfrom.data,amountto=filtervalid_form.amountto.data))          
+    
+
+    if searchform.validate_on_submit() and searchform.searchsubmit.data:
+        if searchform.searchstring.data !="":
+            return redirect(url_for('salaire',search=searchform.searchstring.data))
+        else:
+            return redirect(url_for('salaire'))    
+    else:
+        print(searchform.errors)
+   
+    
+    if form.is_submitted() and request.method=='POST' and form.submit.data:
+        qry = Setting.query.filter().first()
+        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        print(monthdelta,qry.moisavant)
+        if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1:
+            if form.salaireNom.data!="addnew":
+                new_salaire =salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+            else:
+                new_salaire =salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNomALT.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+            if isinstance(form.somme.data, int) or isinstance(form.somme.data, float) and form.is_submitted():
+                db.session.add(new_salaire)
+                db.session.commit()
+                return redirect(url_for('salaire'))
+            else:
+                flash("Données invalides. Veuillez revérifier et soumettre à nouveau")
+        else:
+            flash("Vous ne pouvez pas entrer de données à partir de cette date!")
+
+    if export2excel_frm.validate_on_submit() and export2excel_frm.export_submit.data:
+        current_date=datetime.datetime.now()
+        current_num_timestamp="{0}{1}{2}_{3}{4}{5}".format(current_date.year,current_date.month,current_date.day,current_date.hour,current_date.minute,current_date.second)
+        excel_report_path=r"{0}\reporting_temporary\salaire_{1}.xlsx".format(file_download_location,current_num_timestamp)
+        salaire_dataframe.to_excel(excel_report_path,index=False)
+
+        return send_file(excel_report_path)   
+        
+    
+
+    
+    if "salaire" in current_user.access or current_user.access=="all":
+        return render_template('app.html',username=(current_user.username).title(),content='salaire',forms=[form],hasDynamicSelector=True,table=salaireitems_disp,headers=headerssalaire,dbtable="salaire",dbtableid="salaireId",user_role=current_user.role,searchform=searchform,module_name="salaire",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+    else:
+        return render_template('NOT_AUTHORIZED.html')
+
 
 
 @app.route('/payments',methods=['GET','POST'])

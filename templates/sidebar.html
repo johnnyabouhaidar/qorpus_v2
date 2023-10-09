@@ -44,7 +44,16 @@
                         <i class='ti ti-report-money side-menu__icon'></i>
                         <span class="side-menu__label">Paiement</span>
                     </a>
+                    {%if content == 'salaire'%}
+                    <a href="{{url_for('salaire')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('salaire')}}" class="side-menu__item">
+                    {%endif%}
+                        <i class='ti ti-report-money side-menu__icon'></i>
+                        <span class="side-menu__label">Salaire</span>
+                    </a>
                 </li>
+               
                 <li class="slide mb-3">
                     <span class="side-menu__label">RECETTES / ENTRÉES</span>
                

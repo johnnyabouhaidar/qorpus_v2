@@ -103,18 +103,18 @@ class AddDoctorPaymentForm(FlaskForm):
 
     submit=SubmitField("Soumettre")
 
+class AddNewType(FlaskForm):
+    typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
+    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel')])
 
+    submit = SubmitField("Soumettre")
 
 class Addpaymenttype(FlaskForm):
     paymenttype=StringField(label="Paiement Type ",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
 
     submit =SubmitField("Soumettre")
 
-class AddNewType(FlaskForm):
-    typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
-    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel')])
 
-    submit = SubmitField("Soumettre")
 
 class AddPaymentForm(FlaskForm):
     paiementsType= SelectField('PaiementsType',choices=[],validators=[InputRequired()])
@@ -127,6 +127,25 @@ class AddPaymentForm(FlaskForm):
     comment=StringField('Comment',widget=TextArea())
 
     submit = SubmitField("Ajouter")
+
+class Addsalairetype(FlaskForm):
+    salairetype=StringField(label="salaire Type ",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
+
+    submit =SubmitField("Soumettre")
+
+
+
+class AddsalaireForm(FlaskForm):
+    salaireType= SelectField('salaireType',choices=[],validators=[InputRequired()])
+    salaireNom = SelectField('salaireNom',choices=[],validators=[InputRequired()])
+
+    salaireNomALT = StringField(label="Nouveau salaire ?",render_kw={"placeholder":"salaireNom"})
+    somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
+    date = DateField(label="salaire Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+
+    comment=StringField('Comment',widget=TextArea())
+
+    submit = SubmitField("Ajouter")    
 
 class AddDentistrytype(FlaskForm):
     dentisterieType=StringField(label='Dentisterie Type',validators=[InputRequired()],render_kw={"placeholder":"(i.e: Facturation hygiéniste...)"})
