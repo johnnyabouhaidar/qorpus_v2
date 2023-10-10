@@ -37,7 +37,7 @@
                     <div class="d-flex align-items-center">
                         <div class="me-sm-2 me-0"><i class='bx bx-wrench'></i></div>
                         <div class="d-sm-block d-none">
-                            <p class="fw-semibold mb-0 lh-1">Installation</p>
+                            <p class="fw-semibold mb-0 lh-1">{{_("Installation")}}</p>
                         </div>
                     </div>
                 </a>
@@ -94,20 +94,20 @@
                     <div class="d-flex align-items-center">
                         <div class="me-sm-2 me-0"><i class='bx bx-user-circle'></i></div>
                         <div class="d-sm-block d-none">
-                            <p class="fw-semibold mb-0 lh-1">Bienvenue {{username}} <i class='bx bx-chevron-down'></i></p>
+                            <p class="fw-semibold mb-0 lh-1">{{_("Bienvenue")}} {{username}} <i class='bx bx-chevron-down'></i></p>
                         </div>
                     </div>
                 </a>
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                     <li>
-                        <a class="dropdown-item d-flex" href="{{url_for('user')}}">Gestion des utilisateurs</a>
+                        <a class="dropdown-item d-flex" href="{{url_for('user')}}">{{_("Gestion des utilisateurs")}}</a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex" href="{{url_for('resetpassword')}}">Modifier le mot de passe</a>
+                        <a class="dropdown-item d-flex" href="{{url_for('resetpassword')}}">{{_("Modifier le mot de passe")}}</a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex border-block-end" href="{{url_for('logout')}}">Déconnexion</a>
+                        <a class="dropdown-item d-flex border-block-end" href="{{url_for('logout')}}">{{_("Déconnexion")}}</a>
                     </li>
                     
                 </ul>
@@ -119,9 +119,4 @@
     <!-- End::main-header-container -->
 </header>
 <!-- /app-header -->
-<script>
-    function change_lang(language){
 
-    }
-
-</script>

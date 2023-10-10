@@ -8,17 +8,17 @@
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header justify-content-between">
-                        <div class="card-title">Gestion des Utilisateurs</div>
+                        <div class="card-title">{{_("Gestion des Utilisateurs")}}</div>
                         <div class="btn-list">
                             <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#userManagmentModal">
-                                + Ajouter
+                                + {{_("Ajouter")}}
                             </a>
                             <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-                    Sélectionner des actions groupées
+                    {{_("Sélectionner des actions groupées")}}
                 </button>
                 <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                     <li>
-                        <button class="dropdown-item d-flex align-items-center text-danger" id="deleteSelected" onclick="delete_multiple()">Effacer la sélection</button>
+                        <button class="dropdown-item d-flex align-items-center text-danger" id="deleteSelected" onclick="delete_multiple()">{{_("Effacer la sélection")}}</button>
                     </li>
                 </ul>
                         </div>
@@ -26,26 +26,26 @@
                             <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                 <div class="modal-content modal-content-demo">
                                     <div class="modal-header">
-                                        <h6 class="modal-title">Gestion des Utilisateurs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                        <h6 class="modal-title">{{_("Gestion des Utilisateurs")}}</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <form id="useraddForm" method="POST" action="">
                                         {{form.hidden_tag()}}
                                     <div class="modal-body text-start">
                                         <div class="row">
                                             <div class="col-12">
-                                                <p class="mb-2 text-muted">Username</p>
+                                                <p class="mb-2 text-muted">{{_("Username")}}</p>
                                                 <input class="form-control" id="username" maxlength="20" minlength="4" name="username" placeholder="Username" required="" type="text" value="">
                                             </div>
                                             <div class="col-12 mt-4">
-                                                <p class="mb-2 text-muted">Password</p>
+                                                <p class="mb-2 text-muted">{{_("Password")}}</p>
                                                 <input class="form-control" id="password" maxlength="20" minlength="4" name="password" placeholder="Password" required="" type="password" value="">
                                             </div>
                                             <div class="col-12 mt-4">
-                                                <p class="mb-2 text-muted">Role</p>
+                                                <p class="mb-2 text-muted">{{_("Role")}}</p>
                                                 {{form.isAdmin}} {{form.isAdmin.label}}
                                             </div>
                                             <div class="col-12 mt-4">
-                                                                    <p class="mb-2 text-muted">Accès</p>
+                                                                    <p class="mb-2 text-muted">{{_("Accès")}}</p>
                                                                     {{form.access}}
                                                                 </div>
 
@@ -65,14 +65,14 @@
                             <thead>
                                 <tr>
                                     <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
-                                    <th>Action</th>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Role</th>
-                                    <th>Accès</th>
-                                    <th>Dernière connection</th>
+                                    <th>{{_("Action")}}</th>
+                                    <th>{{_("ID")}}</th>
+                                    <th>{{_("Username")}}</th>
+                                    <th>{{_("First Name")}}</th>
+                                    <th>{{_("Last Name")}}</th>
+                                    <th>{{_("Role")}}</th>
+                                    <th>{{_("Accès")}}</th>
+                                    <th>{{_("Dernière connection")}}</th>
                                 </tr>
                             </thead>
                             <tbody>
