@@ -35,7 +35,7 @@ babel = Babel(app)
 def get_locale():
     if request.args.get('language'):
         session['language'] = request.args.get('language')
-    return session.get('language', 'en')
+    return session.get('language', 'fr')
 
 @app.route('/language=<language>')
 def set_language(language=None):
@@ -1034,9 +1034,9 @@ def salaire(search=""):
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1:
             if form.salaireNom.data!="addnew":
-                new_salaire =salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
             else:
-                new_salaire =salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNomALT.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNomALT.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float) and form.is_submitted():
                 db.session.add(new_salaire)
                 db.session.commit()
@@ -1062,6 +1062,34 @@ def salaire(search=""):
     else:
         return render_template('NOT_AUTHORIZED.html')
 
+
+@app.route('/salairenames/<salairetype>')
+def salairenames(salairetype):
+    salairetype_dec= urllib.parse.unquote(salairetype.replace("*","%").replace("~","/"))
+    salairenames = Salaire.query.filter_by(salaireType=salairetype_dec).all()
+    doctornames = Doctor.query.all()
+    
+    Arry=[]
+    for salaire in salairenames:
+        
+        if not any(obj['name'] == salaire.salaireNom for obj in Arry):
+            
+            salaireObj={}
+            salaireObj['id']=salaire.salaireId
+            salaireObj['name']=salaire.salaireNom
+            Arry.append(salaireObj)
+    '''
+    for doctor in doctornames:
+            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+                docObj={}
+                docObj['id']=doctor.doctorid
+                docObj['name']=doctor.doctorname
+                Arry.append(docObj)
+                '''
+                
+            
+
+    return jsonify({'salairenames':Arry})
 
 
 @app.route('/payments',methods=['GET','POST'])
@@ -1828,6 +1856,8 @@ def convert_list_to_json_for_modules(inputlist):
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
         listitems = db.engine.execute("""Select  top 500 * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by paiementsId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+    elif moduletype=='salaire':
+        listitems = db.engine.execute("""Select  top 500 * from salaire where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by salaireId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='facturation':
         listitems = db.engine.execute("""Select  top 500 * from facturation where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by facturationId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='retrocession':
@@ -1856,6 +1886,9 @@ def get_types_data():
     paymenttypels = db.engine.execute("""Select'paymenttype' as 'Name', * from paymenttype""")
     paymenttypejson = convert_list_to_json(paymenttypels)
 
+    salairetypels = db.engine.execute("""Select'salairetype' as 'Name', * from salairetype""")
+    salairetypejson = convert_list_to_json(salairetypels)
+
     retrocessiontypels = db.engine.execute("""Select 'retrocessiontype' as 'Name' ,* from retrocessiontype""")
     retrocessiontypejson = convert_list_to_json(retrocessiontypels)
 
@@ -1865,7 +1898,7 @@ def get_types_data():
     fraismaterieltypels = db.engine.execute("""Select 'fraismaterieltype' as 'Name', * from fraismaterieltype""")
     fraismaterieltypejson = convert_list_to_json(fraismaterieltypels)
 
-    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson)
+    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson+salairetypejson)
     
 
 def get_medicins_data(id):
@@ -1916,7 +1949,9 @@ def getmoduledata():
     if request.args["moduletype"]=='payment':
         return(jsonify(get_modules_data('payment',startDate,endDate,minamount,maxamount,validefilter)))
     elif request.args["moduletype"]=='facturation':
-        return(jsonify(get_modules_data('facturation',startDate,endDate,minamount,maxamount,validefilter)))   
+        return(jsonify(get_modules_data('facturation',startDate,endDate,minamount,maxamount,validefilter)))
+    elif request.args["moduletype"]=='salaire':
+        return(jsonify(get_modules_data('salaire',startDate,endDate,minamount,maxamount,validefilter)))       
     elif request.args["moduletype"]=='retrocession':
         return(jsonify(get_modules_data('retrocession',startDate,endDate,minamount,maxamount,validefilter)))    
     elif request.args["moduletype"]=='encaissement':
@@ -1948,6 +1983,20 @@ def editmoduleitem():
                           date='{4}'
     
                           Where paiementsId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
+    elif module=='salaire':
+        newtype = request.json['newtype']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
+        db.engine.execute("""UPDATE salaire set
+                          salaireType = '{0}',
+                          salaireNom = '{1}',
+                          somme='{2}',
+                          comment='{3}',
+                          date='{4}'
+    
+                          Where salaireId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
     elif module=='facturation':
         newtype = request.json['newtype']
         newname = request.json['newname']
@@ -2038,6 +2087,8 @@ def delete_module_item():
     
     if module=='payment':
         db.engine.execute("""DELETE from payment where paiementsid ={0}""".format(id))
+    elif module=='salaire':
+        db.engine.execute("""DELETE from salaire where salaireid ={0}""".format(id))        
     elif module=='facturation':
         db.engine.execute("""DELETE from facturation where facturationid ={0}""".format(id))  
     elif module=='retrocession':
@@ -2086,6 +2137,8 @@ def validateitem():
     module = request.json['module']
     if module == 'payment':
         db.engine.execute("""UPDATE payment SET Valide='valide' where paiementsId = {0}""".format(id2validate))
+    elif module == 'salaire':
+        db.engine.execute("""UPDATE salaire SET Valide='valide' where salaireId = {0}""".format(id2validate))
     elif module == 'facturation':
         db.engine.execute("""UPDATE facturation SET Valide='valide' where facturationId = {0}""".format(id2validate))  
     elif module == 'retrocession':
@@ -2109,6 +2162,8 @@ WHERE condition; """
         db.engine.execute("""UPDATE facturationtype SET facturationType = '{0}' WHERE facturationtypeid = {1} """.format(newvalue,typeid))
     elif category == "paymenttype":
         db.engine.execute("""UPDATE paymenttype SET paiementsType = '{0}' WHERE paiementstypeid = {1} """.format(newvalue,typeid))
+    elif category == "salairetype":
+        db.engine.execute("""UPDATE salairetype SET salaireType = '{0}' WHERE salairetypeid = {1} """.format(newvalue,typeid))        
     elif category == "retrocessiontype":
         db.engine.execute("""UPDATE retrocessiontype SET retrocessionType = '{0}' WHERE retrocessiontypeid = {1} """.format(newvalue,typeid))
     elif category == "dentisterietype":
@@ -2136,6 +2191,8 @@ def delete_types():
                 db.engine.execute("""Delete from facturationtype where facturationtypeid = {1}""".format(id["type"],id["id"]))
             elif id["type"]=="paymenttype":
                 db.engine.execute("""Delete from paymenttype where paiementstypeid = {1}""".format(id["type"],id["id"]))
+            elif id["type"]=="salairetype":
+                db.engine.execute("""Delete from salairetype where salairetypeid = {1}""".format(id["type"],id["id"]))                
             elif id["type"]=="retrocessiontype":
                 db.engine.execute("""Delete from retrocessiontype where retrocessiontypeid = {1}""".format(id["type"],id["id"]))
             elif id["type"]=="dentisterietype":
@@ -2754,7 +2811,9 @@ def setup():
     if addgeneraltype.validate_on_submit():
         
         if addgeneraltype.category.data == "Paiement":
-            db.engine.execute("""Insert into paymenttype VALUES ('{0}')""".format(addgeneraltype.typename.data)) 
+            db.engine.execute("""Insert into paymenttype VALUES ('{0}')""".format(addgeneraltype.typename.data))
+        elif addgeneraltype.category.data == "Salaire":
+            db.engine.execute("""Insert into salairetype VALUES ('{0}')""".format(addgeneraltype.typename.data))             
         elif addgeneraltype.category.data == "Facturation":
             db.engine.execute("""insert into facturationtype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))
         elif addgeneraltype.category.data == "Dentisterie":

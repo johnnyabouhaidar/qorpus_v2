@@ -105,7 +105,7 @@ class AddDoctorPaymentForm(FlaskForm):
 
 class AddNewType(FlaskForm):
     typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
-    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel')])
+    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel'),('Salaire','Salaire')])
 
     submit = SubmitField("Soumettre")
 
