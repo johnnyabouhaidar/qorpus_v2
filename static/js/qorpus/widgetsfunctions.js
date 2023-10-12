@@ -84,7 +84,7 @@ function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtoda
     if (percentagechangerouded<0){
         divcolor = "danger"
     }
-    var inner_text=`<div class="col-lg-6 col-sm-12 col-md-6 col-xl-4 col-xxl-3 widget" id="kpi-${cardindex}" data-type="kpi" data-title="${titleid}">    
+    var inner_text=`<div class="col-lg-6 col-sm-12 col-md-6 col-xl-4 col-xxl-3 resizable widget" id="kpi-${cardindex}" data-type="kpi" data-title="${titleid}">    
     <div class="card custom-card specific-height"> <div class="handle">...</div>
         <div class="card-body">
      
