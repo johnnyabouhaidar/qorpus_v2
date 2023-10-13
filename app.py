@@ -107,6 +107,10 @@ class medicalperson(db.Model):
     medsecretaire = db.Column(db.String(80),nullable=False)
     medpourcentagesecretaire = db.Column(db.Float,nullable=False)
     medlogiciels = db.Column(db.String(500),nullable=False)
+    medaddress=db.Column(db.String(400))
+    medemail=db.Column(db.String(200))
+    medcoordonneebanc=db.Column(db.String(200))
+    mednoavs=db.Column(db.Integer)
 
 
 class Doctor(db.Model):
