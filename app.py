@@ -102,15 +102,19 @@ class medicalperson(db.Model):
     medpourcentage = db.Column(db.Float,nullable=False)
     medchargesociales=db.Column(db.Float,nullable=False)
     medsurfaceaccordee = db.Column(db.Float,nullable=False)
-    medsalaire = db.Column(db.Float,nullable=False)
-    mednombremoissalaireparan = db.Column(db.Float,nullable=False)
-    medsecretaire = db.Column(db.String(80),nullable=False)
-    medpourcentagesecretaire = db.Column(db.Float,nullable=False)
-    medlogiciels = db.Column(db.String(500),nullable=False)
+    medsalaire = db.Column(db.Float)
+    mednombremoissalaireparan = db.Column(db.Float)
+    medsecretaire = db.Column(db.String(80))
+    medpourcentagesecretaire = db.Column(db.Float)
+    medlogiciels = db.Column(db.String(500))
+    medtelephone = db.Column(db.String(100))
     medaddress=db.Column(db.String(400))
     medemail=db.Column(db.String(200))
     medcoordonneebanc=db.Column(db.String(200))
     mednoavs=db.Column(db.Integer)
+    medstartdate=db.Column(db.Date,nullable=False)
+    medenddate=db.Column(db.Date)
+    isemployee=db.Column(db.String(80),nullable=False)
 
 
 class Doctor(db.Model):
@@ -1253,6 +1257,28 @@ def medicins():
     else:
         return render_template('NOT_AUTHORIZED.html')
 
+@app.route('/medicinspecs/<medtype>')
+def medicinspecs(medtype):
+    medtype_dec= urllib.parse.unquote(medtype.replace("*","%").replace("~","/"))
+    specs = medicalperson.query.filter_by(medtype=medtype_dec).all()
+    #doctornames = Doctor.query.all()
+    
+    Arry=[]
+    for spec in specs:
+        
+        if not any(obj['spec'] == spec.medspeciality for obj in Arry):
+            
+            specObj={}
+            specObj['id']=spec.medid
+            specObj['spec']=spec.medspeciality
+            Arry.append(specObj)
+   
+                
+            
+
+    return jsonify({'specs':Arry})
+
+
 def get_person_data(entity):
     if entity == 'medicins':
         listt=db.engine.execute("""Select * from medicalperson""")
@@ -1289,12 +1315,20 @@ def addmedicinsitems():
     medsecretaire = request.json['medsecretaire']
     medpourcentagesecretaire = request.json['medpourcentagesecretaire']
     medlogiciels = "||".join(request.json['medlogiciels'])
+    medtelephone = request.json["medtelephone"]
+    medaddress = request.json["medaddress"]
+    medemail= request.json["medemail"]
+    medcoordonneebanc= request.json["medcoordonneebanc"]
+    medavs= request.json["mednoavs"]
+    medstartdate= request.json["medstartdate"]
+    medenddate= request.json["medenddate"]
+    isemployee= request.json["isemployee"]
     percentage_activities_for_current_doctor = request.json["percentage_activities_for_current_doctor"]
 
     for perc in percentage_activities_for_current_doctor:
         db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(mednom,perc[0],perc[1],perc[2]))    
 
-    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels))
+    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}',{15},'{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,medstartdate,medenddate,isemployee))
     return(jsonify({"Status":"OK"}))
 
     

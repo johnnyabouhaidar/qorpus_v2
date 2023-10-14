@@ -10,46 +10,69 @@
 <form id ="newdoctorform">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Nom du médecin *</label> <input required type="text" class="form-control" id="doctor-name" />
+                <label for="product-name-add" class="form-label">Nom du médecin *</label> 
+                <input required type="text" class="form-control" id="doctor-name" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Spécialité du médecin *</label> <input required type="text" class="form-control" id="doctor-speciality" />
-            </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Type</label> <select required class="js-example-basic text-muted" id = "type-select" name="state">
-                <option value="Type" disabled selected>Type</option>
+                <label for="product-name-add" class="form-label">Type *</label> 
+                <select required class="js-example-basic text-muted" id = "type-select" name="state">
+                <option value="Type" selected disabled>Type</option>
                     <option value="medicins">médecins</option>
                     <option value="dentiste">dentiste</option>
                     <option value="hygeniste">hygeniste</option>
                 </select>
             </div>
+            
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Pourcentage du médecin (combien de travail)</label> <input type="number" required type="text" class="form-control" id="pourcentage-medicins" />
+                <label for="product-name-add" class="form-label">Spécialité du médecin *</label> 
+                <select required class="js-example-basic text-muted" id = "spec-select" name="state">
+                    
+                    
+                        
+                    </select>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Charges Sociales</label> <input type="number" required type="text" class="form-control" id="charges-sociales" />
+                <label id="newspeclbl" for="product-name-add" class="form-label">Nouveau Spécialité</Address></label> 
+                <input type="text"  class="form-control" id="newspec" />
+            </div>
+            
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <label for="product-name-add" class="form-label">Pourcentage du médecin (combien de travail) *</label> 
+                <input type="number" required  class="form-control" id="pourcentage-medicins" step="0.1" min="0" max="100"/>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Surface accordée</label> <input type="number" required type="text" class="form-control" id="surface-accordee"/>
+                <label for="product-name-add" class="form-label">Address</Address></label> 
+                <input type="text"  class="form-control" id="address" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Salaire</label> <input type="number" required type="text" class="form-control" id="salaire" />
+                <label for="product-name-add" class="form-label">Charges Sociales *</label> 
+                <input type="number" required  class="form-control" id="charges-sociales" step="0.1" min="0" max="100"/>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> <input type="number" required type="text" class="form-control" id="nombre-mois-salaire-an" />
+                <label for="product-name-add" class="form-label">Surface accordée *</label> 
+                <input type="number" required  class="form-control" id="surface-accordee" step="0.1" min="0" max="100"/>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Secrétaire </label>
-                <!-- js-example-basic is in select2 for basic select -->
-                <select required class="js-example-basic text-muted" name="state" id="secretaire">
-                    <option value="s-1" disabled selected>Secrétaire</option>
-                    <option value="s-2">Secrétaire1</option>
-                    <option value="s-3">Secrétaire2</option>
-                </select>
+                <label for="product-name-add" class="form-label">Telephone</label> 
+                <input type="text"  class="form-control" id="telephone" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Pourcentage de la secrétaire</label> <input type="number" required type="text" class="form-control" id="secretaire-pourcentage" />
+                <label for="product-name-add" class="form-label">Coordonnée bancaire</label> 
+                <input type="text"  class="form-control" id="coordbank" />
             </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <label for="product-name-add" class="form-label">No.AVS</label> 
+                <input type="number"  class="form-control" id="noavs" step="0.1" min="0" max="100"/>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <label for="product-name-add" class="form-label">Email</label> 
+                <input type="text"  class="form-control" id="email" />
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <label for="product-name-add" class="form-label">Date debut *</label> 
+                <input type="date" required  class="form-control" id="datedebut" />
+            </div>
+                 
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                 <label for="product-name-add" class="form-label">Logiciels utilisés par le médecin</label>
                 <!-- js-example-placeholder-multiple is in select2 for multiple select with placeholder -->
@@ -58,8 +81,129 @@
                     <option value="s-2">Logiciels2</option>
                 </select>
             </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <label for="product-name-add" class="form-label">Est un Employé? *</label> 
+                <select required class="js-example-basic text-muted" id = "isemp-select" name="state">
+                    <option value="no" selected>non employe</option>
+                    <option value="yes">employe</option>
+                        
+                    </select>
+            </div>
+
+
+
         </div>
     </form>
+
+
+    <div class="salaire" id="salaire">
+        <h2 class="page-title fw-semibold fs-18 mb-4 mt-5 ">Salaire</h2>
+        <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">
+            <div class="btn-list">
+                <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addDoctorsSalary">
+                    + Ajouter
+                </a>
+            </div>
+            <div class="modal fade effect-rotate-left" id="addDoctorsSalary">
+                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Ajouter Salaire</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="product-name-add" class="form-label">Salaire</label> <input type="text" class="form-control" id="product-name-add" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> <input type="text" class="form-control" id="product-name-add" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <label for="product-name-add" class="form-label">Date de Début:</label> <input type="text" id="addDatePicker1" class="form-control text-muted" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="col-12">
+                            <!-- responsiveDataTable2 is for the datatable columns number less than 5  & responsiveDataTable is for the datatable columns number more than 5-->
+                            <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <!--selectAllCheckbox is important -->
+
+                                        <th class="w-10">Action</th>
+                                        <th class="w-10">Salaire</th>
+                                        <th>Nombre de mois de salaire par an</th>
+                                        <th>Date de Début</th>
+                                        <th>Date de Fin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- rowCheckbox is important -->
+
+                                        <td>
+                                            <div class="hstack gap-2 fs-15">
+
+                                                <!-- duplicaterow2 and duplicaterow is important -->
+                                                <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#validesalairemedecin" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                                <div class="modal fade mt-4" id="validesalairemedecin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog  modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                                                                <input type="text" id="addDatePicker3" class="form-control text-muted" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmer</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </td>
+                                        <td>19</td>
+                                        <td>0</td>
+                                        <td>2000</td>
+                                        <td>20%</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            <div class="hstack gap-2 fs-15">
+                                                <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                            </div>
+                                        </td>
+                                        <td>20</td>
+                                        <td>0</td>
+                                        <td>2000</td>
+                                        <td>20%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         <!-- part en pourcentage -->
         <h2 class="page-title fw-semibold fs-18 mb-4 mt-5">Part en pourcentage</h2>
         <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">

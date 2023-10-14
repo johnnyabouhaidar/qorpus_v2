@@ -4,6 +4,69 @@ var baseurl = window.location.origin;
 let percentage_activities_for_current_doctor=[]
 
 
+let medtype_select = document.getElementById('type-select');
+        
+let medspec_select = document.getElementById('spec-select');
+
+medtype_select.onchange = function () {
+medtype = medtype_select.value;
+
+
+
+fetch('/medicinspecs/' + encodeURI(medtype.trim()).toString().replaceAll('%','*')).then(function (response) {
+response.json().then(function (data) {
+    let optionHTML = '';
+
+    optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+    for (let spec of data.specs) {
+        optionHTML += '<option value="' + spec.spec + '">' + spec.spec + '</option>';
+    }
+
+    medspec_select.innerHTML = optionHTML;
+});
+});
+
+}
+
+
+$('#spec-select').change(function(){
+    
+    if (this.value==='addnew')
+    {
+    //this.myform['other'].style.visibility='visible'
+    //$('input[name=paiementsNomALT]').show()
+    
+    $('#newspec').show()
+    $('#newspeclbl').show()
+    }
+    else {
+        //$('input[name=paiementsNomALT]').hide()
+        $('#newspeclbl').hide()
+        $('#newspec').hide()
+    
+    };
+    })
+
+    $('#salaire').hide()
+    $('#isemp-select').change(function(){
+    
+        if (this.value==='yes')
+        {
+        //this.myform['other'].style.visibility='visible'
+        //$('input[name=paiementsNomALT]').show()
+        
+        $('#salaire').show()
+        
+        }
+        else {
+            //$('input[name=paiementsNomALT]').hide()
+            $('#salaire').hide()
+        
+        };
+        
+        })
+
+
 function bulk_delete_medicins_perc_TMP()
 {
     var array = []
@@ -78,15 +141,27 @@ function add_item_to_percentage_table(){
 
 function add_new_doctor(){
     let doctor_name = document.getElementById("doctor-name").value;
-    let doctor_speciality = document.getElementById("doctor-speciality").value;
+    //let doctor_speciality = document.getElementById("doctor-speciality").value;
+    let doctor_speciality = document.getElementById("spec-select").value;
+    if (doctor_speciality=='addnew')
+    {
+        doctor_speciality=document.getElementById("newspec").value;
+    }
     let doctor_type = document.getElementById("type-select").value;
     let doctor_percentage = document.getElementById("pourcentage-medicins").value;
+    let doctor_address = document.getElementById("address").value;
     let doctor_charge_sociales = document.getElementById("charges-sociales").value;
     let doctor_surface_accordee = document.getElementById("surface-accordee").value;
-    let doctor_salaire = document.getElementById("salaire").value;
-    let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
-    let doctor_secretaire =document.getElementById("secretaire").value;
-    let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
+    let doctor_telephone = document.getElementById("telephone").value;
+    let doctor_coordbank=document.getElementById("coordbank").value;
+    let doctor_noavs=document.getElementById("noavs").value;    
+    let doctor_email=document.getElementById("email").value;
+    let doctor_date_debut=document.getElementById("datedebut").value;
+    let doctor_isemp = document.getElementById("isemp-select").value;
+    //let doctor_salaire = document.getElementById("salaire").value;
+    //let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
+    //let doctor_secretaire =document.getElementById("secretaire").value;
+    //let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
     //let doctor_logiciel = document.getElementById("logiciel").options.Length;
     var logiciel_selected = [];
     for (var option of document.getElementById('logiciel').options)
@@ -112,11 +187,20 @@ function add_new_doctor(){
         "medpourcentage":doctor_percentage,
         "medchargesociales":doctor_charge_sociales,
         "medsurfaceaccordee":doctor_surface_accordee,
-        "medsalaire":doctor_salaire,
-        "mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
-        "medsecretaire":doctor_secretaire,
-        "medpourcentagesecretaire":doctor_sec_percentage,
+        "medsalaire":0,
+        "mednombremoissalaireparan":0,
+        "medsecretaire":"-",
+        "medpourcentagesecretaire":0,
         "medlogiciels":logiciel_selected,
+        "medtelephone":doctor_telephone,
+        "medaddress":doctor_address,
+        "medcoordonneebanc":doctor_coordbank,
+        "mednoavs":doctor_noavs,
+        "medemail":doctor_email,
+        "medstartdate":doctor_date_debut,
+        "medenddate":"",
+        "isemployee":doctor_isemp,
+
         "percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
 
     
