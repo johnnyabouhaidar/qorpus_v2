@@ -58,7 +58,7 @@ function populate_medicins_table(){
                     </div>
                     <div class="modal-body">
                         <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                        <input type="text" id="addDatePicker2" class="form-control text-muted" />
+                        <input type="date" id="addDatePicker1" class="form-control text-muted" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>

@@ -116,6 +116,14 @@ class medicalperson(db.Model):
     medenddate=db.Column(db.Date)
     isemployee=db.Column(db.String(80),nullable=False)
 
+class medsalaire(db.Model):
+    salaireid=db.Column(db.Integer,primary_key=True)
+    mednom=db.Column(db.String(100),nullable=False)
+    salaire=db.Column(db.Float)
+    fromdate=db.Column(db.Date)
+    todate=db.Column(db.Date)
+    monthsnumbers=db.Column(db.Integer)
+
 
 class Doctor(db.Model):
     doctorid=db.Column(db.Integer,primary_key=True)
@@ -165,7 +173,11 @@ class Salairetype(db.Model):
     salairetypeid = db.Column(db.Integer,primary_key=True)
     salaireType = db.Column(db.String(80),nullable=False)  
 
-
+"""ALTER TABLE payment
+        ADD Valide nvarchar(50) NULL --Or NOT NULL.
+ 
+    DEFAULT ('pasvalide')--Optional Default-Constraint.
+WITH VALUES --Add if Column is Nullable and you want the Default Value for Existing Records."""
 class Salaire(db.Model):
     salaireId = db.Column(db.Integer,primary_key=True)
     salaireType = db.Column(db.String(80),nullable=False)
@@ -1324,9 +1336,13 @@ def addmedicinsitems():
     medenddate= request.json["medenddate"]
     isemployee= request.json["isemployee"]
     percentage_activities_for_current_doctor = request.json["percentage_activities_for_current_doctor"]
+    medsalaires=request.json["medsalaires"]
 
     for perc in percentage_activities_for_current_doctor:
         db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(mednom,perc[0],perc[1],perc[2]))    
+    
+    for salaire in medsalaires:
+        db.engine.execute("""INSERT INTO medsalaire VALUES('{0}',{1},'{2}','{3}',{4})""".format(mednom,salaire[0],salaire[2],salaire[3],salaire[1]))
 
     db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}',{15},'{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,medstartdate,medenddate,isemployee))
     return(jsonify({"Status":"OK"}))
@@ -1955,13 +1971,27 @@ def get_medicins_data(id):
         doctor_json["secretaire"]=doc[9]
         doctor_json["secretaire_perc"]=doc[10]
         doctor_json["logiciel"]=doc[11]
+        doctor_json["medtelephone"]=doc[12]
+        doctor_json["medaddress"]=doc[13]
+        doctor_json["medemail"]=doc[14]
+        doctor_json["medcoordonneebanc"]=doc[15]
+        doctor_json["mednoavs"]=doc[16]
+        doctor_json["medstartdate"]=doc[17]
+        doctor_json["medenddate"]=doc[18]
+        doctor_json["isemployee"]=doc[19]
 
         perc_activity=[]
         activities = db.engine.execute("""Select * from percentageactivity where docteur='{0}'""".format(doc[1]))
         for perc in activities:
             perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4]})
 
+        medsalaires=[]
+        salaires = db.engine.execute("""Select * from medsalaire where docteur='{0}'""".format(doc[1]))
+        for sal in salaires:
+            medsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":sal[3],"4":sal[4]})
+
         doctor_json["activities"]=perc_activity
+        doctor_json["medsalaires"]=medsalaires
 
     return (doctor_json)
 

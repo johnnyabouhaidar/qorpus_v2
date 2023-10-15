@@ -113,16 +113,23 @@
                         <div class="modal-body text-start">
                             <div class="row">
                                 <div class="col-12">
-                                    <label for="product-name-add" class="form-label">Salaire</label> <input type="text" class="form-control" id="product-name-add" />
+                                    <label for="product-name-add" class="form-label">Salaire</label> 
+                                    <input type="text" class="form-control" id="salairee" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> <input type="text" class="form-control" id="product-name-add" />
+                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                                    <input type="text" class="form-control" id="monthsnumbers" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="product-name-add" class="form-label">Date de Début:</label> <input type="text" id="addDatePicker1" class="form-control text-muted" />
+                                    <label for="product-name-add" class="form-label">Date de Début:</label> 
+                                    <input type="text" id="addDatePicker1" name="fromdate" class="form-control text-muted" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                    <label for="product-name-add" class="form-label">Date de Fin:</label> 
+                                    <input type="text" id="addDatePicker2" name="todate" class="form-control text-muted" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="add_item_to_salaire_table()">
                                 </div>
                             </div>
                         </div>
@@ -141,61 +148,15 @@
                                     <tr>
                                         <!--selectAllCheckbox is important -->
 
-                                        <th class="w-10">Action</th>
-                                        <th class="w-10">Salaire</th>
+                                        <th class="w-100">Action</th>
+                                        <th class="w-100">Salaire</th>
                                         <th>Nombre de mois de salaire par an</th>
                                         <th>Date de Début</th>
                                         <th>Date de Fin</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <!-- rowCheckbox is important -->
-
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-
-                                                <!-- duplicaterow2 and duplicaterow is important -->
-                                                <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#validesalairemedecin" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
-                                                <div class="modal fade mt-4" id="validesalairemedecin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div class="modal-dialog  modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                                                                <input type="text" id="addDatePicker3" class="form-control text-muted" />
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmer</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </td>
-                                        <td>19</td>
-                                        <td>0</td>
-                                        <td>2000</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-                                                <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
-                                            </div>
-                                        </td>
-                                        <td>20</td>
-                                        <td>0</td>
-                                        <td>2000</td>
-                                        <td>20%</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
