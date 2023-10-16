@@ -146,16 +146,42 @@ function load_medicins_data(){
      
       
       document.getElementById("doctor-name").value = items['name']
-      document.getElementById("doctor-speciality").value =items['speciality'];
-      $("#type-select").val(items['type']);
+      //document.getElementById("spec-select").value =items['speciality'];
+      
+      fetch('/medicinspecs/' + encodeURI(items['type']).toString().replaceAll('%','*')).then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+            optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+            for (let spec of data.specs) {
+                optionHTML += '<option value="' + spec.spec + '">' + spec.spec + '</option>';
+            }
+        
+            medspec_select.innerHTML = optionHTML;
+            $("#spec-select").val(items['speciality']);
+            $("#type-select").val(items['type']);
+        });
+        });
+      
+      
       
       document.getElementById("pourcentage-medicins").value =items['perc_share'];
       document.getElementById("charges-sociales").value = items['charge_soc'];
       document.getElementById("surface-accordee").value=items['surface_accorde'];
-      document.getElementById("salaire").value = items['medsalaire'];
-      document.getElementById("nombre-mois-salaire-an").value = items['salaireparan'];
-      $("#secretaire").val(items['secretaire']);
-      document.getElementById("secretaire-pourcentage").value = items['secretaire_perc'];
+      document.getElementById("telephone").value=items["medtelephone"]
+      document.getElementById("address").value=items["medaddress"]
+      document.getElementById("email").value=items["medemail"]
+      document.getElementById("coordbank").value=items["medcoordonneebanc"]
+      document.getElementById("noavs").value=items["mednoavs"]
+      
+      document.getElementById("datedebut").value=items["medstartdate"]
+      
+      document.getElementById("isemp-select").value=items["isemployee"]
+
+      //document.getElementById("salaire").value = items['medsalaire'];
+      //document.getElementById("nombre-mois-salaire-an").value = items['salaireparan'];
+      //$("#secretaire").val(items['secretaire']);
+      //document.getElementById("secretaire-pourcentage").value = items['secretaire_perc'];
 
       $.each(items['logiciel'].split("||"), function(i,e){
         $("#logiciel option[value='" + e + "']").prop("selected", true);

@@ -1976,7 +1976,7 @@ def get_medicins_data(id):
         doctor_json["medemail"]=doc[14]
         doctor_json["medcoordonneebanc"]=doc[15]
         doctor_json["mednoavs"]=doc[16]
-        doctor_json["medstartdate"]=doc[17]
+        doctor_json["medstartdate"]=str(doc[17])
         doctor_json["medenddate"]=doc[18]
         doctor_json["isemployee"]=doc[19]
 
@@ -1986,7 +1986,7 @@ def get_medicins_data(id):
             perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4]})
 
         medsalaires=[]
-        salaires = db.engine.execute("""Select * from medsalaire where docteur='{0}'""".format(doc[1]))
+        salaires = db.engine.execute("""Select * from medsalaire where mednom='{0}'""".format(doc[1]))
         for sal in salaires:
             medsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":sal[3],"4":sal[4]})
 
