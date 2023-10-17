@@ -41,16 +41,16 @@
                     <input type="number" required  class="form-control" id="pourcentage-medicins" step="0.1" min="0" max="100"/>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                    <label for="product-name-add" class="form-label">Address</Address></label> 
+                    <label for="product-name-add" class="form-label">Address</label> 
                     <input type="text"  class="form-control" id="address" />
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                     <label for="product-name-add" class="form-label">Charges Sociales *</label> 
-                    <input type="number" required  class="form-control" id="charges-sociales" step="0.1" min="0" max="100"/>
+                    <input type="number" required  class="form-control" id="charges-sociales" step="0.1" min="0" max="1000000"/>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                     <label for="product-name-add" class="form-label">Surface accordée *</label> 
-                    <input type="number" required  class="form-control" id="surface-accordee" step="0.1" min="0" max="100"/>
+                    <input type="number" required  class="form-control" id="surface-accordee" step="0.1" min="0" max="1000000"/>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                     <label for="product-name-add" class="form-label">Telephone</label> 
@@ -61,8 +61,8 @@
                     <input type="text"  class="form-control" id="coordbank" />
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                    <label for="product-name-add" class="form-label">No.AVS</label> 
-                    <input type="number"  class="form-control" id="noavs" step="0.1" min="0" max="100"/>
+                    <label for="product-name-add" class="form-label">No.AVS *</label> 
+                    <input type="number" required  class="form-control" id="noavs" step="0.1" min="0" max="1000000"/>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                     <label for="product-name-add" class="form-label">Email</label> 
@@ -94,17 +94,132 @@
     
             </div>
         </form>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Salaire</div>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+</button>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="collapse" id="collapseExample">
+                                        <!-- part en pourcentage -->
+        
+        <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">
+            <div class="btn-list">
+                <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addDoctorsSalaire">
+                    + Ajouter
+                </a>
+                <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                    Sélectionner des actions groupées
+                </button>
+                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
+                    <li>
+                        <!-- deleteSelectedRowsButton in datatable.js to delete the selected checkbox rows -->
+                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="" onclick="bulk_delete_medicins_perc_TMP_4edit()">Supprimer la sélection</button>
+                    </li>
+                </ul>
+                <div class="modal fade mt-4" id="deleteBulkDoctorsSalaire" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure do you want to delete these rows?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteSelectedRowsButton">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade effect-rotate-left" id="addDoctorsSalaire">
+                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="product-name-add" class="form-label">Salaire</label> 
+                                    <input type="text" class="form-control" id="salairee" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                                    <input type="text" class="form-control" id="monthsnumbers" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <label for="product-name-add" class="form-label">Date de Début:</label> 
+                                    <input type="text" id="addDatePicker1" name="fromdate" class="form-control text-muted" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <label for="product-name-add" class="form-label">Date de Fin:</label> 
+                                    <input type="text" id="addDatePicker2" name="todate" class="form-control text-muted" />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="col-12">
+                            <!-- responsiveDataTable2 is for the datatable columns number less than 5  & responsiveDataTable is for the datatable columns number more than 5-->
+                            <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <!--selectAllCheckbox is important -->
+                                        <th class="w-10"><!--<input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." />--></th>
+                                        <th class="w-10">Action</th>
+                                        <th class="w-10">Salaire</th>
+                                        <th>Nombre de mois de salaire par an</th>
+                                        <th>date de Debut</th>
+                                        <th>date de Fin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
 
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header justify-content-between">
                         <div class="card-title">Part en pourcentage</div>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+</button>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleperc" aria-expanded="false" aria-controls="collapseExample">+</button>
                     </div>
                     <div class="card-body">
                         <div>
-                            <div class="collapse" id="collapseExample">
+                            <div class="collapse" id="collapseExampleperc">
                                         <!-- part en pourcentage -->
         
         <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">
@@ -207,6 +322,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 
 <script>

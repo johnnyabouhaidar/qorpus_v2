@@ -1294,7 +1294,7 @@ def medicinspecs(medtype):
 def get_person_data(entity):
     if entity == 'medicins':
         listt=db.engine.execute("""Select * from medicalperson""")
-        listjson=convert_list_to_json(listt)
+        listjson=convert_list_to_json_meds(listt)
     return (listjson)
 
 
@@ -1894,6 +1894,18 @@ def convert_list_to_json(inputlist):
     #print(returnedjson)
     return returnedjson
 
+def convert_list_to_json_meds(inputlist):
+    returnedjson = []
+    for item in inputlist:
+        line = {}
+        for idx,value in enumerate(item):
+            line[idx]=str(value)
+        #print(item)
+        #print(json.dumps(item))
+        returnedjson.append(line)
+    #print(returnedjson)
+    return returnedjson    
+
 def convert_list_to_json_for_modules(inputlist):
     returnedjson = []
     for item in inputlist:
@@ -1977,7 +1989,7 @@ def get_medicins_data(id):
         doctor_json["medcoordonneebanc"]=doc[15]
         doctor_json["mednoavs"]=doc[16]
         doctor_json["medstartdate"]=str(doc[17])
-        doctor_json["medenddate"]=doc[18]
+        doctor_json["medenddate"]=str(doc[18])
         doctor_json["isemployee"]=doc[19]
 
         perc_activity=[]
@@ -2107,6 +2119,15 @@ def editmoduleitem():
                           encaissementDate='{4}'
     
                           Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id)) 
+        
+    elif module=='medicinsenddate':
+        doc_id=request.json["id"]
+        doc_enddate=request.json["medenddate"]
+
+        db.engine.execute("""UPDATE medicalperson set
+                          medenddate='{1}'
+                          where medid={0}
+                          """.format(doc_id,doc_enddate))
 
     elif module=='medicins':
         
@@ -2116,12 +2137,21 @@ def editmoduleitem():
         perc_share=request.json["medpourcentage"]
         charge_soc=request.json["medchargesociales"]
         surface_accorde=request.json["medsurfaceaccordee"]
-        medsalaire=request.json["medsalaire"]
-        salaireparan=request.json["mednombremoissalaireparan"]
-        secretaire=request.json["medsecretaire"]
-        secretaire_perc=request.json["medpourcentagesecretaire"]
+        #medsalaire=request.json["medsalaire"]
+        #salaireparan=request.json["mednombremoissalaireparan"]
+        #secretaire=request.json["medsecretaire"]
+        #secretaire_perc=request.json["medpourcentagesecretaire"]
         logiciel=request.json["medlogiciels"]
         logiciel = '||'.join(logiciel)
+        medtelephone=request.json["medtelephone"]
+        medaddress=request.json["medaddress"]
+        
+        medemail=request.json["medemail"]
+        medcoordonneebanc=request.json["medcoordonneebanc"]
+        mednoavs=request.json["mednoavs"]
+        medstartdate=request.json["medstartdate"]
+        #medenddate=request.json["medenddate"],
+        isemployee=request.json["isemployee"]
         activities=request.json["percentage_activities"]
         #activities=request.json["activities"]
         db.engine.execute("""UPDATE medicalperson set
@@ -2129,16 +2159,25 @@ def editmoduleitem():
                             medspeciality = '{1}',
                             medtype ='{2}',
                             medpourcentage = {3},
-                            medchargesociales = {4},
-                            medsurfaceaccordee = {5},
-                            medsalaire={6},
-                            mednombremoissalaireparan={7},
-                            medsecretaire='{8}',
-                            medpourcentagesecretaire={9},
-                            medlogiciels='{10}'
-                            where medid={11}
-        
-        """.format(name,speciality,typee,perc_share,charge_soc,surface_accorde,medsalaire,salaireparan,secretaire,secretaire_perc,logiciel,id))
+                            medaddress='{4}',
+                            medchargesociales = {5},
+                            medsurfaceaccordee = {6},
+                            medsalaire=0,
+                            mednombremoissalaireparan=0,
+                            medsecretaire='0',
+                            medpourcentagesecretaire=0,
+                            medlogiciels='{7}',
+                            medtelephone='{8}',
+                            
+                            medemail='{9}',
+                            medcoordonneebanc='{10}',
+                            mednoavs={11},
+                            medstartdate='{12}',
+                            
+                            isemployee='{13}'
+                            where medid={14}
+                            
+        """.format(name,speciality,typee,perc_share,medaddress,charge_soc,surface_accorde,logiciel,medtelephone,medemail,medcoordonneebanc,mednoavs,medstartdate,isemployee,id))
         db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
         for act in activities:
             db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 

@@ -4,6 +4,7 @@ var url = new URL(curr_url);
 var id = url.searchParams.get("id");
 
 var percentage_activities=[]
+var medsalaire_edit=[]
 
 function bulk_delete_medicins_perc_TMP_4edit()
 {
@@ -74,16 +75,29 @@ function add_item_to_percentage_table_4edit(){
 
 function modify_doctor(){
   let doctor_name = document.getElementById("doctor-name").value;
-  let doctor_speciality = document.getElementById("doctor-speciality").value;
+  //let doctor_speciality = document.getElementById("doctor-speciality").value;
+  let doctor_speciality = document.getElementById("spec-select").value;
+    if (doctor_speciality=='addnew')
+    {
+        doctor_speciality=document.getElementById("newspec").value;
+    }
   let doctor_type = document.getElementById("type-select").value;
   let doctor_percentage = document.getElementById("pourcentage-medicins").value;
+  let doctor_address = document.getElementById("address").value;
+  
   let doctor_charge_sociales = document.getElementById("charges-sociales").value;
   let doctor_surface_accordee = document.getElementById("surface-accordee").value;
-  let doctor_salaire = document.getElementById("salaire").value;
-  let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
-  let doctor_secretaire =document.getElementById("secretaire").value;
-  let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
+  //let doctor_salaire = document.getElementById("salaire").value;
+  //let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
+  //let doctor_secretaire =document.getElementById("secretaire").value;
+  //let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
   //let doctor_logiciel = document.getElementById("logiciel").options.Length;
+  let doctor_telephone = document.getElementById("telephone").value;
+  let doctor_coordbank=document.getElementById("coordbank").value;
+  let doctor_noavs=document.getElementById("noavs").value;    
+  let doctor_email=document.getElementById("email").value;
+  let doctor_date_debut=document.getElementById("datedebut").value;
+  let doctor_isemp = document.getElementById("isemp-select").value;
   var logiciel_selected = [];
   for (var option of document.getElementById('logiciel').options)
   {
@@ -108,14 +122,22 @@ function modify_doctor(){
       "medspeciality":doctor_speciality,
       "medtype":doctor_type,
       "medpourcentage":doctor_percentage,
+      "medaddress":doctor_address,
       "medchargesociales":doctor_charge_sociales,
       "medsurfaceaccordee":doctor_surface_accordee,
-      "medsalaire":doctor_salaire,
-      "mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
-      "medsecretaire":doctor_secretaire,
-      "medpourcentagesecretaire":doctor_sec_percentage,
+      //"medsalaire":doctor_salaire,
+      //"mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
+      //"medsecretaire":doctor_secretaire,
+      //"medpourcentagesecretaire":doctor_sec_percentage,
       "medlogiciels":logiciel_selected,
-      "percentage_activities":percentage_activities
+      "medtelephone":doctor_telephone,
+      "medcoordonneebanc":doctor_coordbank,
+      "mednoavs":doctor_noavs,
+      "medemail":doctor_email,
+      "medstartdate":doctor_date_debut,
+      "isemployee":doctor_isemp,
+      "percentage_activities":percentage_activities,
+
       //"percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
 
   
@@ -223,6 +245,41 @@ function load_medicins_data(){
         percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["0"]])
         table.row.add([row_checkbox,row_functions,perc_act[i]["0"],perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"]]).node().id = perc_act[i]["0"];
         table.draw();
+      }
+
+      let tablesalaire = $('#responsiveDataTable2').DataTable();
+      sal = items['medsalaire']
+      for (var i=0;i<perc_act.length;i++){
+        //let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
+
+        let row_functions=`<div class="hstack gap-2 fs-15">
+        <!-- duplicaterow2 and duplicaterow is important -->
+        <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${perc_act[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+        <div class="modal fade mt-4" id="deletepourcentageshare${perc_act[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure do you want to delete this row?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <!-- deleterow is important -->
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${perc_act[i]["0"]})">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>`
+
+        percentage_activities.push([sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["0"]])
+        tablesalaire.row.add(["",row_functions,sal[i]["0"],sal[i]["1"],sal[i]["2"],sal[i]["3"]]).node().id = sal[i]["0"];
+        tablesalaire.draw();
       }
       
       /*table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;*/
