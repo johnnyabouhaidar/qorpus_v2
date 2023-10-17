@@ -34,6 +34,23 @@ function delete_medicins_perc_TMP_4edit(id)
     
 }
 
+function delete_medicins_salaire_TMP_4edit(id)
+{
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable2').DataTable();
+
+    for (var i=0;i<medsalaire_edit.length;i++){
+        if (medsalaire_edit[i][3]==id){
+            medsalaire_edit.splice(i, 1);
+        }
+    }
+    
+    table.row(row).remove().draw(false);
+    //alert(percentage_activities)
+    
+}
+
 function add_item_to_percentage_table_4edit(){
     pour_de=document.getElementById("input-de").value;
     pour_a = document.getElementById("input-a").value;
@@ -71,6 +88,45 @@ function add_item_to_percentage_table_4edit(){
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);
     //alert(percentage_activities)
+}
+
+function add_item_to_salaire_table_4edit(){
+    let salairee=document.getElementById("salairee").value;
+    let  monthnumbers = document.getElementById("monthsnumbers").value;
+    let fromdate = document.getElementById("addDatePicker1").value;
+    let todate = document.getElementById("addDatePicker2").value;
+    let rowUID = new Date().valueOf()
+    let table = $('#responsiveDataTable2').DataTable();
+
+    let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${rowUID}" aria-label="..." />`
+
+    let row_functions=`<div class="hstack gap-2 fs-15">
+    <!-- duplicaterow2 and duplicaterow is important -->
+    <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletesal${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+    <div class="modal fade mt-4" id="deletesal${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">Delete</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure do you want to delete this row?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <!-- deleterow is important -->
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${rowUID})">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>`
+medsalaire_edit.push([salairee,monthnumbers,fromdate,todate,rowUID])
+table.row.add(["",row_functions,salairee,monthnumbers,fromdate,todate]).node().id = rowUID;
+table.draw(false);
 }
 
 function modify_doctor(){
@@ -137,6 +193,7 @@ function modify_doctor(){
       "medstartdate":doctor_date_debut,
       "isemployee":doctor_isemp,
       "percentage_activities":percentage_activities,
+      "medsalaires":medsalaire_edit
 
       //"percentage_activities_for_current_doctor":percentage_activities_for_current_doctor
 
@@ -248,15 +305,16 @@ function load_medicins_data(){
       }
 
       let tablesalaire = $('#responsiveDataTable2').DataTable();
-      sal = items['medsalaire']
-      for (var i=0;i<perc_act.length;i++){
+      sal = items['medsalaires']
+      
+      for (var i=0;i<sal.length;i++){
         //let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
 
         let row_functions=`<div class="hstack gap-2 fs-15">
         <!-- duplicaterow2 and duplicaterow is important -->
         <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
-        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${perc_act[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
-        <div class="modal fade mt-4" id="deletepourcentageshare${perc_act[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletesal${sal[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
+        <div class="modal fade mt-4" id="deletesal${sal[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -269,7 +327,7 @@ function load_medicins_data(){
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         <!-- deleterow is important -->
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${perc_act[i]["0"]})">Delete</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_salaire_TMP_4edit(${sal[i]["0"]})">Delete</button>
                     </div>
                 </div>
             </div>
@@ -277,8 +335,8 @@ function load_medicins_data(){
     
     </div>`
 
-        percentage_activities.push([sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["0"]])
-        tablesalaire.row.add(["",row_functions,sal[i]["0"],sal[i]["1"],sal[i]["2"],sal[i]["3"]]).node().id = sal[i]["0"];
+        medsalaire_edit.push([sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["4"],sal[i]["0"]])
+        tablesalaire.row.add(["",row_functions,sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["4"]]).node().id = sal[i]["0"];
         tablesalaire.draw();
       }
       

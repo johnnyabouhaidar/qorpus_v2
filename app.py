@@ -2000,7 +2000,7 @@ def get_medicins_data(id):
         medsalaires=[]
         salaires = db.engine.execute("""Select * from medsalaire where mednom='{0}'""".format(doc[1]))
         for sal in salaires:
-            medsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":sal[3],"4":sal[4]})
+            medsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":str(sal[3]),"4":str(sal[4])})
 
         doctor_json["activities"]=perc_activity
         doctor_json["medsalaires"]=medsalaires
@@ -2153,6 +2153,7 @@ def editmoduleitem():
         #medenddate=request.json["medenddate"],
         isemployee=request.json["isemployee"]
         activities=request.json["percentage_activities"]
+        salaires=request.json["medsalaires"]
         #activities=request.json["activities"]
         db.engine.execute("""UPDATE medicalperson set
                             mednom = '{0}',
@@ -2181,6 +2182,10 @@ def editmoduleitem():
         db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
         for act in activities:
             db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 
+
+        db.engine.execute("""DELETE FROM medsalaire where mednom='{0}'""".format(name))
+        for sal in salaires:
+            db.engine.execute("""INSERT INTO medsalaire VALUES ('{0}',{1},'{2}','{3}',{4})""".format(name,sal[0],sal[2],sal[3],sal[1]))             
         
 
                        
