@@ -48,6 +48,7 @@ app.jinja_env.globals['get_locale'] = get_locale
 
 CORS(app, support_credentials=True)
 
+
 file_download_location= r"C:\Users\Public\Documents"
 
 db=SQLAlchemy(app)
