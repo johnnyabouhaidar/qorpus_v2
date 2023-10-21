@@ -1270,6 +1270,14 @@ def medicins():
     else:
         return render_template('NOT_AUTHORIZED.html')
 
+@app.route('/employees',methods=['GET','POST'])
+@login_required
+def employees():
+    if "employees" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='employees',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')        
+
 @app.route('/medicinspecs/<medtype>')
 def medicinspecs(medtype):
     medtype_dec= urllib.parse.unquote(medtype.replace("*","%").replace("~","/"))

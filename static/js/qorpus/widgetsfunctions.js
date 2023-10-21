@@ -42,6 +42,119 @@ function link_drag_cards(){
 }
 
 
+function build_table_bar_chart_widget(){
+    var inner_text2=`
+<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Facturation du Centre">
+<div class="card custom-card overflow-hidden specific-height">
+    <div class="handle">...</div>
+    <div class="card-header justify-content-between">
+        <div class="card-title">Facturation du Centre</div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="dropdown">
+                <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);">last 12 months</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">year to date</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">2023</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">2022</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table text-nowrap">
+                <thead>
+                    <tr>
+                        <th scope="col">Facturation</th>
+                        <th scope="col">Janvier</th>
+                        <th scope="col">Février</th>
+                        <th scope="col">Mars</th>
+                        <th scope="col">Avril</th>
+                        <th scope="col">Mai</th>
+                        <th scope="col">Juin</th>
+                        <th scope="col">Juillet</th>
+                        <th scope="col">Août</th>
+                        <th scope="col">Septembre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <div class="d-flex align-items-center">
+                                <div><span class="fw-semibold">Caisse des médecins</span></div>
+                            </div>
+                        </th>
+                        <td>161 097,20</td>
+                        <td>261 612,40</td>
+                        <td>243 976,20</td>
+                        <td>336 504,95</td>
+                        <td>249 609,00</td>
+                        <td>249 560,75</td>
+                        <td>303 414,10</td>
+                        <td>143 852,10</td>
+                        <td>261 521,00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <div class="d-flex align-items-center">
+                                <div><span class="fw-semibold">Dentisterie</span></div>
+                            </div>
+                        </th>
+                        <td>161 097,20</td>
+                        <td>261 612,40</td>
+                        <td>243 976,20</td>
+                        <td>336 504,95</td>
+                        <td>249 609,00</td>
+                        <td>249 560,75</td>
+                        <td>303 414,10</td>
+                        <td>143 852,10</td>
+                        <td>261 521,00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <div class="d-flex align-items-center">
+                                <div><span class="fw-semibold">Hygiénisterie</span></div>
+                            </div>
+                        </th>
+                        <td>161 097,20</td>
+                        <td>261 612,40</td>
+                        <td>243 976,20</td>
+                        <td>336 504,95</td>
+                        <td>249 609,00</td>
+                        <td>249 560,75</td>
+                        <td>303 414,10</td>
+                        <td>143 852,10</td>
+                        <td>261 521,00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <div class="d-flex align-items-center">
+                                <div><span class="fw-semibold">Centre</span></div>
+                            </div>
+                        </th>
+                        <td>161 097,20</td>
+                        <td>261 612,40</td>
+                        <td>243 976,20</td>
+                        <td>336 504,95</td>
+                        <td>249 609,00</td>
+                        <td>249 560,75</td>
+                        <td>303 414,10</td>
+                        <td>143 852,10</td>
+                        <td>261 521,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+           <!-- column-basic & column-basic2 in apexchart-column -->
+        <div id="column-basic" class="px-3 mt-5"></div>
+    </div>
+</div>
+</div>`
+
+    return inner_text2;
+}
 
 
 function build_pnl_chart_widget()
@@ -70,7 +183,11 @@ function build_pnl_chart_widget()
             </div>
         </div>
     </div>
-</div>`
+</div>
+
+
+
+`
 
 return inner_text;
 }
@@ -142,6 +259,8 @@ function reload_kpi_views(fromdate,todate){
         //alert(kpis["payment"]["newtotal"])
         var kpirows= document.getElementById("kpis-rows")
         var chartrows=document.getElementById("pnlchart-rows")
+        var tablechartrows = document.getElementById("facturationtablebarchart-rows")
+        tablechartrows.innerHTML="";
         chartrows.innerHTML="";        
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
@@ -169,6 +288,13 @@ function reload_kpi_views(fromdate,todate){
         pnlchart = document.createElement("div");
         pnlchart.innerHTML = build_pnl_chart_widget();
         chartrows.appendChild(pnlchart.firstChild);
+
+        tablebarchart = document.createElement("div");
+        tablebarchart.innerHTML = build_table_bar_chart_widget();
+        tablechartrows.appendChild(tablebarchart.firstChild);
+        
+
+        
 
         link_drag_cards()
 

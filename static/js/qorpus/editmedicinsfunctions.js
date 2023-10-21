@@ -41,7 +41,7 @@ function delete_medicins_salaire_TMP_4edit(id)
     let table = $('#responsiveDataTable2').DataTable();
 
     for (var i=0;i<medsalaire_edit.length;i++){
-        if (medsalaire_edit[i][3]==id){
+        if (medsalaire_edit[i][4]==id){
             medsalaire_edit.splice(i, 1);
         }
     }
@@ -49,6 +49,20 @@ function delete_medicins_salaire_TMP_4edit(id)
     table.row(row).remove().draw(false);
     //alert(percentage_activities)
     
+}
+
+function activate_deactivate_medsalaire(id){
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable2').DataTable();
+    let updated_date = document.getElementById(`addDatePicker${id}`).value;
+    for (var i=0;i<medsalaire_edit.length;i++){
+        if (medsalaire_edit[i][4]==id){
+            medsalaire_edit[i][3]=updated_date
+        }
+    }
+    table.cell( row ,5).data( updated_date ).draw( false );    
+
 }
 
 function add_item_to_percentage_table_4edit(){
@@ -103,6 +117,26 @@ function add_item_to_salaire_table_4edit(){
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
     <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideDoctors${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+    <div class="modal fade mt-4" id="valideDoctors${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                <input type="date" id="addDatePicker${rowUID}" value="" class="form-control text-muted" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="activate_deactivate_medsalaire(${rowUID})">Confirmer</button>
+            </div>
+        </div>
+    </div>
+    </div>
     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletesal${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
     <div class="modal fade mt-4" id="deletesal${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -117,11 +151,12 @@ function add_item_to_salaire_table_4edit(){
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     <!-- deleterow is important -->
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_perc_TMP_4edit(${rowUID})">Delete</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_medicins_salaire_TMP_4edit(${rowUID})">Delete</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 </div>`
 medsalaire_edit.push([salairee,monthnumbers,fromdate,todate,rowUID])
@@ -313,6 +348,25 @@ function load_medicins_data(){
         let row_functions=`<div class="hstack gap-2 fs-15">
         <!-- duplicaterow2 and duplicaterow is important -->
         <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideDoctors${sal[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+        <div class="modal fade mt-4" id="valideDoctors${sal[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                    <input type="date" id="addDatePicker${sal[i]["0"]}" value="" class="form-control text-muted" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="activate_deactivate_medsalaire(${sal[i]["0"]})">Confirmer</button>
+                </div>
+            </div>
+        </div>
+        </div>
         <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletesal${sal[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
         <div class="modal fade mt-4" id="deletesal${sal[i]["0"]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">

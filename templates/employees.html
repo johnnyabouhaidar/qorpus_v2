@@ -1,0 +1,227 @@
+
+<!-- Start::app-content -->
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <div>
+                <h1 class="page-title fw-semibold fs-18 mb-3">Employé(e)s</h1>
+                <a href="{{url_for('medicins')}}" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light">Medecins</a>
+                <a href="" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light  btn-active">Employés</a>
+                <a href="" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light">Patients</a>
+            </div>
+            <div class="btn-list">
+                <a class="btn btn-primary btn-wave mb-0" href="" data-bs-effect="effect-rotate-left">
+                    + Ajouter
+                </a>
+                <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                    Sélectionner l'action au groupe
+                </button>
+                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
+                   
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteBulkEmployeeModal">Supprimer la sélection</button>
+                    </li>
+                </ul>
+                <div class="modal fade mt-4" id="deleteBulkEmployeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="staticBackdropLabel">Supprimer</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Êtes-vous sûr de vouloir supprimer ces lignes?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-danger" id="deleteSelectedRowsButton" data-bs-dismiss="modal">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start::row-1 -->
+    <div class="row mt-4">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <table id="responsiveDataTable" class="table table-bordered text-nowrap" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
+                                <th>Action</th>
+                                <th>Employee ID</th>
+                                <th>Nom Complet</th>
+                                <th>Intitulé du Poste</th>
+                                <th>Date de Début de L'emploi</th>
+                                <th>Salaire de L'employé</th>
+                                <th>Pourcentage de l'employé</th>
+                                <th>Date de fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" ><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light" data-bs-toggle="modal" and data-bs-target="#valideEmployee"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="" data-bs-effect="effect-rotate-left" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                        <div class="modal fade mt-4" id="deleteEmployeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="staticBackdropLabel">Supprimer</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Êtes-vous sûr de vouloir supprimer cette ligne?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                                                        <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade mt-4" id="valideEmployee" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog  modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                                                        <input type="text" id="addDatePicker2" class="form-control text-muted" />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> testing</td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel22" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> hello</td>
+                                <td> Carte EC frais divers <br>
+                                    Carte EC frais divers<br>
+                                    Carte EC frais divers</td>
+                                <td>392,32<br>392,32<br>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel3" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> Frais Divers </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel13" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> Frais Divers </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> Frais Divers </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel2" value="" aria-label="..." /></th>
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light"><i class="ri-check-line" data-bs-toggle="tooltip" data-bs-placement="top" title="validé/non validé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line" data-bs-toggle="tooltip" data-bs-placement="top" title="modifier"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
+                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
+                                    </div>
+                                </td>
+                                <td> 256 </td>
+                                <td> Frais Divers </td>
+                                <td> Carte EC frais divers </td>
+                                <td>392,32</td>
+                                <td>30/5/2023 17:08:52</td>
+                                <td>Payé avec la carte de crédit</td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+</div>
+</div>
+<!-- End::app-content -->
