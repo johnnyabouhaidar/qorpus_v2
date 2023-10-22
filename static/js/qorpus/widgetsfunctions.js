@@ -42,9 +42,8 @@ function link_drag_cards(){
 }
 
 
-function build_table_bar_chart_widget(){
-    var inner_text2=`
-<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Facturation du Centre">
+function build_table_bar(){
+    var inner_text2=`<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Facturation du Centre">
 <div class="card custom-card overflow-hidden specific-height">
     <div class="handle">...</div>
     <div class="card-header justify-content-between">
@@ -77,9 +76,12 @@ function build_table_bar_chart_widget(){
                         <th scope="col">Juillet</th>
                         <th scope="col">Août</th>
                         <th scope="col">Septembre</th>
+                        <th scope="col">Octobre</th>
+                        <th scope="col">Novembre</th>
+                        <th scope="col">Decembre</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="facturation_table_id">
                     <tr>
                         <th scope="row">
                             <div class="d-flex align-items-center">
@@ -95,55 +97,11 @@ function build_table_bar_chart_widget(){
                         <td>303 414,10</td>
                         <td>143 852,10</td>
                         <td>261 521,00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <div class="d-flex align-items-center">
-                                <div><span class="fw-semibold">Dentisterie</span></div>
-                            </div>
-                        </th>
-                        <td>161 097,20</td>
-                        <td>261 612,40</td>
-                        <td>243 976,20</td>
-                        <td>336 504,95</td>
-                        <td>249 609,00</td>
-                        <td>249 560,75</td>
-                        <td>303 414,10</td>
-                        <td>143 852,10</td>
+                        <td>261 521,00</td>
+                        <td>261 521,00</td>
                         <td>261 521,00</td>
                     </tr>
-                    <tr>
-                        <th scope="row">
-                            <div class="d-flex align-items-center">
-                                <div><span class="fw-semibold">Hygiénisterie</span></div>
-                            </div>
-                        </th>
-                        <td>161 097,20</td>
-                        <td>261 612,40</td>
-                        <td>243 976,20</td>
-                        <td>336 504,95</td>
-                        <td>249 609,00</td>
-                        <td>249 560,75</td>
-                        <td>303 414,10</td>
-                        <td>143 852,10</td>
-                        <td>261 521,00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <div class="d-flex align-items-center">
-                                <div><span class="fw-semibold">Centre</span></div>
-                            </div>
-                        </th>
-                        <td>161 097,20</td>
-                        <td>261 612,40</td>
-                        <td>243 976,20</td>
-                        <td>336 504,95</td>
-                        <td>249 609,00</td>
-                        <td>249 560,75</td>
-                        <td>303 414,10</td>
-                        <td>143 852,10</td>
-                        <td>261 521,00</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -290,9 +248,8 @@ function reload_kpi_views(fromdate,todate){
         chartrows.appendChild(pnlchart.firstChild);
 
         tablebarchart = document.createElement("div");
-        tablebarchart.innerHTML = build_table_bar_chart_widget();
+        tablebarchart.innerHTML = build_table_bar();
         tablechartrows.appendChild(tablebarchart.firstChild);
-        
 
         
 

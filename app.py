@@ -1321,6 +1321,7 @@ def nouveaumedicins():
         return render_template('app.html',content='nouveaumedicins',username=(current_user.username).title(),form=None,user_role=current_user.role)
     else:
         return render_template('NOT_AUTHORIZED.html')
+
     
 @app.route('/addmedicinsitems',methods=['POST'])
 @login_required
@@ -2019,6 +2020,34 @@ def get_medicins_data(id):
 
 
 #get_medicins_data(1)
+
+@app.route('/get_dashboard_table',methods=["POST"])
+
+def getdashboardtable():
+    module=request.json["module"]
+    if module == "facturation":
+        facturationforreportlist=db.engine.execute("""SELECT facturationType AS FacturationType, 
+        SUM (CASE WHEN Month(date)=1 THEN somme END) AS Janvier,
+        SUM (CASE WHEN Month(date)=2 THEN somme END) AS Février,
+        SUM (CASE WHEN Month(date)=3 THEN somme END) AS Mars,
+        SUM (CASE WHEN Month(date)=4 THEN somme END) AS Avril,
+        SUM (CASE WHEN Month(date)=5 THEN somme END) AS Mai,
+        SUM (CASE WHEN Month(date)=6 THEN somme END) AS Juin,
+        SUM (CASE WHEN Month(date)=7 THEN somme END) AS Juillet,
+        SUM (CASE WHEN Month(date)=8 THEN somme END) AS Aout,
+        SUM (CASE WHEN Month(date)=9 THEN somme END) AS Septembre,
+        SUM (CASE WHEN Month(date)=10 THEN somme END) AS Octobre,
+        SUM (CASE WHEN Month(date)=11 THEN somme END) AS Novembre,
+        SUM (CASE WHEN Month(date)=12 THEN somme END) AS Décembre,
+        SUM (somme) AS TOTAL
+
+        FROM facturation
+        WHERE YEAR(date) ={0}
+        and Valide='valide'
+        GROUP BY facturationType""".format(request.json["year"]))
+        returned_json = convert_list_to_json(facturationforreportlist)
+
+    return jsonify(returned_json)
 
 @app.route('/get_module_data')
 @login_required
