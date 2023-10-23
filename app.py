@@ -117,6 +117,19 @@ class medicalperson(db.Model):
     medenddate=db.Column(db.Date)
     isemployee=db.Column(db.String(80),nullable=False)
 
+class employee(db.Model):
+    empid = db.Column(db.Integer,primary_key=True)
+    empnom = db.Column(db.String(80),nullable=False)
+    empaddress = db.Column(db.String(400))
+    emptelephone = db.Column(db.String(80))
+    empemail = db.Column(db.String(80))
+    empcoordonnebanc = db.Column(db.String(80))
+    empnoavs = db.Column(db.Integer)
+    emppole = db.Column(db.String(40))
+    empintituleposte = db.Column(db.String(50))
+    empdatedebut = db.Column(db.Date)
+
+
 class medsalaire(db.Model):
     salaireid=db.Column(db.Integer,primary_key=True)
     mednom=db.Column(db.String(100),nullable=False)
@@ -1270,13 +1283,8 @@ def medicins():
     else:
         return render_template('NOT_AUTHORIZED.html')
 
-@app.route('/employees',methods=['GET','POST'])
-@login_required
-def employees():
-    if "employees" in current_user.access  or current_user.access=="all":
-        return render_template('app.html',content='employees',username=(current_user.username).title(),form=None,user_role=current_user.role)
-    else:
-        return render_template('NOT_AUTHORIZED.html')        
+
+       
 
 @app.route('/medicinspecs/<medtype>')
 def medicinspecs(medtype):
@@ -1298,6 +1306,23 @@ def medicinspecs(medtype):
             
 
     return jsonify({'specs':Arry})
+
+
+@app.route('/employees',methods=['GET','POST'])
+@login_required
+def employees():
+    if "employees" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='employees',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html') 
+
+@app.route('/addemployee',methods=['GET','POST'])
+@login_required
+def addemployee():
+    if "employees" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='addemployees',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')    
 
 
 def get_person_data(entity):
