@@ -126,8 +126,9 @@ class employee(db.Model):
     empcoordonnebanc = db.Column(db.String(80))
     empnoavs = db.Column(db.Integer)
     emppole = db.Column(db.String(40))
-    empintituleposte = db.Column(db.String(50))
-    empdatedebut = db.Column(db.Date)
+    empintituleposte = db.Column(db.String(50),nullable=False)
+    empdatedebut = db.Column(db.Date,nullable=False)
+    empdatefin = db.Column(db.Date)
 
 
 class medsalaire(db.Model):
@@ -1347,7 +1348,25 @@ def nouveaumedicins():
     else:
         return render_template('NOT_AUTHORIZED.html')
 
-    
+
+@app.route('/addemployeeitems',methods=['POST'])
+@login_required
+def addemployeeitems():
+    empnom=request.json['empnom']
+    empaddress=request.json['empaddress']
+    emptel=request.json['emptel']
+    empemail=request.json['empemail']
+    empcoordbanc=request.json['empcoordbanc']
+    empnoavs=request.json['empnoavs']
+    emppole=request.json['emppole']
+    empposte=request.json['empposte']
+    empdatedebut=request.json['empdatedebut']
+
+    db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
+    return(jsonify({"Status":"OK"})) 
+
+
+
 @app.route('/addmedicinsitems',methods=['POST'])
 @login_required
 def addmedicinsitems():

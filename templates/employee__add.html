@@ -3,40 +3,50 @@
 <div class="main-content app-content">
     <div class="container-fluid">
         <!-- Page Header -->
-        <a href="" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light mt-4"><i class="bx bx-chevron-left fs-20 mt-1"></i></a>
+        <a href="{{url_for('employees')}}" class="btn rounded-pill waves-effect waves-light btn-sm btn-primary-light mt-4"><i class="bx bx-chevron-left fs-20 mt-1"></i></a>
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-18 mb-0">Ajouter un nouveau employé</h1>
         </div>
-
+        <form id ="newemployeeform">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Nom Complet</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Nom Complet *</label> 
+                <input required type="text" class="form-control" id="empnom" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Adresse</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Adresse</label> 
+                <input type="text" class="form-control" id="empaddress" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Tel</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Tel</label> 
+                <input type="text" class="form-control" id="emptel" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">E-mail</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">E-mail</label> 
+                <input type="text" class="form-control" id="empemail" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Coordonnée bancaire</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Coordonnée bancaire</label> 
+                <input type="text" class="form-control" id="empcoordbanc" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">No. AVS</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">No. AVS</label>
+                 <input type="number" class="form-control" id="empnoavs" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Pole</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Pole</label>
+                 <input type="text" class="form-control" id="emppole" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Intitulé du Poste</label> <input type="text" class="form-control" id="product-name-add" />
+                <label for="product-name-add" class="form-label">Intitulé du Poste *</label> 
+                <input required type="text" class="form-control" id="empposte" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">Date de Début de L'emploi</label> <input type="text" id="addDatePicker1" class="form-control text-muted" />
+                <label for="product-name-add" class="form-label">Date de Début de L'emploi *</label> 
+                <input required type="text" id="addDatePicker1" class="form-control text-muted" />
             </div>
         </div>
+        </form>
         <!-- Salaire -->
 
         <h2 class="page-title fw-semibold fs-18 mb-4 mt-5 ">Salaire</h2>
@@ -304,7 +314,7 @@
     </div>
     <div class="row justify-content-end">
         <div class="col-2 mt-3 mb-5">
-            <a href="" class="form-control btn btn-primary" id="input-button" value="Soumettre">Ajouter</a>
+            <a  class="form-control btn btn-primary" id="input-button" value="Soumettre" onclick="add_new_employee()">Ajouter</a>
         </div>
     </div>
 </div>
