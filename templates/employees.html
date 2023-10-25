@@ -14,13 +14,13 @@
                 <a class="btn btn-primary btn-wave mb-0" href="{{url_for('addemployee')}}" data-bs-effect="effect-rotate-left">
                     + Ajouter
                 </a>
-                <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" >
                     Sélectionner l'action au groupe
                 </button>
                 <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                    
                     <li>
-                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteBulkEmployeeModal">Supprimer la sélection</button>
+                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteBulkEmployeeModal" >Supprimer la sélection</button>
                     </li>
                 </ul>
                 <div class="modal fade mt-4" id="deleteBulkEmployeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -35,7 +35,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
-                                <button type="button" class="btn btn-danger" id="deleteSelectedRowsButton" data-bs-dismiss="modal">Supprimer</button>
+                                <button type="button" class="btn btn-danger" id="deleteSelectedRowsButton" data-bs-dismiss="modal" onclick="bulk_delete_employee_module()">Supprimer</button>
                             </div>
                         </div>
                     </div>
@@ -63,6 +63,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--
                             <tr>
                                 <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
                                 <td>
@@ -213,7 +214,7 @@
                                 <td>30/5/2023 17:08:52</td>
                                 <td>Payé avec la carte de crédit</td>
                                 <td></td>
-                            </tr>
+                            </tr>-->
 
                         </tbody>
                     </table>
@@ -225,3 +226,13 @@
 </div>
 </div>
 <!-- End::app-content -->
+
+<script>
+    //var users_table = populate_table()
+    //console.log(users_table)
+    
+    document.addEventListener("DOMContentLoaded", function(event) { 
+
+        populate_employees_table()
+});
+</script>

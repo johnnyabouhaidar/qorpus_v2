@@ -56,7 +56,7 @@ function delete_medicins_item(id)
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({"id":id,
-    "module":"medicinsenddate"})
+    "module":"medicins"})
       }).then((response) => {
         return response.json();
       }).then((json) => {table.row(row).remove().draw(false);})

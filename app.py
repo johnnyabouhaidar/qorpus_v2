@@ -1330,6 +1330,9 @@ def get_person_data(entity):
     if entity == 'medicins':
         listt=db.engine.execute("""Select * from medicalperson""")
         listjson=convert_list_to_json_meds(listt)
+    elif entity == 'employee':
+        listt=db.engine.execute("""Select * from employee""")
+        listjson=convert_list_to_json_meds(listt)
     return (listjson)
 
 
@@ -1338,6 +1341,8 @@ def get_person_data(entity):
 def getpersondata():
     entity = request.args["entity"]
     if entity == 'medicins':   
+        return jsonify(get_person_data(entity))
+    elif entity == 'employee':
         return jsonify(get_person_data(entity))
     
 @app.route('/nouveaumedicins',methods=["POST","GET"])
@@ -2211,6 +2216,15 @@ def editmoduleitem():
                           where medid={0}
                           """.format(doc_id,doc_enddate))
 
+    elif module=='employeeenddate':
+        emp_id=request.json["id"]
+        emp_enddate=request.json["empenddate"]
+
+        db.engine.execute("""UPDATE employee set
+                          empdatefin='{1}'
+                          where empid={0}
+                          """.format(emp_id,emp_enddate))                          
+
     elif module=='medicins':
         
         name=request.json["mednom"]
@@ -2291,6 +2305,8 @@ def delete_module_item():
         db.engine.execute("""DELETE from encaissement where encaissementid ={0}""".format(id))      
     elif module=='medicins':
         db.engine.execute("""DELETE from medicalperson where medid ={0}""".format(id))      
+    elif module=='employee':
+        db.engine.execute("""DELETE from employee where empid ={0}""".format(id))              
 
     return(jsonify({"Status":"OK"})) 
 
