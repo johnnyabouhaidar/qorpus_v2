@@ -130,6 +130,15 @@ class employee(db.Model):
     empdatedebut = db.Column(db.Date,nullable=False)
     empdatefin = db.Column(db.Date)
 
+class empsalaire(db.Model):
+    salaireid = db.Column(db.Integer,primary_key=True)
+    empnom=db.Column(db.String(100),nullable=False)
+    salaire=db.Column(db.Float)
+    fromdate=db.Column(db.Date)
+    todate=db.Column(db.Date)
+    monthsnumbers=db.Column(db.Integer)
+
+
 
 class medsalaire(db.Model):
     salaireid=db.Column(db.Integer,primary_key=True)
@@ -1368,6 +1377,11 @@ def addemployeeitems():
     empdatedebut=request.json['empdatedebut']
 
     db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
+    salairies = request.json["empsalaire"]
+    for sal in salairies:
+        db.engine.execute("""INSERT INTO empsalaire VALUES('{0}',{1},'{2}','',{4})""".format(empnom,sal[0],sal[2],sal[3],sal[1]))
+    
+    
     return(jsonify({"Status":"OK"})) 
 
 

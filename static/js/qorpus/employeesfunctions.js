@@ -79,6 +79,18 @@ function populate_employees_table(){
                 enddate=""
             }
 
+            const response = fetch(`${baseurl}/get_nested_table_data?entity=empsalaire`).then((response) => {
+                return response.json();
+              }).then((json) => {let items = json
+            
+            for (var ii=0;ii<items.length;ii++)
+            {
+                
+            }
+            
+            });
+
+
             let functions_btns = `<div class="hstack gap-2 fs-15">
             
             <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideDoctors${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>

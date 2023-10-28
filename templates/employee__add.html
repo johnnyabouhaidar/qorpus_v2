@@ -65,16 +65,19 @@
                         <div class="modal-body text-start">
                             <div class="row">
                                 <div class="col-12">
-                                    <label for="product-name-add" class="form-label">Salaire</label> <input type="text" class="form-control" id="product-name-add" />
+                                    <label for="product-name-add" class="form-label">Salaire</label> 
+                                    <input type="text" class="form-control" id="empsalaire" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> <input type="text" class="form-control" id="product-name-add" />
+                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                                    <input type="text" class="form-control" id="empnombremois" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="product-name-add" class="form-label">Date de Début:</label> <input type="text" id="addDatePicker2" class="form-control text-muted" />
+                                    <label for="product-name-add" class="form-label">Date de Début:</label> 
+                                    <input type="text" id="addDatePicker2" class="form-control text-muted" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" onclick="add_item_to_med_salaire_table()" value="Ajouter">
                                 </div>
                             </div>
                         </div>
