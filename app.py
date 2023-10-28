@@ -148,6 +148,23 @@ class medsalaire(db.Model):
     todate=db.Column(db.Date)
     monthsnumbers=db.Column(db.Integer)
 
+class EmployeePercentageactivity(db.Model):
+    activiteId=db.Column(db.Integer,primary_key=True)
+    employee=db.Column(db.String(80),nullable=False)
+    fonction=db.Column(db.String(80))
+    docteur=db.Column(db.String(80))
+    pourcentages=db.Column(db.Float)
+    fromdate=db.Column(db.Date)
+    todate=db.Column(db.Date)
+
+
+class Percentageactivity(db.Model):
+    activiteId=db.Column(db.Integer,primary_key=True)
+    docteur=db.Column(db.String(80),nullable=False)
+    de=db.Column(db.Integer,nullable=False)
+    a=db.Column(db.Integer,nullable=False)
+    pourcentages=db.Column(db.Float,nullable=False)    
+
 
 class Doctor(db.Model):
     doctorid=db.Column(db.Integer,primary_key=True)
@@ -287,12 +304,7 @@ class Leasing(db.Model):
     paiement=db.Column(db.Float,nullable=True)
     paiementinitial=db.Column(db.Float,nullable=True)
 
-class Percentageactivity(db.Model):
-    activiteId=db.Column(db.Integer,primary_key=True)
-    docteur=db.Column(db.String(80),nullable=False)
-    de=db.Column(db.Integer,nullable=False)
-    a=db.Column(db.Integer,nullable=False)
-    pourcentages=db.Column(db.Float,nullable=False)
+
 
 
 class Setting(db.Model):
@@ -1378,8 +1390,11 @@ def addemployeeitems():
 
     db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
     salairies = request.json["empsalaire"]
+    percentage_activities_for_current_employee = request.json["percentage_activities_for_current_employee"]
     for sal in salairies:
         db.engine.execute("""INSERT INTO empsalaire VALUES('{0}',{1},'{2}','',{4})""".format(empnom,sal[0],sal[2],sal[3],sal[1]))
+    for perc in percentage_activities_for_current_employee:
+        db.engine.execute("""INSERT INTO employee_percentageactivity VALUES('{0}','{1}','{2}',{3},'{4}','{5}')""".format(empnom,perc[0],perc[1],perc[2],perc[3],perc[4]))
     
     
     return(jsonify({"Status":"OK"})) 
