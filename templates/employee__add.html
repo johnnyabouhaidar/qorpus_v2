@@ -30,8 +30,8 @@
                 <input type="text" class="form-control" id="empcoordbanc" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-                <label for="product-name-add" class="form-label">No. AVS</label>
-                 <input type="number" class="form-control" id="empnoavs" />
+                <label for="product-name-add" class="form-label">No. AVS *</label>
+                 <input required type="number" class="form-control" id="empnoavs" />
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                 <label for="product-name-add" class="form-label">Pole</label>
@@ -192,72 +192,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <!-- rowCheckbox is important -->
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <!-- duplicaterow2 and duplicaterow is important -->
-                                            <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideaddEmployee" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
-                                            <div class="modal fade mt-4" id="deletepourcentageshare" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h6 class="modal-title" id="staticBackdropLabel">Supprimer</h6>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Êtes-vous sûr de vouloir supprimer cette ligne?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
-                                                            <button type="button" class="btn btn-danger deleterow" data-bs-dismiss="modal">Supprimer</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal fade mt-4" id="valideaddEmployee" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog  modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                                                            <input type="text" id="addDatePicker5" class="form-control text-muted" />
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmer</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>19</td>
-                                    <td>0</td>
-                                    <td>2000</td>
-                                    <td>20%</td>
-                                    <td>20%</td>
-                                </tr>
-                                <tr>
-                                    <th><input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel12" value="" aria-label="..." /></th>
-                                    <td>
-                                        <div class="hstack gap-2 fs-15">
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line" data-bs-toggle="tooltip" data-bs-placement="top" title="dupliquer"></i></a>
-                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line" data-bs-toggle="tooltip" data-bs-placement="top" title="supprimer"></i></a>
-                                        </div>
-                                    </td>
-                                    <td>20</td>
-                                    <td>0</td>
-                                    <td>2000</td>
-                                    <td>20%</td>
-                                    <td>20%</td>
+                                
                             </tbody>
                         </table>
                     </div>

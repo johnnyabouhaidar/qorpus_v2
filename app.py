@@ -1344,7 +1344,32 @@ def addemployee():
     if "employees" in current_user.access  or current_user.access=="all":
         return render_template('app.html',content='addemployees',username=(current_user.username).title(),form=None,user_role=current_user.role)
     else:
-        return render_template('NOT_AUTHORIZED.html')    
+        return render_template('NOT_AUTHORIZED.html')   
+
+@app.route('/editemployee',methods=['GET','POST'])
+@login_required
+def editemployee():
+    if "employees" in current_user.access  or current_user.access=="all":
+        return render_template('app.html',content='editemployees',username=(current_user.username).title(),form=None,user_role=current_user.role)
+    else:
+        return render_template('NOT_AUTHORIZED.html')          
+
+def get_person_related_data(entity,employeename):
+    if entity == 'employee':
+        returned_data={"salaries":[],"percentages":[]}
+        salaries = db.engine.execute("""select salaire from empsalaire where empnom = '{0}'""".format(employeename))
+        sals = []
+        for sal in salaries:
+            sals.append(sal[0])
+        returned_data["salaries"]=sals
+
+        percentages = db.engine.execute("""select pourcentages from employee_percentageactivity where employee = '{0}'""".format(employeename))
+        percs=[]
+        for perc in percentages:
+            percs.append(perc[0])
+        returned_data["percentages"]=percs
+        
+        return returned_data
 
 
 def get_person_data(entity):
@@ -1354,8 +1379,30 @@ def get_person_data(entity):
     elif entity == 'employee':
         listt=db.engine.execute("""Select * from employee""")
         listjson=convert_list_to_json_meds(listt)
+        for itm in listjson:
+            data=get_person_related_data('employee',itm[1])
+            sals = data["salaries"]
+            percs = data["percentages"]
+            finalsal=""
+            for sal in sals:
+                finalsal +=str(sal)+"<br>" 
+            finalperc=""
+            for perc in percs:
+                finalperc +=str(perc)+"%<br>" 
+            itm[99] =finalsal
+            itm[100]=finalperc
+        
     return (listjson)
 
+
+
+
+@app.route('/get_person_additional_data',methods=['GET','POST'])
+@login_required
+def getpersonadditionaldata():
+    entity = request.json["entity"]
+    name = request.json["name"]
+    return jsonify(get_person_related_data(entity,name))
 
 @app.route('/get_person_data',methods=['GET'])
 @login_required
@@ -2095,6 +2142,37 @@ def get_medicins_data(id):
 
     return (doctor_json)
 
+def get_employee_data(id):
+    emp_info = db.engine.execute("""Select * from employee where empid={0}""".format(id))
+    employee_json={}
+    for emp in emp_info:
+        employee_json["empid"]=emp[0]
+        employee_json["empnom"]=emp[1]
+        employee_json["empaddress"]=emp[2]
+        employee_json["emptelephone"]=emp[3]
+        employee_json["empemail"]=emp[4]
+        employee_json["empcoordonnebanc"]=emp[5]
+        employee_json["empnoavs"]=emp[6]
+        employee_json["emppole"]=emp[7]
+        employee_json["empintituleposte"]=emp[8]
+        employee_json["empdatedebut"]=str(emp[9])
+        employee_json["empdatefin"]=str(emp[10])
+        
+        perc_activity=[]
+        activities = db.engine.execute("""Select * from percentageactivity where employee='{0}'""".format(emp[1]))
+        for perc in activities:
+            perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4]})
+
+        empsalaires=[]
+        salaires = db.engine.execute("""Select * from medsalaire where empnom='{0}'""".format(emp[1]))
+        for sal in salaires:
+            empsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":str(sal[3]),"4":str(sal[4])})
+
+        employee_json["activities"]=perc_activity
+        employee_json["empsalaires"]=empsalaires
+
+    return (employee_json)   
+
 
 
 #get_medicins_data(1)
@@ -2155,6 +2233,9 @@ def getmoduledata():
     elif request.args["moduletype"]=='medicins':
         #print(get_medicins_data( request.args["id"]))
         return(jsonify(get_medicins_data( request.args["id"])) )
+    elif request.args["moduletype"]=='employee':
+        #print(get_medicins_data( request.args["id"]))
+        return(jsonify(get_employee_data( request.args["id"])) )        
      
 
 

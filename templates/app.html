@@ -104,7 +104,10 @@
             {%include 'employees.html'%}  
         
         {%elif content == 'addemployees'%}
-            {%include 'employee__add.html'%}                    
+            {%include 'employee__add.html'%}     
+            
+        {%elif content == 'editemployees'%}
+            {%include 'employee__edit.html'%}             
             
         {%elif content == 'resetpassword'%}
             {%include 'changepassword.html'%} 
@@ -194,6 +197,7 @@
     <script src="/static/js/qorpus/salairefunctions.js"></script>
     <script src="/static/js/qorpus/employeesfunctions.js"></script>
     <script src="/static/js/qorpus/addemployeefunctions.js"></script>
+    <script src="/static/js/qorpus/editemployeefunctions.js"></script>
     <script src="/static/js/script.js"></script>        <!-- Select2 Cdn -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/static/js/select2.js"></script>

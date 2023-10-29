@@ -1,0 +1,183 @@
+
+<!-- Start::app-content -->
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-18 mb-0">Modifier informations sur l'employé</h1>
+        </div>
+
+        <form id ="editemployeeform">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Nom Complet *</label> 
+                    <input required type="text" class="form-control" id="empnom" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Adresse</label> 
+                    <input type="text" class="form-control" id="empaddress" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Tel</label> 
+                    <input type="text" class="form-control" id="emptel" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">E-mail</label> 
+                    <input type="text" class="form-control" id="empemail" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Coordonnée bancaire</label> 
+                    <input type="text" class="form-control" id="empcoordbanc" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">No. AVS *</label>
+                     <input required type="number" class="form-control" id="empnoavs" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Pole</label>
+                     <input type="text" class="form-control" id="emppole" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Intitulé du Poste *</label> 
+                    <input required type="text" class="form-control" id="empposte" />
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <label for="product-name-add" class="form-label">Date de Début de L'emploi *</label> 
+                    <input required type="text" id="addDatePicker1" class="form-control text-muted" />
+                </div>
+            </div>
+            </form>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Salaire</div>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+</button>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="collapse" id="collapseExample">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card custom-card">
+                                            <div class="card-header justify-content-between">
+                                                <div class="col-12">
+                                                    <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <!--selectAllCheckbox is important -->
+                                                                <th class="w-10">Action</th>
+                                                                <th class="w-10">Salaire</th>
+                                                                <th>Nombre de mois de salaire par an</th>
+                                                                <th>Date de Début</th>
+                                                                <th>Date de Fin</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Pourcentage</div>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">+</button>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="collapse" id="collapseExample1">
+                                <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">
+                                    <div class="btn-list">
+                                        <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+                                            Sélectionner des actions groupées
+                                        </button>
+                                        <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
+                                            <li>
+                                                <!-- deleteSelectedRowsButton in datatable.js to delete the selected checkbox rows -->
+                                                <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteBulkEmployeePercentage">Supprimer la sélection</button>
+                                            </li>
+                                        </ul>
+                                        <div class="modal fade mt-4" id="deleteBulkEmployeePercentage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="staticBackdropLabel">Supprimer</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Êtes-vous sûr de vouloir supprimer ces lignes?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                                                        <button type="button" class="btn btn-danger" id="deleteSelectedRowsButton" data-bs-dismiss="modal">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card custom-card">
+                                            <div class="card-header justify-content-between">
+                                                <div class="col-12">
+                                                    <!-- responsiveDataTable2 is for the datatable columns number less than 5  & responsiveDataTable is for the datatable columns number more than 5-->
+                                                    <table id="responsiveDataTable" class="table table-bordered text-nowrap" style="width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <!--selectAllCheckbox is important -->
+                                                                <th class="w-10"><input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="" aria-label="..." /></th>
+                                                                <th>Action</th>
+                                                                <th>Fonction</th>
+                                                                <th>Dr</th>
+                                                                <th>Pourcentage</th>
+                                                                <th>Date de Début</th>
+                                                                <th>Date de Fin</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mt-3 mb-5">
+                <input type="button" class="form-control btn btn-primary" id="input-button" value="Modifier" />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //var users_table = populate_table()
+    //console.log(users_table)
+    
+    document.addEventListener("DOMContentLoaded", function(event) { 
+
+        load_employee_dataa()
+});
+</script>

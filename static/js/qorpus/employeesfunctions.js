@@ -63,10 +63,10 @@ function delete_employee_item(id)
 
 function populate_employees_table(){
 
-
+    var allnames=[]
     const response = fetch(`${baseurl}/get_person_data?entity=employee`).then((response) => {
         return response.json();
-      }).then((json) => {let items = json
+      }).then((json) => {var items = json
     
         var t = $('#responsiveDataTable').DataTable();
         var rows2add=[];
@@ -78,23 +78,41 @@ function populate_employees_table(){
             if (enddate=='1900-01-01'){
                 enddate=""
             }
-
-            const response = fetch(`${baseurl}/get_nested_table_data?entity=empsalaire`).then((response) => {
-                return response.json();
-              }).then((json) => {let items = json
+            allnames=items
+            /*
+            const response = fetch(`${baseurl}/get_person_additional_data`,{
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+            "entity":"employee",
+            "name":items[i][1],
+            "items":items
             
-            for (var ii=0;ii<items.length;ii++)
+        
+        })
+              }).then((response) => {
+                return response.json();
+              }).then((json) => {let res = json
+            alert(document.referrer)
+            for (var ii=0;ii<res["salaries"].length;ii++)
             {
-                
+                //alert(res["salaries"][ii])
+            }
+            for (var jj=0;jj<res["percentages"].length;jj++)
+            {
+                //alert(res["percentages"][jj])
             }
             
-            });
+            
+            });*/
 
-
-            let functions_btns = `<div class="hstack gap-2 fs-15">
+           let functions_btns = `<div class="hstack gap-2 fs-15">
             
             <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideDoctors${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
-            <a aria-label="anchor" href="medicinsedit?id=${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+            <a aria-label="anchor" href="editemployee?id=${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
             <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
             <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteDoctorsModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
             <div class="modal fade mt-4" id="valideDoctors${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -134,7 +152,8 @@ function populate_employees_table(){
 
         
         </div>`;
-            rows2add.push({"DT_RowId":items[i][0],"0":checkbox_html,"1":functions_btns,"2":items[i][0],"3": items[i][1],"4":items[i][8],"5":items[i][9],"6":"test<br>test<br>test","7":"test<br>test<br>test","8":enddate})
+            rows2add.push({"DT_RowId":items[i][0],"0":checkbox_html,"1":functions_btns,"2":items[i][0],"3": items[i][1],"4":items[i][8],"5":items[i][9],"6":items[i][99],"7":items[i][100],"8":enddate}) 
+
         }
         t.rows.add(rows2add).draw()
     
