@@ -1,6 +1,6 @@
 var baseurl = window.location.origin;
-let curr_url=window.location;
-var url = new URL(curr_url);
+let curr_urll=window.location;
+var url = new URL(curr_urll);
 var id = url.searchParams.get("id");
 
 var percentage_activities=[]
@@ -251,16 +251,12 @@ function modify_doctor(){
 
 
 function load_employee_dataa(){
-    alert("111")
+
     const response = fetch(`${baseurl}/get_module_data?moduletype=employee&id=${id}`).then((response) => {
         return response.json();
       }).then((json) => {let items = json
       console.log(items)
         
-     
-      
-      document.getElementById("doctor-name").value = items['name']
-      //document.getElementById("spec-select").value =items['speciality'];
 
       
       document.getElementById("empnom").value =items['empnom'];
@@ -315,13 +311,13 @@ function load_employee_dataa(){
     
     </div>`
 
-        percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["0"]])
-        table.row.add([row_checkbox,row_functions,perc_act[i]["0"],perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"]]).node().id = perc_act[i]["0"];
+        percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["4"],perc_act[i]["5"],perc_act[i]["0"]])
+        table.row.add([row_checkbox,row_functions,perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["4"],perc_act[i]["5"],perc_act[i]["6"]]).node().id = perc_act[i]["0"];
         table.draw();
       }
 
       let tablesalaire = $('#responsiveDataTable2').DataTable();
-      sal = items['medsalaires']
+      sal = items['empsalaires']
       
       for (var i=0;i<sal.length;i++){
         //let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`

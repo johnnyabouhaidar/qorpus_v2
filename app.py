@@ -2159,12 +2159,12 @@ def get_employee_data(id):
         employee_json["empdatefin"]=str(emp[10])
         
         perc_activity=[]
-        activities = db.engine.execute("""Select * from percentageactivity where employee='{0}'""".format(emp[1]))
+        activities = db.engine.execute("""Select * from employee_percentageactivity where employee='{0}'""".format(emp[1]))
         for perc in activities:
-            perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4]})
+            perc_activity.append({"0":perc[0],"1":perc[2],"2":perc[3],"3":perc[4],"4":str(perc[5]),"5":str(perc[6])})
 
         empsalaires=[]
-        salaires = db.engine.execute("""Select * from medsalaire where empnom='{0}'""".format(emp[1]))
+        salaires = db.engine.execute("""Select * from empsalaire where empnom='{0}'""".format(emp[1]))
         for sal in salaires:
             empsalaires.append({"0":sal[0],"1":sal[2],"2":sal[5],"3":str(sal[3]),"4":str(sal[4])})
 
