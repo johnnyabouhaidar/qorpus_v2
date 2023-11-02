@@ -59,10 +59,52 @@
                         <div>
                             <div class="collapse" id="collapseExample">
                                 <div class="row">
+                                    
                                     <div class="col-12">
+                                        <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb"></div>
                                         <div class="card custom-card">
+                                            <div class="btn-list">
+                                                <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addEmployeeSalaire">
+                                                    + Ajouter
+                                                </a>
+                                            </div>
+                                            </div>
+                                            <div class="modal fade effect-rotate-left" id="addEmployeeSalaire">
+                                                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                    <div class="modal-content modal-content-demo">
+                                                        <div class="modal-header">
+                                                            <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body text-start">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="product-name-add" class="form-label">Salaire</label> 
+                                                                    <input type="text" class="form-control" id="salairee" />
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                                                                    <input type="text" class="form-control" id="monthsnumbers" />
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <label for="product-name-add" class="form-label">Date de Début:</label> 
+                                                                    <input type="text" id="addDatePicker1" name="fromdate" class="form-control text-muted" />
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <label for="product-name-add" class="form-label">Date de Fin:</label> 
+                                                                    <input type="text" id="addDatePicker2" name="todate" class="form-control text-muted" />
+                                                                </div>
+                                                                <div class="col-12 mt-4">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="add_item_to_salaire_table_4edit()">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="card-header justify-content-between">
+                                                
                                                 <div class="col-12">
+
                                                     <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
                                                         <thead>
                                                             <tr>
@@ -101,9 +143,35 @@
                             <div class="collapse" id="collapseExample1">
                                 <div class="d-md-flex d-block align-items-baseline justify-content-end mt-3 mb-4 page-header-breadcrumb">
                                     <div class="btn-list">
-                                        <button type="button" class="btn btn-primary btn-wave mb-0 dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-                                            Sélectionner des actions groupées
-                                        </button>
+                                        <a class="btn btn-primary btn-wave mb-0" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#addEmployeePercentage">
+                                            + Ajouter
+                                        </a>
+                                        <div class="modal fade effect-rotate-left" id="addEmployeePercentage">
+                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                <div class="modal-content modal-content-demo">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="input-de" class="form-label">De *</label> <input type="text" class="form-control" id="input-de" />
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <label for="input-a" class="form-label">A *</label> <input type="text" class="form-control" id="input-a" />
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" id="input-perc" />
+                                                            </div>
+                                                            <div class="col-12 mt-4">
+                                                                <input type="button" class="form-control btn btn-primary" id="input-button" onclick="add_item_to_percentage_table_4edit()" data-bs-dismiss="modal" value="Ajouter">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
                                             <li>
                                                 <!-- deleteSelectedRowsButton in datatable.js to delete the selected checkbox rows -->
