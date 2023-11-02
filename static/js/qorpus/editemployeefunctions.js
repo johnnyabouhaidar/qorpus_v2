@@ -82,10 +82,12 @@ function activate_deactivate_empperc(id){
 
 }
 
-function add_item_to_percentage_table_4edit(){
-    pour_de=document.getElementById("input-de").value;
-    pour_a = document.getElementById("input-a").value;
-    pour_perc = document.getElementById("input-perc").value;
+function add_item_to_percentage_table_4edit_perc(){
+    fonction=document.getElementById("fonction").value;
+    empmed = document.getElementById("empmed").value;
+    empperc = document.getElementById("empperc").value;
+    percstartdate = document.getElementById("addDatePicker44").value;
+    
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
 
@@ -94,6 +96,26 @@ function add_item_to_percentage_table_4edit(){
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
     <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideemp${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+    <div class="modal fade mt-4" id="valideemp${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                <input type="date" id="addDatePicker${rowUID}perc" value="" class="form-control text-muted" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="activate_deactivate_empperc(${rowUID})">Confirmer</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    
     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletepourcentageshare${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
     <div class="modal fade mt-4" id="deletepourcentageshare${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -115,17 +137,17 @@ function add_item_to_percentage_table_4edit(){
     </div>
 
 </div>`
-    percentage_activities.push([pour_de,pour_a,pour_perc,rowUID])
-    table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
+    percentage_activities.push([fonction,empmed,empperc,percstartdate,"",rowUID])
+    table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
     table.draw(false);
-    //alert(percentage_activities)
+    alert(percentage_activities)
 }
 
-function add_item_to_salaire_table_4edit(){
+function add_item_to_salaire_table_4edit_emp(){
     let salairee=document.getElementById("salairee").value;
     let  monthnumbers = document.getElementById("monthsnumbers").value;
-    let fromdate = document.getElementById("addDatePicker1").value;
-    let todate = document.getElementById("addDatePicker2").value;
+    let fromdate = document.getElementById("addDatePicker22").value;
+    //let todate = document.getElementById("addDatePicker2").value;
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable2').DataTable();
 
@@ -176,8 +198,9 @@ function add_item_to_salaire_table_4edit(){
 
 
 </div>`
-empsalaire_edit.push([salairee,monthnumbers,fromdate,todate,rowUID])
-table.row.add(["",row_functions,salairee,monthnumbers,fromdate,todate]).node().id = rowUID;
+empsalaire_edit.push([salairee,monthnumbers,fromdate,"",rowUID])
+alert(empsalaire_edit)
+table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
 table.draw(false);
 }
 
