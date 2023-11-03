@@ -2335,6 +2335,40 @@ def editmoduleitem():
                           where empid={0}
                           """.format(emp_id,emp_enddate))                          
 
+    elif module=='employee':
+        emp_id=request.json["id"]
+        empnom=request.json['empnom']
+        empaddress=request.json['empaddress']
+        emptel=request.json['emptel']
+        empemail=request.json['empemail']
+        empcoordbanc=request.json['empcoordbanc']
+        empnoavs=request.json['empnoavs']
+        emppole=request.json['emppole']
+        empposte=request.json['empposte']
+        empdatedebut=request.json['empdatedebut']
+        activities=request.json['percentage_activities']
+        salaires=request.json['empsalaires']
+        db.engine.execute("""UPDATE employee
+                          Set 
+                            empnom='{0}',
+                            empaddress='{1}',
+                            emptelephone='{2}',
+                            empemail='{3}',
+                            empcoordonnebanc='{4}',
+                            empnoavs={5},
+                            emppole='{6}',
+                            empintituleposte='{7}',
+                            empdatedebut='{8}'
+                            where empid={9}
+                          """.format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut,emp_id))
+        db.engine.execute("""DELETE FROM employee_percentageactivity where docteur='{0}'""".format(name))
+        for act in activities:
+            db.engine.execute("""INSERT INTO employee_percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 
+
+        db.engine.execute("""DELETE FROM empsalaire where mednom='{0}'""".format(name))
+        for sal in salaires:
+            db.engine.execute("""INSERT INTO empsalaire VALUES ('{0}',{1},'{2}','{3}',{4})""".format(name,sal[0],sal[2],sal[3],sal[1])) 
+    
     elif module=='medicins':
         
         name=request.json["mednom"]

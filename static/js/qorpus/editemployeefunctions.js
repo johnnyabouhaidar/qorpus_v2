@@ -204,41 +204,19 @@ table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = row
 table.draw(false);
 }
 
-function modify_doctor(){
-  let doctor_name = document.getElementById("doctor-name").value;
-  //let doctor_speciality = document.getElementById("doctor-speciality").value;
-  let doctor_speciality = document.getElementById("spec-select").value;
-    if (doctor_speciality=='addnew')
-    {
-        doctor_speciality=document.getElementById("newspec").value;
-    }
-  let doctor_type = document.getElementById("type-select").value;
-  let doctor_percentage = document.getElementById("pourcentage-medicins").value;
-  let doctor_address = document.getElementById("address").value;
-  
-  let doctor_charge_sociales = document.getElementById("charges-sociales").value;
-  let doctor_surface_accordee = document.getElementById("surface-accordee").value;
-  //let doctor_salaire = document.getElementById("salaire").value;
-  //let doctor_nombre_mois_salaire_an = document.getElementById("nombre-mois-salaire-an").value;
-  //let doctor_secretaire =document.getElementById("secretaire").value;
-  //let doctor_sec_percentage = document.getElementById("secretaire-pourcentage").value;
-  //let doctor_logiciel = document.getElementById("logiciel").options.Length;
-  let doctor_telephone = document.getElementById("telephone").value;
-  let doctor_coordbank=document.getElementById("coordbank").value;
-  let doctor_noavs=document.getElementById("noavs").value;    
-  let doctor_email=document.getElementById("email").value;
-  let doctor_date_debut=document.getElementById("datedebut").value;
-  let doctor_isemp = document.getElementById("isemp-select").value;
-  var logiciel_selected = [];
-  for (var option of document.getElementById('logiciel').options)
-  {
-      if (option.selected) {
-          logiciel_selected.push(option.value);
-      }
-  }
+function modify_employee(){
+    let empnom = document.getElementById("empnom").value;
+    let empaddress = document.getElementById("empaddress").value;
+    let emptel = document.getElementById("emptel").value;
+    let empemail = document.getElementById("empemail").value;
+    let empcoordbanc = document.getElementById("empcoordbanc").value;
+    let empnoavs = document.getElementById("empnoavs").value;
+    let emppole = document.getElementById("emppole").value;
+    let empposte = document.getElementById("empposte").value;
+    let empdatedebut = document.getElementById("addDatePicker1").value;
   //alert(percentage_activities_for_current_doctor)
   //newdoctorform  
-  if($("#editdoctorform")[0].checkValidity()) {
+  if($("#editemployeeform")[0].checkValidity()) {
       //alert('validated');
       const response = fetch(`${baseurl}/edit_module_item`,{
           method: 'POST',
@@ -247,26 +225,17 @@ function modify_doctor(){
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-      "module":"medicins",
+      "module":"employee",
       "id":id,
-      "mednom":doctor_name,
-      "medspeciality":doctor_speciality,
-      "medtype":doctor_type,
-      "medpourcentage":doctor_percentage,
-      "medaddress":doctor_address,
-      "medchargesociales":doctor_charge_sociales,
-      "medsurfaceaccordee":doctor_surface_accordee,
-      //"medsalaire":doctor_salaire,
-      //"mednombremoissalaireparan":doctor_nombre_mois_salaire_an,
-      //"medsecretaire":doctor_secretaire,
-      //"medpourcentagesecretaire":doctor_sec_percentage,
-      "medlogiciels":logiciel_selected,
-      "medtelephone":doctor_telephone,
-      "medcoordonneebanc":doctor_coordbank,
-      "mednoavs":doctor_noavs,
-      "medemail":doctor_email,
-      "medstartdate":doctor_date_debut,
-      "isemployee":doctor_isemp,
+      "empnom":empnom,
+      "empaddress":empaddress,
+      "emptel":emptel,
+      "empemail":empemail,
+      "empcoordbanc":empcoordbanc,
+      "empnoavs":empnoavs,
+      "emppole":emppole,
+      "empposte":empposte,
+      "empdatedebut":empdatedebut,
       "percentage_activities":percentage_activities,
       "empsalaires":empsalaire_edit
 
@@ -278,7 +247,7 @@ function modify_doctor(){
           return response.json();
         }).then((json) => {
           //go back to main screen
-          window.location.href = 'medicins';
+          window.location.href = 'employees';
       }) 
   }
   else {
