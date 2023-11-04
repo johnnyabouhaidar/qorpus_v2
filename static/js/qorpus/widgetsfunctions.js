@@ -5,7 +5,7 @@ var widget_api_response="oldval"
 
 
 function link_drag_cards(){
-    dragula([
+    /*dragula([
         document.querySelector('#kpi-1'), 
         document.querySelector('#kpi-2'),
          document.querySelector('#kpi-3'), 
@@ -30,7 +30,7 @@ function link_drag_cards(){
             moves: function (el, container, handle) {
                 return handle.classList.contains('handle');
             }
-        });
+        });*/
         $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
             console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
             console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
@@ -42,7 +42,7 @@ function link_drag_cards(){
 }
 
 
-function build_table_bar(){
+function build_table_bar(module){
     var inner_text2=`<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Facturation du Centre">
 <div class="card custom-card overflow-hidden specific-height">
     <div class="handle">...</div>
@@ -63,7 +63,7 @@ function build_table_bar(){
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table text-nowrap">
+            <table class="table text-nowrap" id="${module}_tbl">
                 <thead>
                     <tr>
                         <th scope="col">Facturation</th>
@@ -81,26 +81,8 @@ function build_table_bar(){
                         <th scope="col">Decembre</th>
                     </tr>
                 </thead>
-                <tbody id="facturation_table_id">
-                    <tr>
-                        <th scope="row">
-                            <div class="d-flex align-items-center">
-                                <div><span class="fw-semibold">Caisse des médecins</span></div>
-                            </div>
-                        </th>
-                        <td>161 097,20</td>
-                        <td>261 612,40</td>
-                        <td>243 976,20</td>
-                        <td>336 504,95</td>
-                        <td>249 609,00</td>
-                        <td>249 560,75</td>
-                        <td>303 414,10</td>
-                        <td>143 852,10</td>
-                        <td>261 521,00</td>
-                        <td>261 521,00</td>
-                        <td>261 521,00</td>
-                        <td>261 521,00</td>
-                    </tr>
+                <tbody id="${module}_table_id">
+                    
                     
                 </tbody>
             </table>
@@ -200,6 +182,118 @@ function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtoda
 return inner_text;
 }
 
+function filltable_plus_chart_data(module,year)
+{
+    const response = fetch(`${baseurl}/get_dashboard_table`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+    "module":module,
+    "year":year
+
+})
+      }).then((response) => {
+        return response.json();
+      }).then((json) => {
+        rows=json;
+        
+        var table_body=document.getElementById(`${module}_table_id`)
+        data_for_chart=[];
+        titles_for_chart=[];
+        for (var i=0;i<rows.length;i++)
+        {
+            var tbl_row=document.createElement('tr')
+            var row_content=`<th scope="row">
+            <div class="d-flex align-items-center">
+                <div><span class="fw-semibold">${rows[i][0]}</span></div>
+            </div>
+        </th>
+        <td>${rows[i][1].toLocaleString()}</td>
+        <td>${rows[i][2].toLocaleString()}</td>
+        <td>${rows[i][3].toLocaleString()}</td>
+        <td>${rows[i][4].toLocaleString()}</td>
+        <td>${rows[i][5].toLocaleString()}</td>
+        <td>${rows[i][6].toLocaleString()}</td>
+        <td>${rows[i][7].toLocaleString()}</td>
+        <td>${rows[i][8].toLocaleString()}</td>
+        <td>${rows[i][9].toLocaleString()}</td>
+        <td>${rows[i][10].toLocaleString()}</td>
+        <td>${rows[i][11].toLocaleString()}</td>
+        <td>${rows[i][12].toLocaleString()}</td>`
+        data_for_chart.push(Math.round(rows[i][13]))
+        titles_for_chart.push(rows[i][0])
+        tbl_row.innerHTML= row_content
+        table_body.append(tbl_row)
+        //alert(table_body.innerHTML)
+        }
+        var options = {
+            series: [{
+                name: 'Net Profit',
+                data: data_for_chart
+            }],
+            chart: {
+                type: 'bar',
+                height: 320
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '35%',
+                    endingShape: 'rounded'
+                },
+            },
+            grid: {
+                borderColor: '#f2f5f7',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#23b7e5"],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: titles_for_chart,
+                labels: {
+                    show: true,
+                    style: {
+                        colors: "#8c9097",
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        cssClass: 'apexcharts-xaxis-label',
+                    },
+                }
+            },
+            yaxis: {    
+                labels: {
+                    show: true,
+                    style: {
+                        colors: "#8c9097",
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        cssClass: 'apexcharts-xaxis-label',
+                    },
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+          
+        };
+        var chart = new ApexCharts(document.querySelector("#column-basic"), options);
+        chart.render();
+        
+
+    }) 
+    /*
+ */
+}
+
 function reload_kpi_views(fromdate,todate){
     
     const response =  fetch(`${baseurl}/get_kpi_cards?fromdate=${fromdate}&todate=${todate}`,{
@@ -218,6 +312,7 @@ function reload_kpi_views(fromdate,todate){
         var kpirows= document.getElementById("kpis-rows")
         var chartrows=document.getElementById("pnlchart-rows")
         var tablechartrows = document.getElementById("facturationtablebarchart-rows")
+        
         tablechartrows.innerHTML="";
         chartrows.innerHTML="";        
         kpirows.innerHTML="";
@@ -248,8 +343,11 @@ function reload_kpi_views(fromdate,todate){
         chartrows.appendChild(pnlchart.firstChild);
 
         tablebarchart = document.createElement("div");
-        tablebarchart.innerHTML = build_table_bar();
+        tablebarchart.innerHTML = build_table_bar("facturation");
         tablechartrows.appendChild(tablebarchart.firstChild);
+        
+        $("#facturation_table_id tr").remove(); 
+        filltable_plus_chart_data("facturation",2022)
 
         
 
@@ -258,6 +356,7 @@ function reload_kpi_views(fromdate,todate){
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
+        
 
         fetch(`${baseurl}/getpnlhistory`).then(function (response) {
             response.json().then(function (yearpnl) {

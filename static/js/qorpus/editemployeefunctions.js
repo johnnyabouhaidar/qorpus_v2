@@ -30,7 +30,7 @@ function delete_employee_perc_TMP_4edit(id)
     }
     
     table.row(row).remove().draw(false);
-    alert(percentage_activities)
+    //alert(percentage_activities)
     
 }
 
@@ -48,7 +48,7 @@ function delete_employee_salaire_TMP_4edit(id)
     
     table.row(row).remove().draw(false);
     //alert(percentage_activities)
-    alert(empsalaire_edit)
+    //alert(empsalaire_edit)
     
 }
 
@@ -78,7 +78,7 @@ function activate_deactivate_empperc(id){
         }
     }
     table.cell( row ,6).data( updated_date ).draw( false );    
-    alert(percentage_activities)
+    //alert(percentage_activities)
 
 }
 
@@ -140,7 +140,7 @@ function add_item_to_percentage_table_4edit_perc(){
     percentage_activities.push([fonction,empmed,empperc,percstartdate,"",rowUID])
     table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
     table.draw(false);
-    alert(percentage_activities)
+    //alert(percentage_activities)
 }
 
 function add_item_to_salaire_table_4edit_emp(){
@@ -199,7 +199,7 @@ function add_item_to_salaire_table_4edit_emp(){
 
 </div>`
 empsalaire_edit.push([salairee,monthnumbers,fromdate,"",rowUID])
-alert(empsalaire_edit)
+//alert(empsalaire_edit)
 table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
 table.draw(false);
 }

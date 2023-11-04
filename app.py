@@ -2183,19 +2183,19 @@ def getdashboardtable():
     module=request.json["module"]
     if module == "facturation":
         facturationforreportlist=db.engine.execute("""SELECT facturationType AS FacturationType, 
-        SUM (CASE WHEN Month(date)=1 THEN somme END) AS Janvier,
-        SUM (CASE WHEN Month(date)=2 THEN somme END) AS Février,
-        SUM (CASE WHEN Month(date)=3 THEN somme END) AS Mars,
-        SUM (CASE WHEN Month(date)=4 THEN somme END) AS Avril,
-        SUM (CASE WHEN Month(date)=5 THEN somme END) AS Mai,
-        SUM (CASE WHEN Month(date)=6 THEN somme END) AS Juin,
-        SUM (CASE WHEN Month(date)=7 THEN somme END) AS Juillet,
-        SUM (CASE WHEN Month(date)=8 THEN somme END) AS Aout,
-        SUM (CASE WHEN Month(date)=9 THEN somme END) AS Septembre,
-        SUM (CASE WHEN Month(date)=10 THEN somme END) AS Octobre,
-        SUM (CASE WHEN Month(date)=11 THEN somme END) AS Novembre,
-        SUM (CASE WHEN Month(date)=12 THEN somme END) AS Décembre,
-        SUM (somme) AS TOTAL
+        ISNULL(SUM (CASE WHEN Month(date)=1 THEN somme END),0) AS Janvier,
+        ISNULL(SUM (CASE WHEN Month(date)=2 THEN somme END),0) AS Février,
+        ISNULL(SUM (CASE WHEN Month(date)=3 THEN somme END),0) AS Mars,
+        ISNULL(SUM (CASE WHEN Month(date)=4 THEN somme END),0) AS Avril,
+        ISNULL(SUM (CASE WHEN Month(date)=5 THEN somme END),0) AS Mai,
+        ISNULL(SUM (CASE WHEN Month(date)=6 THEN somme END),0) AS Juin,
+        ISNULL(SUM (CASE WHEN Month(date)=7 THEN somme END),0) AS Juillet,
+        ISNULL(SUM (CASE WHEN Month(date)=8 THEN somme END),0) AS Aout,
+        ISNULL(SUM (CASE WHEN Month(date)=9 THEN somme END),0) AS Septembre,
+        ISNULL(SUM (CASE WHEN Month(date)=10 THEN somme END),0) AS Octobre,
+        ISNULL(SUM (CASE WHEN Month(date)=11 THEN somme END),0) AS Novembre,
+        ISNULL(SUM (CASE WHEN Month(date)=12 THEN somme END),0) AS Décembre,
+        ISNULL(SUM (somme),0) AS TOTAL
 
         FROM facturation
         WHERE YEAR(date) ={0}
@@ -2361,13 +2361,13 @@ def editmoduleitem():
                             empdatedebut='{8}'
                             where empid={9}
                           """.format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut,emp_id))
-        db.engine.execute("""DELETE FROM employee_percentageactivity where docteur='{0}'""".format(name))
+        db.engine.execute("""DELETE FROM employee_percentageactivity where employee='{0}'""".format(empnom))
         for act in activities:
-            db.engine.execute("""INSERT INTO employee_percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 
+            db.engine.execute("""INSERT INTO employee_percentageactivity VALUES ('{0}','{1}','{2}',{3},'{4}','{5}')""".format(empnom,act[0],act[1],act[2],act[3],act[4])) 
 
-        db.engine.execute("""DELETE FROM empsalaire where mednom='{0}'""".format(name))
+        db.engine.execute("""DELETE FROM empsalaire where empnom='{0}'""".format(empnom))
         for sal in salaires:
-            db.engine.execute("""INSERT INTO empsalaire VALUES ('{0}',{1},'{2}','{3}',{4})""".format(name,sal[0],sal[2],sal[3],sal[1])) 
+            db.engine.execute("""INSERT INTO empsalaire VALUES ('{0}',{1},'{2}','{3}',{4})""".format(empnom,sal[0],sal[2],sal[3],sal[1])) 
     
     elif module=='medicins':
         
