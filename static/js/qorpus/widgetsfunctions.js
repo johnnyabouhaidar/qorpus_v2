@@ -223,6 +223,7 @@ function filltable_plus_chart_data(module,year)
         <td>${rows[i][10].toLocaleString()}</td>
         <td>${rows[i][11].toLocaleString()}</td>
         <td>${rows[i][12].toLocaleString()}</td>`
+        //alert(Intl.NumberFormat('fr-FR').format(Math.round(rows[i][13])))
         data_for_chart.push(Math.round(rows[i][13]))
         titles_for_chart.push(rows[i][0])
         tbl_row.innerHTML= row_content
@@ -235,6 +236,7 @@ function filltable_plus_chart_data(module,year)
                 data: data_for_chart
             }],
             chart: {
+                
                 type: 'bar',
                 height: 320
             },
@@ -271,6 +273,10 @@ function filltable_plus_chart_data(module,year)
             },
             yaxis: {    
                 labels: {
+                    formatter: function (val) {
+                        //return val.toFixed(2)
+                        return Intl.NumberFormat('fr-FR').format(val)
+                    },
                     show: true,
                     style: {
                         colors: "#8c9097",
