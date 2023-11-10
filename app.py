@@ -1395,7 +1395,23 @@ def get_person_data(entity):
     return (listjson)
 
 
+@app.route('/get_doctors_list',methods=['GET'])
+@login_required
+def getdoctorslist():
+    final_docs=[]
+    docs=db.engine.execute("""SELECT * From medicalperson""")
+    for doc in docs:
+        final_docs.append(doc[1])
+    
+    return jsonify(final_docs)
 
+@app.route('/get_last_x_years',methods=['GET'])
+@login_required
+def getlastxyears():
+    x= request.args["x"]
+    current_year = datetime.datetime.now().year
+    last_five_years = list(range(current_year, current_year - int(x), -1))
+    return jsonify(last_five_years)
 
 @app.route('/get_person_additional_data',methods=['GET','POST'])
 @login_required
@@ -2202,6 +2218,27 @@ def getdashboardtable():
         and Valide='valide'
         GROUP BY facturationType""".format(request.json["year"]))
         returned_json = convert_list_to_json(facturationforreportlist)
+    elif module=="paiement":
+        paymentforreportlist=db.engine.execute("""SELECT paiementsType AS PaiementType, 
+        ISNULL(SUM (CASE WHEN Month(date)=1 THEN somme END),0) AS Janvier,
+        ISNULL(SUM (CASE WHEN Month(date)=2 THEN somme END),0) AS Février,
+        ISNULL(SUM (CASE WHEN Month(date)=3 THEN somme END),0) AS Mars,
+        ISNULL(SUM (CASE WHEN Month(date)=4 THEN somme END),0) AS Avril,
+        ISNULL(SUM (CASE WHEN Month(date)=5 THEN somme END),0) AS Mai,
+        ISNULL(SUM (CASE WHEN Month(date)=6 THEN somme END),0) AS Juin,
+        ISNULL(SUM (CASE WHEN Month(date)=7 THEN somme END),0) AS Juillet,
+        ISNULL(SUM (CASE WHEN Month(date)=8 THEN somme END),0) AS Aout,
+        ISNULL(SUM (CASE WHEN Month(date)=9 THEN somme END),0) AS Septembre,
+        ISNULL(SUM (CASE WHEN Month(date)=10 THEN somme END),0) AS Octobre,
+        ISNULL(SUM (CASE WHEN Month(date)=11 THEN somme END),0) AS Novembre,
+        ISNULL(SUM (CASE WHEN Month(date)=12 THEN somme END),0) AS Décembre,
+        ISNULL(SUM (somme),0) AS TOTAL
+
+        FROM payment
+        WHERE YEAR(date) ={0}
+        and Valide='valide'
+        GROUP BY paiementsType""".format(request.json["year"]))
+        returned_json = convert_list_to_json(paymentforreportlist)        
 
     return jsonify(returned_json)
 

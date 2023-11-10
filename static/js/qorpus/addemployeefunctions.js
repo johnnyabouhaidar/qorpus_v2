@@ -71,7 +71,7 @@ function delete_employee_perc_TMP(id)
     alert(percentage_activities_for_current_employee)
 }
 
-function add_item_to_percentage_table(){
+function add_item_to_percentage_table_emp(){
     fonction=document.getElementById("fonction").value;
     empmed = document.getElementById("empmed").value;
     empperc = document.getElementById("empperc").value;
@@ -129,7 +129,7 @@ function delete_employee_salaire_TMP(id)
     
 }
 
-function add_item_to_med_salaire_table(){
+function add_item_to_emp_salaire_table(){
   let salairee=document.getElementById("empsalaire").value;
   let  monthnumbers = document.getElementById("empnombremois").value;
   let fromdate = document.getElementById("addDatePicker2").value;

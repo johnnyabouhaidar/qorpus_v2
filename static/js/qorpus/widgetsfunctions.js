@@ -47,7 +47,7 @@ function build_table_bar(module){
 <div class="card custom-card overflow-hidden specific-height">
     <div class="handle">...</div>
     <div class="card-header justify-content-between">
-        <div class="card-title">Facturation du Centre</div>
+        <div class="card-title">${module} du Centre</div>
         <div class="d-flex align-items-center gap-3">
             <div class="dropdown">
                 <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
@@ -66,7 +66,7 @@ function build_table_bar(module){
             <table class="table text-nowrap" id="${module}_tbl">
                 <thead>
                     <tr>
-                        <th scope="col">Facturation</th>
+                        <th scope="col">${module}</th>
                         <th scope="col">Janvier</th>
                         <th scope="col">Février</th>
                         <th scope="col">Mars</th>
@@ -88,7 +88,7 @@ function build_table_bar(module){
             </table>
         </div>
            <!-- column-basic & column-basic2 in apexchart-column -->
-        <div id="column-basic" class="px-3 mt-5"></div>
+        <div id="column-basic" name="${module}_bar_graph" class="px-3 mt-5"></div>
     </div>
 </div>
 </div>`
@@ -108,9 +108,7 @@ function build_pnl_chart_widget()
                 <div class="d-flex align-items-center gap-3">
                     <div class="dropdown">
                     <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a class="dropdown-item" href="javascript:void(0);">last 12 months</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">year to date</a></li>
+                        <ul class="dropdown-menu" role="menu">                                     
                             <li><a class="dropdown-item" href="javascript:void(0);">2023</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0);">2022</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
@@ -236,7 +234,9 @@ function filltable_plus_chart_data(module,year)
                 data: data_for_chart
             }],
             chart: {
-                
+                toolbar:{
+                    show:true,
+                },
                 type: 'bar',
                 height: 320
             },
@@ -291,7 +291,7 @@ function filltable_plus_chart_data(module,year)
             },
           
         };
-        var chart = new ApexCharts(document.querySelector("#column-basic"), options);
+        var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
         chart.render();
         
 
@@ -355,6 +355,15 @@ function reload_kpi_views(fromdate,todate){
         $("#facturation_table_id tr").remove(); 
         filltable_plus_chart_data("facturation",2022)
 
+        tablebarchart = document.createElement("div");
+        tablebarchart.innerHTML = build_table_bar("paiement");
+        tablechartrows.appendChild(tablebarchart.firstChild);
+        
+        $("#paiement_table_id tr").remove(); 
+        filltable_plus_chart_data("paiement",2022)        
+
+
+
         
 
         link_drag_cards()
@@ -372,12 +381,15 @@ function reload_kpi_views(fromdate,todate){
             series: [{
                 name: "2022",
                 data: yearpnl
-            },
+            },{
+                name:"2023",
+                data: [0,0,0,0,0,0,0,0,0,0,0,0]
+            }
             
             ],
             chart: {
                 toolbar: {
-                    show: false
+                    show: true
                 },
                 height: 285,
                 type: 'line',
@@ -541,6 +553,7 @@ function reload_kpi_views(fromdate,todate){
                         }
                     }
                 ]
+                
             },
             colors: ["rgb(132, 90, 223)", "#23b7e5"],
         };
