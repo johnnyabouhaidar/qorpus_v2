@@ -2,7 +2,19 @@
 var baseurl = window.location.origin;
 var widget_api_response="oldval"
 
-
+function getChartByDivId(divname) {
+    var charts = Apex.charts; // ApexCharts stores all instances in Apex.charts object
+  
+    for (var chartId in charts) {
+      var chartInstance = charts[chartId];
+      alert(chartInstance.container.name)
+      if (chartInstance && chartInstance.container.name === divname) {
+        return chartInstance;
+      }
+    }
+  
+    return null; // Chart not found
+  }
 
 function link_drag_cards(){
     dragula([
@@ -43,7 +55,7 @@ function link_drag_cards(){
 
 
 function build_table_bar(module){
-    var inner_text2=`<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Facturation du Centre">
+    var inner_text2=`<div class="col-xl-12 resizable widget" id="table-1" data-type="table" data-title="Centre">
 <div class="card custom-card overflow-hidden specific-height">
     <div class="handle">...</div>
     <div class="card-header justify-content-between">
@@ -51,12 +63,12 @@ function build_table_bar(module){
         <div class="d-flex align-items-center gap-3">
             <div class="dropdown">
                 <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a class="dropdown-item" href="javascript:void(0);">last 12 months</a></li>
+                <ul class="dropdown-menu" role="menu" id="chartyearselect${module}">
+                    <!--<li><a class="dropdown-item" href="javascript:void(0);">last 12 months</a></li>
                     <li><a class="dropdown-item" href="javascript:void(0);">year to date</a></li>
                     <li><a class="dropdown-item" href="javascript:void(0);">2023</a></li>
                     <li><a class="dropdown-item" href="javascript:void(0);">2022</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>-->
                 </ul>
             </div>
         </div>
@@ -182,6 +194,28 @@ return inner_text;
 
 function filltable_plus_chart_data(module,year)
 {
+    //year_select=document.getElementById(`chartyearselect${module}`)
+    $(`#${module}_table_id tr`).remove();
+
+    $(`#chartyearselect${module}`).empty()
+
+
+    fetch('/get_last_x_years?x=10').then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+        
+            
+            for (let year of data) {
+                
+                
+                $(`#chartyearselect${module}`).append(`<li><a class="dropdown-item" onclick="filltable_plus_chart_data('${module}',${year})" href="javascript:void(0);">${year}</a></li>`)
+            }
+            
+            
+        });
+        });
+    
     const response = fetch(`${baseurl}/get_dashboard_table`,{
         method: 'POST',
         headers: {
@@ -291,6 +325,7 @@ function filltable_plus_chart_data(module,year)
             },
           
         };
+        
         var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
         chart.render();
         
@@ -352,15 +387,17 @@ function reload_kpi_views(fromdate,todate){
         tablebarchart.innerHTML = build_table_bar("facturation");
         tablechartrows.appendChild(tablebarchart.firstChild);
         
-        $("#facturation_table_id tr").remove(); 
+        //$("#facturation_table_id tr").remove(); 
         filltable_plus_chart_data("facturation",2022)
 
         tablebarchart = document.createElement("div");
         tablebarchart.innerHTML = build_table_bar("paiement");
         tablechartrows.appendChild(tablebarchart.firstChild);
         
-        $("#paiement_table_id tr").remove(); 
+        //$("#paiement_table_id tr").remove(); 
         filltable_plus_chart_data("paiement",2022)        
+
+
 
 
 

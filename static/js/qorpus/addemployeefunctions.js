@@ -4,6 +4,23 @@ let percentage_activities_for_current_employee=[]
 let empsalaire=[]
 
 
+med_select=document.getElementById("empmed");
+
+
+fetch('/get_doctors_list').then(function (response) {
+    response.json().then(function (data) {
+        let optionHTML = '';
+    
+        //optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
+        for (let spec of data) {
+            optionHTML += '<option value="' + spec + '">' + spec + '</option>';
+        }
+    
+        med_select.innerHTML = optionHTML;
+    });
+    });
+
+
 function add_new_employee(){
     let empnom = document.getElementById("empnom").value;
     let empaddress = document.getElementById("empaddress").value;
