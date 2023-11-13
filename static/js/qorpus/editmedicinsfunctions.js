@@ -108,7 +108,8 @@ function add_item_to_salaire_table_4edit(){
     let salairee=document.getElementById("salairee").value;
     let  monthnumbers = document.getElementById("monthsnumbers").value;
     let fromdate = document.getElementById("addDatePicker1").value;
-    let todate = document.getElementById("addDatePicker2").value;
+    //let todate = document.getElementById("addDatePicker2").value;
+    let todate = "";
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable2').DataTable();
 

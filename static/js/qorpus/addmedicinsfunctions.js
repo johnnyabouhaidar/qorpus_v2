@@ -152,11 +152,28 @@ function add_item_to_percentage_table(){
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);
 }
+
+function activate_deactivate_medsalaireTMP(id){
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable2').DataTable();
+    let updated_date = document.getElementById(`addDatePicker${id}`).value;
+    for (var i=0;i<medsalaire.length;i++){
+        if (medsalaire[i][4]==id){
+            medsalaire[i][3]=updated_date
+        }
+    }
+    table.cell( row ,4).data( updated_date ).draw( false );    
+    //alert(medsalaire)
+
+}
+
 function add_item_to_salaire_table(){
     let salairee=document.getElementById("salairee").value;
     let  monthnumbers = document.getElementById("monthsnumbers").value;
     let fromdate = document.getElementById("addDatePicker1").value;
-    let todate = document.getElementById("addDatePicker2").value;
+    //let todate = document.getElementById("addDatePicker2").value;
+    let todate = "";
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable2').DataTable();
 
@@ -165,6 +182,26 @@ function add_item_to_salaire_table(){
     let row_functions=`<div class="hstack gap-2 fs-15">
     <!-- duplicaterow2 and duplicaterow is important -->
     <!--<a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow"><i class="ri-file-copy-line"></i></a>-->
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#valideDoctors${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-warning-light"><i class="bi bi-power" data-bs-toggle="tooltip" data-bs-placement="top" title="activé/désactivé"></i></a>
+    <div class="modal fade mt-4" id="valideDoctors${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabel">Désactivation</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="product-name-add" class="form-label">Date de Désactivation:</label>
+                <input type="date" id="addDatePicker${rowUID}" value="" class="form-control text-muted" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="activate_deactivate_medsalaireTMP(${rowUID})">Confirmer</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    
     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deletesalaire${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a>
     <div class="modal fade mt-4" id="deletesalaire${rowUID}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">

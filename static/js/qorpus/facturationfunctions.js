@@ -174,7 +174,7 @@ function validate_facturation_item(id){
     "module":"facturation"})
       }).then((response) => {
         return response.json();
-      }).then((json) => {table.cell( row ,8).data( "valide" ).draw( false );
+      }).then((json) => {table.cell( row ,8).data( "Visé" ).draw( false );
       document.getElementById(`validatefacturationid${id}`).remove()})
 
 }        
@@ -428,8 +428,13 @@ function populate_facturation_table(startdte='1900-01-01',enddte='3000-01-01',mi
         
                                                                 
                                           
-                                            
-        rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":items[i][6]})
+                                            var valideval = ""                                 
+                                            if(items[i][6]=="pasvalide"){
+                                                valideval = "à Visé"
+                                            }else{
+                                                valideval = "Visé"
+                                            }                                   
+        rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":valideval})
         
 
 
