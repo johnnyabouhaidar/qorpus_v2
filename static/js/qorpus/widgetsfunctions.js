@@ -196,11 +196,15 @@ function filltable_plus_chart_data(module,year)
 {
     //year_select=document.getElementById(`chartyearselect${module}`)
     $(`#${module}_table_id tr`).remove();
-
+    
+  
+    
+    
+    
     $(`#chartyearselect${module}`).empty()
 
 
-    fetch('/get_last_x_years?x=10').then(function (response) {
+    fetch('/get_last_x_years?x=7').then(function (response) {
         response.json().then(function (data) {
             let optionHTML = '';
         
@@ -265,7 +269,7 @@ function filltable_plus_chart_data(module,year)
         var options = {
             series: [{
                 name: 'Net Profit',
-                data: data_for_chart
+                data: []
             }],
             chart: {
                 toolbar:{
@@ -325,9 +329,19 @@ function filltable_plus_chart_data(module,year)
             },
           
         };
-        
         var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
-        chart.render();
+        chart.render();  
+        var options = [{
+            
+                name: 'Net Profit',
+                data: data_for_chart,
+                categories:titles_for_chart
+                
+            }
+        ];
+        
+        //var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
+        chart.updateSeries(options);
         
 
     }) 
@@ -388,14 +402,14 @@ function reload_kpi_views(fromdate,todate){
         tablechartrows.appendChild(tablebarchart.firstChild);
         
         //$("#facturation_table_id tr").remove(); 
-        filltable_plus_chart_data("facturation",2022)
+        filltable_plus_chart_data("facturation",new Date().getFullYear())
 
         tablebarchart = document.createElement("div");
         tablebarchart.innerHTML = build_table_bar("paiement");
         tablechartrows.appendChild(tablebarchart.firstChild);
         
         //$("#paiement_table_id tr").remove(); 
-        filltable_plus_chart_data("paiement",2022)        
+        filltable_plus_chart_data("paiement",new Date().getFullYear())        
 
 
 
