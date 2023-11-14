@@ -472,7 +472,10 @@ function generate_pnl_chart(year){
     var options = {
         series: [{
             name: "PNL",
-            data: yearpnl
+            data: yearpnl["1"]
+        },{
+            name: "PNL Précédente",
+            data: yearpnl["2"]
         }
         
         ],

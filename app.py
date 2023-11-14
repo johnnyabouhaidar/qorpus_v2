@@ -3408,7 +3408,7 @@ def get_pnl_values(year):
         #print(enctotal,paysum,retrosum)
         
     
-get_pnl_values(2023)
+#get_pnl_values(2023)
 
 def getpaymentasjson(startdate,enddate):
     pass
@@ -3427,7 +3427,9 @@ def getpaymentdata():
 @login_required
 def getpnlhistory():
     year=request.args["year"]
-    return jsonify(get_pnl_values(year))
+    returned_response = {"1":get_pnl_values(year),"2":get_pnl_values(int(year)-1)}
+    #print(returned_response)
+    return jsonify(returned_response)
 
 
 

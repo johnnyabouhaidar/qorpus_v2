@@ -6018,7 +6018,7 @@ div.dt-button-collection {
 .resizable {
   min-height: 140px;
   min-width: fit-content;
-  resize: both;
+  /*resize: both;*/
   overflow: hidden;
   margin-bottom: 20px;
 }
