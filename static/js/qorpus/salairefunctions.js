@@ -46,11 +46,11 @@ $('#salaire-nom').change(function(){
 if (this.value==='addnew')
 {
 //this.myform['other'].style.visibility='visible'
-$('input[name=salairesNomALT]').show()
+$('input[name=salaireNomALT]').show()
 $('#nouveaunomlbl').show()
 }
 else {
-    $('input[name=salairesNomALT]').hide()
+    $('input[name=salaireNomALT]').hide()
     $('#nouveaunomlbl').hide()
 
 };

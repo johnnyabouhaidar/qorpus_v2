@@ -120,10 +120,12 @@ function build_pnl_chart_widget()
                 <div class="d-flex align-items-center gap-3">
                     <div class="dropdown">
                     <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown" aria-expanded="false">Date<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i> </a>
-                        <ul class="dropdown-menu" role="menu">                                     
+                        <ul class="dropdown-menu" role="menu" id="pnlyearselect">  
+                        <!--                                   
                             <li><a class="dropdown-item" href="javascript:void(0);">2023</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0);">2022</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
+                            -->
                         </ul>
                     </div>
                 </div>
@@ -195,6 +197,12 @@ return inner_text;
 function filltable_plus_chart_data(module,year)
 {
     //year_select=document.getElementById(`chartyearselect${module}`)
+    var tablechartrows = document.getElementById(`${module}tablebarchart-rows`)
+        
+    tablechartrows.innerHTML="";
+    tablebarchart = document.createElement("div");
+    tablebarchart.innerHTML = build_table_bar(module);
+    tablechartrows.appendChild(tablebarchart.firstChild);
     $(`#${module}_table_id tr`).remove();
     
   
@@ -329,7 +337,7 @@ function filltable_plus_chart_data(module,year)
             },
           
         };
-        var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
+        const chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
         chart.render();  
         var options = [{
             
@@ -343,11 +351,14 @@ function filltable_plus_chart_data(module,year)
         //var chart = new ApexCharts(document.querySelector(`div[name="${module}_bar_graph"]`), options);
         chart.updateSeries(options);
         
+        
 
     }) 
     /*
  */
 }
+
+
 
 function reload_kpi_views(fromdate,todate){
     
@@ -365,11 +376,11 @@ function reload_kpi_views(fromdate,todate){
         
         //alert(kpis["payment"]["newtotal"])
         var kpirows= document.getElementById("kpis-rows")
-        var chartrows=document.getElementById("pnlchart-rows")
-        var tablechartrows = document.getElementById("facturationtablebarchart-rows")
         
-        tablechartrows.innerHTML="";
-        chartrows.innerHTML="";        
+        /*var tablechartrows = document.getElementById("facturationtablebarchart-rows")
+        
+        tablechartrows.innerHTML="";*/
+              
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
         paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
@@ -393,10 +404,9 @@ function reload_kpi_views(fromdate,todate){
         pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],5)
         kpirows.appendChild(pnlkpi.firstChild)
         
-        pnlchart = document.createElement("div");
-        pnlchart.innerHTML = build_pnl_chart_widget();
-        chartrows.appendChild(pnlchart.firstChild);
 
+
+/*
         tablebarchart = document.createElement("div");
         tablebarchart.innerHTML = build_table_bar("facturation");
         tablechartrows.appendChild(tablebarchart.firstChild);
@@ -409,7 +419,8 @@ function reload_kpi_views(fromdate,todate){
         tablechartrows.appendChild(tablebarchart.firstChild);
         
         //$("#paiement_table_id tr").remove(); 
-        filltable_plus_chart_data("paiement",new Date().getFullYear())        
+        filltable_plus_chart_data("paiement",new Date().getFullYear())        */
+
 
 
 
@@ -424,193 +435,222 @@ function reload_kpi_views(fromdate,todate){
 
         
 
-        fetch(`${baseurl}/getpnlhistory`).then(function (response) {
-            response.json().then(function (yearpnl) {
+
+      })
+}
+
+function generate_pnl_chart(year){
+    var chartrows=document.getElementById("pnlchart-rows")
+    chartrows.innerHTML="";  
+
+    pnlchart = document.createElement("div");
+    pnlchart.innerHTML = build_pnl_chart_widget();
+    chartrows.appendChild(pnlchart.firstChild);
+    $(`#pnlyearselect`).empty()
+
+
+    fetch('/get_last_x_years?x=7').then(function (response) {
+        response.json().then(function (data) {
+            let optionHTML = '';
+        
+        
+            
+            for (let year of data) {
                 
-           
-        var options = {
-            series: [{
-                name: "2022",
-                data: yearpnl
+                
+                $(`#pnlyearselect`).append(`<li><a class="dropdown-item" onclick="generate_pnl_chart(${year})" href="javascript:void(0);">${year}</a></li>`)
             }
             
-            ],
-            chart: {
-                toolbar: {
-                    show: true
-                },
-                height: 285,
-                type: 'line',
-                zoom: {
-                    enabled: false
-                },
-                dropShadow: {
-                    enabled: true,
-                    enabledOnSeries: undefined,
-                    top: 5,
-                    left: 0,
-                    blur: 3,
-                    color: '#000',
-                    opacity: 0.15
-                },
+            
+        });
+        });
+
+    fetch(`${baseurl}/getpnlhistory?year=${year}`).then(function (response) {
+        response.json().then(function (yearpnl) {
+            
+       
+    var options = {
+        series: [{
+            name: "PNL",
+            data: yearpnl
+        }
+        
+        ],
+        chart: {
+            toolbar: {
+                show: true
             },
-            grid: {
-                borderColor: '#f1f1f1',
-            },
-            dataLabels: {
+            height: 285,
+            type: 'line',
+            zoom: {
                 enabled: false
             },
-            stroke: {
-                width: [2, 2],
-                curve: ['smooth', 'smooth'],
-                lineCap: 'butt',
-                dashArray: [0, 0]
+            dropShadow: {
+                enabled: true,
+                enabledOnSeries: undefined,
+                top: 5,
+                left: 0,
+                blur: 3,
+                color: '#000',
+                opacity: 0.15
             },
-            title: {
-                text: undefined,
+        },
+        grid: {
+            borderColor: '#f1f1f1',
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: [2, 2],
+            curve: ['smooth', 'smooth'],
+            lineCap: 'butt',
+            dashArray: [0, 0]
+        },
+        title: {
+            text: undefined,
+        },
+        legend: {
+            show: true,
+            position: 'top',
+            horizontalAlign: 'center',
+            fontWeight: 600,
+            fontSize: '11px',
+            tooltipHoverFormatter: function (val, opts) {
+                return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
             },
-            legend: {
-                show: true,
-                position: 'top',
-                horizontalAlign: 'center',
-                fontWeight: 600,
-                fontSize: '11px',
-                tooltipHoverFormatter: function (val, opts) {
-                    return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
-                },
-                labels: {
-                    colors: '#74767c',
-                },
-                markers: {
-                    width: 7,
-                    height: 7,
-                    strokeWidth: 0,
-                    radius: 12,
-                    offsetX: 0,
-                    offsetY: 0
-                },
+            labels: {
+                colors: '#74767c',
             },
             markers: {
-                discrete: [{
-                    seriesIndex: 0,
-                    dataPointIndex: 5,
-                    fillColor: '#305cfc',
-                    strokeColor: '#fff',
-                    size: 4,
-                    shape: "circle"
+                width: 7,
+                height: 7,
+                strokeWidth: 0,
+                radius: 12,
+                offsetX: 0,
+                offsetY: 0
+            },
+        },
+        markers: {
+            discrete: [{
+                seriesIndex: 0,
+                dataPointIndex: 5,
+                fillColor: '#305cfc',
+                strokeColor: '#fff',
+                size: 4,
+                shape: "circle"
+            },
+            {
+                seriesIndex: 0,
+                dataPointIndex: 11,
+                fillColor: '#305cfc',
+                strokeColor: '#fff',
+                size: 4,
+                shape: "circle"
+            },
+            {
+                seriesIndex: 1,
+                dataPointIndex: 10,
+                fillColor: '#23b7e5',
+                strokeColor: '#fff',
+                size: 4,
+                shape: "circle"
+            }, {
+                seriesIndex: 1,
+                dataPointIndex: 4,
+                fillColor: '#23b7e5',
+                strokeColor: '#fff',
+                size: 4,
+                shape: "circle"
+            }],
+            hover: {
+                sizeOffset: 6
+            }
+        },
+        yaxis: {
+            title: {
+                style: {
+                    color: '#adb5be',
+                    fontSize: '14px',
+                    fontFamily: 'poppins, sans-serif',
+                    fontWeight: 600,
+                    cssClass: 'apexcharts-yaxis-label',
                 },
+            },
+            labels: {
+                formatter: function (y) {
+                    return y.toFixed(0) + "";
+                },
+                show: true,
+                style: {
+                    colors: "#8c9097",
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    cssClass: 'apexcharts-xaxis-label',
+                },
+            }
+        },
+        xaxis: {
+            type: 'day',
+            categories: ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'
+            ],
+            axisBorder: {
+                show: true,
+                color: 'rgba(119, 119, 142, 0.05)',
+                offsetX: 0,
+                offsetY: 0,
+            },
+            axisTicks: {
+                show: true,
+                borderType: 'solid',
+                color: 'rgba(119, 119, 142, 0.05)',
+                width: 6,
+                offsetX: 0,
+                offsetY: 0
+            },
+            labels: {
+                rotate: -90,
+                style: {
+                    colors: "#8c9097",
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    cssClass: 'apexcharts-xaxis-label',
+                },
+            }
+        },
+        tooltip: {
+            shared:true,
+            y: [
                 {
-                    seriesIndex: 0,
-                    dataPointIndex: 11,
-                    fillColor: '#305cfc',
-                    strokeColor: '#fff',
-                    size: 4,
-                    shape: "circle"
-                },
-                {
-                    seriesIndex: 1,
-                    dataPointIndex: 10,
-                    fillColor: '#23b7e5',
-                    strokeColor: '#fff',
-                    size: 4,
-                    shape: "circle"
-                }, {
-                    seriesIndex: 1,
-                    dataPointIndex: 4,
-                    fillColor: '#23b7e5',
-                    strokeColor: '#fff',
-                    size: 4,
-                    shape: "circle"
-                }],
-                hover: {
-                    sizeOffset: 6
-                }
-            },
-            yaxis: {
-                title: {
-                    style: {
-                        color: '#adb5be',
-                        fontSize: '14px',
-                        fontFamily: 'poppins, sans-serif',
-                        fontWeight: 600,
-                        cssClass: 'apexcharts-yaxis-label',
-                    },
-                },
-                labels: {
-                    formatter: function (y) {
-                        return y.toFixed(0) + "";
-                    },
-                    show: true,
-                    style: {
-                        colors: "#8c9097",
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        cssClass: 'apexcharts-xaxis-label',
-                    },
-                }
-            },
-            xaxis: {
-                type: 'day',
-                categories: ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'
-                ],
-                axisBorder: {
-                    show: true,
-                    color: 'rgba(119, 119, 142, 0.05)',
-                    offsetX: 0,
-                    offsetY: 0,
-                },
-                axisTicks: {
-                    show: true,
-                    borderType: 'solid',
-                    color: 'rgba(119, 119, 142, 0.05)',
-                    width: 6,
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                labels: {
-                    rotate: -90,
-                    style: {
-                        colors: "#8c9097",
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        cssClass: 'apexcharts-xaxis-label',
-                    },
-                }
-            },
-            tooltip: {
-                shared:true,
-                y: [
-                    {
-                        title: {
-                            formatter: function (val) {
-                                return val
-                            }
-                        }
-                    },
-                    {
-                        title: {
-                            formatter: function (val) {
-                                return val
-                            }
-                        }
-                    },
-                    {
-                        title: {
-                            formatter: function (val) {
-                                return val;
-                            }
+                    title: {
+                        formatter: function (val) {
+                            return val
                         }
                     }
-                ]
-                
-            },
-            colors: ["rgb(132, 90, 223)", "#23b7e5"],
-        };
-        var chart = new ApexCharts(document.querySelector("#subscriptionOverview"), options);
-      chart.render();
-    });
+                },
+                {
+                    title: {
+                        formatter: function (val) {
+                            return val
+                        }
+                    }
+                },
+                {
+                    title: {
+                        formatter: function (val) {
+                            return val;
+                        }
+                    }
+                }
+            ]
+            
+        },
+        colors: ["rgb(132, 90, 223)", "#23b7e5"],
+    };
+    var chart = new ApexCharts(document.querySelector("#subscriptionOverview"), options);
+  chart.render();
 });
-      })
+});
 }
 
 

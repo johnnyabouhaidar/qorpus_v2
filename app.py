@@ -3426,8 +3426,8 @@ def getpaymentdata():
 @app.route('/getpnlhistory')
 @login_required
 def getpnlhistory():
-
-    return jsonify(get_pnl_values(2023))
+    year=request.args["year"]
+    return jsonify(get_pnl_values(year))
 
 
 

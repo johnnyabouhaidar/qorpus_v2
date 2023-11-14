@@ -279,6 +279,11 @@
     document.addEventListener("DOMContentLoaded", function(event) { 
         
         reload_kpi_views()
+        filltable_plus_chart_data("facturation",new Date().getFullYear())
+        filltable_plus_chart_data("paiement",new Date().getFullYear())
+        
+        generate_pnl_chart(new Date().getFullYear())
+
         
 });
 </script>
