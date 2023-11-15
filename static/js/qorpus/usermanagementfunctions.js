@@ -107,7 +107,7 @@ function populate_table(){
         accessrightsdiv.setAttribute('class',`col-12 mt-4`);
         accessrightsdiv.innerHTML = `<p class="mb-2 text-muted">Accès</p>`
 
-        var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['reports','Reports Generation']]
+        var rolesmapping_dict=[['setup','Setup'],['doctors','Docteurs'],['payments','Paiements'],['facturation','Facturations'],['retrocession','Retrocessions'],['dentisterie','Dentisterie'],['encaissement','Encaissement'],['fraismateriel','Frais Materiel'],['paiement_medecin','Paiement du médecin'],['salaire','Salaire'],['employees','Employées'],['reports','Reports Generation']]
 
         var access_items_arr=users[i][4].split(" ")
         tmp_div=document.createElement("div")
