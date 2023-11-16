@@ -2636,8 +2636,8 @@ def get_kpi_cards():
         fromdate=datetime.datetime.strptime(request.args["fromdate"],"%Y-%m-%d")
         todate=datetime.datetime.strptime(request.args["todate"],"%Y-%m-%d")
     except:
-        fromdate = date(2022,1,5)#year month day
-        todate = date(2022,5,20)
+        fromdate = date(datetime.datetime.now().year,1,1)#year month day
+        todate = date(datetime.datetime.now().year,12,31)
 
     daysdiff = (todate-fromdate).days
 
