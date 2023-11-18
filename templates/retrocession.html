@@ -354,7 +354,10 @@
     
     document.addEventListener("DOMContentLoaded", function(event) { 
 
-       populate_retrocession_table()
+        defualtstartdate=`${new Date().getFullYear()}-1-1`
+    defualtenddate=`${new Date().getFullYear()}-12-31`
+    populate_retrocession_table(startdte=defualtstartdate,enddte=defualtenddate)
+       
 });
 </script>
 <script>

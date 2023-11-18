@@ -353,8 +353,10 @@
     //console.log(users_table)
     
     document.addEventListener("DOMContentLoaded", function(event) { 
-
-       populate_salaire_table()
+        defualtstartdate=`${new Date().getFullYear()}-1-1`
+    defualtenddate=`${new Date().getFullYear()}-12-31`
+    populate_salaire_table(startdte=defualtstartdate,enddte=defualtenddate)
+       
 });
 </script>
 <script>

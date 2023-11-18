@@ -43,6 +43,31 @@ function link_drag_cards(){
                 return handle.classList.contains('handle');
             }
         });
+        $('#mainCalendar').daterangepicker({
+            locale: {
+              format: 'MMM D, YYYY', // Updated date format
+              separator: ' - ',
+              applyLabel: 'Appliquer', // Custom "Apply" button label in French
+              cancelLabel: 'Annuler', // Custom "Cancel" button label in French
+              customRangeLabel: 'Choisir', // Custom label for the custom range option in French
+              daysOfWeek: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'], // Custom day labels in French
+              monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], // Custom month labels in French
+            },
+            ranges: {
+              'Aujourd\'hui': [moment(), moment()],
+              'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'Les 7 Derniers Jours': [moment().subtract(6, 'days'), moment()],
+              'Les 30 Derniers Jours': [moment().subtract(29, 'days'), moment()],
+              'Ce Mois': [moment().startOf('month'), moment().endOf('month')],
+              'Le Mois Dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().startOf('year'), // for example, 7 days ago
+            endDate: moment().endOf('year'),
+            showRanges: true, // Show the ranges by default
+            showDropdowns: true, // Show year and month dropdowns
+            showCustomRangeLabel: true, // Show custom range label
+            showCalendars: true // Show the calendars by default
+          });
         $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
             console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
             console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));
@@ -147,7 +172,8 @@ return inner_text;
 function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
 {
 
-    var formattedtotal = total.toLocaleString("en-US");
+    //var formattedtotal = total.toLocaleString("en-US");
+    var formattedtotal = Intl.NumberFormat('fr-FR').format(total)
     var percentagechangerouded = Math.round(percentagechange);
     var divcolor="success"
     if (percentagechangerouded<0){
@@ -255,18 +281,18 @@ function filltable_plus_chart_data(module,year)
                 <div><span class="fw-semibold">${rows[i][0]}</span></div>
             </div>
         </th>
-        <td>${rows[i][1].toLocaleString()}</td>
-        <td>${rows[i][2].toLocaleString()}</td>
-        <td>${rows[i][3].toLocaleString()}</td>
-        <td>${rows[i][4].toLocaleString()}</td>
-        <td>${rows[i][5].toLocaleString()}</td>
-        <td>${rows[i][6].toLocaleString()}</td>
-        <td>${rows[i][7].toLocaleString()}</td>
-        <td>${rows[i][8].toLocaleString()}</td>
-        <td>${rows[i][9].toLocaleString()}</td>
-        <td>${rows[i][10].toLocaleString()}</td>
-        <td>${rows[i][11].toLocaleString()}</td>
-        <td>${rows[i][12].toLocaleString()}</td>`
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][1])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][2])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][3])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][4])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][5])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][6])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][7])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][8])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][9])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][10])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][11])}</td>
+        <td>${Intl.NumberFormat('fr-FR').format(rows[i][12])}</td>`
         //alert(Intl.NumberFormat('fr-FR').format(Math.round(rows[i][13])))
         data_for_chart.push(Math.round(rows[i][13]))
         titles_for_chart.push(rows[i][0])
@@ -581,9 +607,11 @@ function generate_pnl_chart(year){
                 },
             },
             labels: {
-                formatter: function (y) {
-                    return y.toFixed(0) + "";
+                formatter: function (val) {
+                    //return val.toFixed(2)
+                    return Intl.NumberFormat('fr-FR').format(val)
                 },
+                
                 show: true,
                 style: {
                     colors: "#8c9097",
@@ -595,7 +623,7 @@ function generate_pnl_chart(year){
         },
         xaxis: {
             type: 'day',
-            categories: ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'
+            categories: ['Jan','Fev','Mar','Avr','Mai','Jun','July','Aug','Sep','Oct','Nov','Dec'
             ],
             axisBorder: {
                 show: true,

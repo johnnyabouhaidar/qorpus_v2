@@ -95,8 +95,8 @@ function createDatePicker() {
       'Ce Mois': [moment().startOf('month'), moment().endOf('month')],
       'Le Mois Dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
     },
-    startDate: moment().subtract(7, 'days'), // for example, 7 days ago
-    endDate: moment(),
+    startDate: moment().startOf('year'), // for example, 7 days ago
+    endDate: moment().endOf('year'),
     showRanges: true, // Show the ranges by default
     showDropdowns: true, // Show year and month dropdowns
     showCustomRangeLabel: true, // Show custom range label
