@@ -52,7 +52,17 @@
                         <i class='ti ti-report-money side-menu__icon'></i>
                         <span class="side-menu__label">{{_("Salaire")}}</span>
                     </a>
+                    {%if content == 'retrocession'%}
+                    <a href="{{url_for('retrocession')}}" class="side-menu__item active">
+                    {%else%}
+                    <a href="{{url_for('retrocession')}}" class="side-menu__item">
+                    {%endif%}                    
+                   
+                        <i class='ti ti-exchange side-menu__icon'></i>
+                        <span class="side-menu__label">{{_("Rétrocession")}}</span>
+                    </a>
                 </li>
+                
                
                 <li class="slide mb-3">
                     <span class="side-menu__label">{{_("RECETTES / ENTRÉES")}}</span>
@@ -68,17 +78,7 @@
                         <span class="side-menu__label">{{_("Facturation")}}</span>
                     </a>
                 </li>
-                <li class="slide">
-                    {%if content == 'retrocession'%}
-                    <a href="{{url_for('retrocession')}}" class="side-menu__item active">
-                    {%else%}
-                    <a href="{{url_for('retrocession')}}" class="side-menu__item">
-                    {%endif%}                    
-                   
-                        <i class='ti ti-exchange side-menu__icon'></i>
-                        <span class="side-menu__label">{{_("Rétrocession")}}</span>
-                    </a>
-                </li>
+                
                 <!--
                 <li class="slide">
                     <a href="" class="side-menu__item">
