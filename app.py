@@ -2647,6 +2647,11 @@ def get_kpi_cards():
     
     paymentpercentagechange = ((paysum-paysumold)/(paysum+paysumold))*100
 
+    salairels,salsum = get_ls_for_dashboard("""Select salairetype as SalaireType, SUM(somme)  as somme from salaire where Valide='valide' and date BETWEEN '{0}' and '{1}' group by salaireType """.format(fromdate,todate))
+    salaireoldls,salsumold = get_ls_for_dashboard("""Select salairetype as SalaireType, SUM(somme)  as somme from salaire where Valide='valide' and date BETWEEN '{0}' and '{1}' group by salaireType """.format(oldfrom,fromdate))
+    
+    salairepercentagechange = ((salsum-salsumold)/(salsum+salsumold))*100
+
     factls,factsum = get_ls_for_dashboard("""Select facturationtype as FacturationType, SUM(somme)  as somme from facturation where Valide='valide' and date BETWEEN '{0}' and '{1}' group by facturationtype """.format(fromdate,todate))
     factoldls,factsumold = get_ls_for_dashboard("""Select facturationtype as FacturationType, SUM(somme)  as somme from facturation where Valide='valide' and date BETWEEN '{0}' and '{1}' group by facturationtype """.format(oldfrom,fromdate))
     
@@ -2663,8 +2668,8 @@ def get_kpi_cards():
     
     encaissementpercentagechange = ((encsum-encsumold)/(encsum+encsumold))*100    
 
-    pnl =  encsum-(paysum+retrosum)  
-    pnlold =   encsumold-(paysumold+retrosumold)
+    pnl =  encsum-(salsum+paysum+retrosum)  
+    pnlold =   encsumold-(salsumold+paysumold+retrosumold)
 
     pnlpercentagechange = ((pnl-pnlold)/(pnl+pnlold))*100
 
@@ -2676,6 +2681,13 @@ def get_kpi_cards():
                      "oldfrom":oldfrom,
                      "oldto":fromdate,
                     "percentagechange":paymentpercentagechange},
+
+                    "salaire":
+                    {"newtotal":salsum,
+                     "oldtotal":salsumold,
+                     "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":salairepercentagechange},
                     
                     "facturation":
                     {"newtotal":factsum,

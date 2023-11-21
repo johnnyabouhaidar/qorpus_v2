@@ -426,8 +426,12 @@ function reload_kpi_views(fromdate,todate){
         encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Total",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],4)
         kpirows.appendChild(encaissementkpi.firstChild)
 
+        salairekpi = document.createElement("div");
+        salairekpi.innerHTML=build_kpi_card("salairekpi","Salaire Total",kpis["salaire"]["newtotal"],kpis["salaire"]["percentagechange"],kpis["salaire"]["oldfrom"],kpis["salaire"]["oldto"],5)
+        kpirows.appendChild(salairekpi.firstChild)
+
         pnlkpi = document.createElement("div");
-        pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],5)
+        pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],6)
         kpirows.appendChild(pnlkpi.firstChild)
         
 
