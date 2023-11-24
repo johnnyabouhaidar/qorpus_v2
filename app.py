@@ -240,6 +240,21 @@ class Facturation(db.Model):
     comment = db.Column(db.String(250))
     date = db.Column(db.Date,nullable=False)
 
+class VersHontype(db.Model):
+    vershontypeid = db.Column(db.Integer,primary_key=True)
+    vershonType = db.Column(db.String(80),nullable=False)
+    pnl_included = db.Column(db.String(80),nullable=True)
+    
+
+class VersHon(db.Model):
+    vershonId = db.Column(db.Integer,primary_key=True)
+    vershonType = db.Column(db.String(80),nullable=False)
+    vershonNom = db.Column(db.String(80),nullable=False)
+    somme = db.Column(db.Float,nullable=False)
+    comment = db.Column(db.String(250))
+    date = db.Column(db.Date,nullable=False)  
+    Valide= db.Column(db.String(30),nullable=False)
+
 class Retrocessiontype(db.Model):
     retrocessiontypeid = db.Column(db.Integer,primary_key=True)
     retrocessionType = db.Column(db.String(80),nullable=False)
