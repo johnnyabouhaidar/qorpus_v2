@@ -2838,6 +2838,12 @@ def get_kpi_cards():
     
     retrocessionpercentagechange = ((retrosum-retrosumold)/(retrosum+retrosumold))*100
 
+
+    versls,verssum = get_ls_for_dashboard("""Select vershontype as VersHonType, SUM(somme)  as somme from vers_hon where Valide='valide' and date BETWEEN '{0}' and '{1}' group by vershontype """.format(fromdate,todate))
+    versoldls,verssumold = get_ls_for_dashboard("""Select vershontype as VersHonType, SUM(somme)  as somme from vers_hon where Valide='valide' and date BETWEEN '{0}' and '{1}' group by vershontype """.format(oldfrom,fromdate))
+    
+    vershonpercentagechange = ((verssum-verssumold)/(verssum+verssumold))*100
+
     
     encls,encsum = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
     encoldls,encsumold = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
@@ -2878,6 +2884,13 @@ def get_kpi_cards():
                     "oldfrom":oldfrom,
                      "oldto":fromdate,
                     "percentagechange":retrocessionpercentagechange},
+
+                    "vershon":
+                    {"newtotal":verssum,
+                     "oldtotal":verssumold,
+                    "oldfrom":oldfrom,
+                     "oldto":fromdate,
+                    "percentagechange":vershonpercentagechange},                    
 
                     "encaissement":
                     {"newtotal":encsum,
