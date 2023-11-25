@@ -3421,14 +3421,19 @@ def get_pnl_values(year):
     for month in range(1,13):
         encls,enctotal = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and YEAR(encaissementDate)={0} and MONTH(encaissementDate)={1}  group by banque""".format(year,month))
         paymentls,paysum = get_ls_for_dashboard("""Select paiementstype as PaiementType, SUM(somme)  as somme from payment where Valide='valide' and YEAR(date)={0} and MONTH(date)={1} group by paiementsType """.format(year,month))
-        retrols,retrosum = get_ls_for_dashboard("""select retrocession.retrocessiontype as RetrocessionType, Sum(somme) as somme from retrocession  inner join retrocessiontype on retrocession.retrocessionType=retrocessiontype.retrocessionType where Valide='valide'  and YEAR(date)={0} and MONTH(date)={1}  and retrocessiontype.pnl_included=1  group by retrocession.retrocessionType""".format(year,month))
+        salls,salsum = get_ls_for_dashboard("""Select salairetype as SalaireType, SUM(somme)  as somme from salaire where Valide='valide' and YEAR(date)={0} and MONTH(date)={1} group by salaireType """.format(year,month))
+        #retrols,retrosum = get_ls_for_dashboard("""select retrocession.retrocessiontype as RetrocessionType, Sum(somme) as somme from retrocession  inner join retrocessiontype on retrocession.retrocessionType=retrocessiontype.retrocessionType where Valide='valide'  and YEAR(date)={0} and MONTH(date)={1}  and retrocessiontype.pnl_included=1 and retrocessiontype.pnl_included=0   group by retrocession.retrocessionType""".format(year,month))
+        retrols,retrosum = get_ls_for_dashboard("""Select retrocessionType as RetrocessionType, SUM(somme)  as somme from retrocession where Valide='valide' and YEAR(date)={0} and MONTH(date)={1} group by retrocessionType """.format(year,month))
+        #print(enctotal,paysum,retrosum,"!!!!!!!!!!!!!!!!!!!!")
         if enctotal<0.001:
             enctotal=0.0
         if paysum<0.001:
             paysum=0.0
         if retrosum<0.001:
             retrosum=0.0
-        current_pnl = enctotal-(paysum+retrosum)
+        if salsum<0.001:
+            salsum=0.0
+        current_pnl = enctotal-(paysum+retrosum+salsum)
         returned_pnls.append(round(current_pnl,2))
     
     return returned_pnls
