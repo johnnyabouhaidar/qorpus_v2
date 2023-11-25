@@ -62,9 +62,9 @@
                         <span class="side-menu__label">{{_("Rétrocessions")}}</span>
                     </a>
                     {%if content == 'vershon'%}
-                    <a href="" class="side-menu__item active">
+                    <a href="{{url_for('vershon')}}" class="side-menu__item active">
                     {%else%}
-                    <a href="" class="side-menu__item">
+                    <a href="{{url_for('vershon')}}" class="side-menu__item">
                     {%endif%}                    
                    
                         <i class='ti ti-premium-rights side-menu__icon'></i>

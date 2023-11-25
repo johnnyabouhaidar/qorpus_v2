@@ -43,7 +43,7 @@ function link_drag_cards(){
                 return handle.classList.contains('handle');
             }
         });
-        $('#mainCalendar').daterangepicker({
+        /*$('#mainCalendar').daterangepicker({
             locale: {
               format: 'MMM D, YYYY', // Updated date format
               separator: ' - ',
@@ -67,7 +67,7 @@ function link_drag_cards(){
             showDropdowns: true, // Show year and month dropdowns
             showCustomRangeLabel: true, // Show custom range label
             showCalendars: true // Show the calendars by default
-          });
+          });*/
         $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {
             console.log('Date de Début : ' + picker.startDate.format('YYYY-MM-DD'));
             console.log('Date de Fin : ' + picker.endDate.format('YYYY-MM-DD'));

@@ -105,7 +105,7 @@ class AddDoctorPaymentForm(FlaskForm):
 
 class AddNewType(FlaskForm):
     typename=StringField(label="Nom",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Charges Fixes...)"})
-    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel'),('Salaire','Salaire')])
+    category = SelectField('Catégorie',choices=[('Paiement','Paiement'),('Facturation','Facturation'),('Retrocession','Retrocession'),('Dentisterie','Dentisterie'),('Frais Materiel','Frais Materiel'),('Salaire','Salaire'),('Versements Honoraires','Versements Honoraires')])
 
     submit = SubmitField("Soumettre")
 
@@ -178,6 +178,24 @@ class AddFacturationForm(FlaskForm):
     comment=StringField('Comment',widget=TextArea())
 
     submit = SubmitField("Soumettre")
+
+class Addvershontype(FlaskForm):
+    vershontype=StringField(label="vershon Type ",validators=[InputRequired()],render_kw={"placeholder":"(i.e: vershon dentiste...)"})    
+    pnl_included=BooleanField('Inclure dans PnL')
+
+    submit =SubmitField("Soumettre") 
+
+class AddvershonForm(FlaskForm):
+    vershonType= SelectField('vershonType',choices=[],validators=[InputRequired()])
+    vershonNom = SelectField('vershonNom',choices=[],validators=[InputRequired()])
+
+    vershonNomALT = StringField(label="Nouveau vershon ?",render_kw={"placeholder":"vershonNom"})
+    somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
+    date = DateField(label="vershon Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    comment=StringField('Comment',widget=TextArea())
+
+    submit = SubmitField("Soumettre")   
+
 
 class AddRetrocessiontype(FlaskForm):
     retrocessiontype=StringField(label="Retrocession Type ",validators=[InputRequired()],render_kw={"placeholder":"(i.e: Retrocession dentiste...)"})    

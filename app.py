@@ -253,7 +253,7 @@ class VersHon(db.Model):
     somme = db.Column(db.Float,nullable=False)
     comment = db.Column(db.String(250))
     date = db.Column(db.Date,nullable=False)  
-    Valide= db.Column(db.String(30),nullable=False)
+    #Valide= db.Column(db.String(30),nullable=False)
 
 class Retrocessiontype(db.Model):
     retrocessiontypeid = db.Column(db.Integer,primary_key=True)
@@ -877,6 +877,137 @@ def facturationnames(facturationtype):
             
 
     return jsonify({'facturationnames':Arry})
+
+@app.route('/vershon',methods=['GET','POST'])
+@app.route('/vershon/search=<search>',methods=['GET','POST'])
+@login_required
+def vershon(search=""):
+    try:
+        #print(request.args["validfilter"])
+        validfilter_var=request.args["validfilter"]
+    except:
+        validfilter_var=""  
+    try:
+        fromdate_var=request.args["fromdate"]
+        fromdte=True
+        #print(fromdate_var)
+    except:
+        fromdate_var="1990-1-1"
+        fromdte=False
+    
+    try:
+        todate_var=request.args["todate"]
+        todte=True
+    except:
+        curryear=datetime.datetime.now().year
+        todate_var="{0}-1-1".format(str(curryear+200))
+        todte=False  
+    try:
+        amountfrom_var=request.args["amountfrom"]
+    except:
+        amountfrom_var=None
+    try:
+        amountto_var=request.args["amountto"]
+    except:
+        amountto_var=None        
+    filtervalid_form=FilterNonValidItemsForm(validity=validfilter_var,fromdate=datetime.datetime.strptime(fromdate_var,'%Y-%m-%d') if fromdte!=False else None,todate=datetime.datetime.strptime(todate_var,'%Y-%m-%d') if todte!=False else None,amountfrom=amountfrom_var,amountto=amountto_var)    
+    form = AddvershonForm()
+    export2excel_frm=Export_to_excel()
+    searchform=SearchForm(searchstring=search)
+    choices=[]
+    choices.append(("---","---"))
+    choices=choices+[(facttype.vershonType,facttype.vershonType)for facttype in db.engine.execute("select * from vers_hontype").fetchall()]
+    form.vershonType.choices = choices
+    form.vershonNom.choices= [(factname.vershonId,factname.vershonNom) for factname in VersHon.query.filter_by(vershonType='---').all()]
+    vershons=db.engine.execute("select vershonId as ID,vershonType as Type,vershonNom as Nom,somme as Somme,date as Date,comment as Comment,Valide as Valide from vers_hon where vershonnom LIKE '%{0}%' and Valide LIKE '{1}%' and date BETWEEN '{2}' and '{3}'  and somme BETWEEN '{4}' and '{5}' order by vershonId DESC".format(search,validfilter_var,fromdate_var,todate_var,0 if amountfrom_var==None else amountfrom_var,99999999 if amountto_var==None else amountto_var))
+    vershonsitems=vershons.fetchall()
+    headersvershons=vershons.keys()
+
+    vershondf=pd.DataFrame(vershonsitems,columns=headersvershons)
+
+    vershonsitems_disp=[]
+    
+    for item in vershonsitems:
+        itemtmp=list(item)
+        s = '{:0,.2f}'.format(float(item[3]))
+
+        
+        itemtmp[3]=s
+        vershonsitems_disp.append(itemtmp)
+
+    if filtervalid_form.is_submitted() and filtervalid_form.sub.data:
+        
+        return redirect(url_for('vershon',validfilter=filtervalid_form.validity.data,fromdate=filtervalid_form.fromdate.data,todate=filtervalid_form.todate.data,amountfrom=filtervalid_form.amountfrom.data,amountto=filtervalid_form.amountto.data))          
+        
+
+    if export2excel_frm.validate_on_submit() and export2excel_frm.export_submit.data:
+        current_date=datetime.datetime.now()
+        current_num_timestamp="{0}{1}{2}_{3}{4}{5}".format(current_date.year,current_date.month,current_date.day,current_date.hour,current_date.minute,current_date.second)
+        excel_report_path=r"{0}\reporting_temporary\vershon_{1}.xlsx".format(file_download_location,current_num_timestamp)
+        vershondf.to_excel(excel_report_path,index=False)
+
+        return send_file(excel_report_path)
+
+    if searchform.validate_on_submit() and searchform.searchsubmit.data:
+        if searchform.searchstring.data !="":
+            return redirect(url_for('vershon',search=searchform.searchstring.data))
+        else:
+            return redirect(url_for('vershon'))    
+    else:
+        print(searchform.errors)
+
+    if form.is_submitted() and request.method=='POST' and form.submit.data:
+        qry = Setting.query.filter().first()
+        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        print(monthdelta,qry.moisavant)
+        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1:
+            if form.vershonNom.data!="addnew":
+                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+            else:
+                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNomALT.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+            if isinstance(form.somme.data, int) or isinstance(form.somme.data, float):
+                db.session.add(new_vershon)
+                db.session.commit()
+                return redirect(url_for('vershon'))
+            else:
+                flash("Données invalides. Veuillez revérifier et soumettre à nouveau")
+        else:
+            flash("Vous ne pouvez pas entrer de données à partir de cette date!")        
+    
+
+    if "vershon" in current_user.access or current_user.access=="all":
+        return render_template('app.html',content='vershon',username=(current_user.username).title(),forms=[form],hasDynamicSelector=True,table=vershonsitems_disp,headers=headersvershons,dbtable="vershon",dbtableid="vershonId",user_role=current_user.role,searchform=searchform,module_name="vershon",export_form=export2excel_frm,filtervalid_form=filtervalid_form)
+    else:
+        return render_template('NOT_AUTHORIZED.html')
+
+
+
+
+@app.route('/vershonnames/<vershontype>')
+def vershonnames(vershontype):
+    vershontype_dec= urllib.parse.unquote(vershontype.replace("*","%").replace("~","/"))
+    vershonnames = VersHon.query.filter_by(vershonType=vershontype_dec).all()
+    doctornames=Doctor.query.all()
+    
+    Arry=[]
+    for vershon in vershonnames:
+        
+        if not any(obj['name'] == vershon.vershonNom for obj in Arry):
+            
+            vershonObj={}
+            vershonObj['id']=vershon.vershonId
+            vershonObj['name']=vershon.vershonNom
+            Arry.append(vershonObj)
+    for doctor in doctornames:
+            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+                docObj={}
+                docObj['id']=doctor.doctorid
+                docObj['name']=doctor.doctorname
+                Arry.append(docObj)
+            
+
+    return jsonify({'vershonnames':Arry})
+
 
 @app.route('/retrocession',methods=['GET','POST'])
 @app.route('/retrocession/search=<search>',methods=['GET','POST'])
@@ -2094,6 +2225,8 @@ def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter)
         listitems = db.engine.execute("""Select  top 1000 * from facturation where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by facturationId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='retrocession':
         listitems = db.engine.execute("""Select  top 1000 * from retrocession where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by retrocessionId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+    elif moduletype=='vershon':
+        listitems = db.engine.execute("""Select  top 1000 * from vers_hon where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by vershonId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))                
     elif moduletype=='encaissement':
         listitems = db.engine.execute("""Select  top 1000 * from encaissement where encaissementDate BETWEEN '{0}' and '{1}' and montant BETWEEN {2} and {3} and valide LIKE '{4}' order by encaissementId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
     
@@ -2124,13 +2257,17 @@ def get_types_data():
     retrocessiontypels = db.engine.execute("""Select 'retrocessiontype' as 'Name' ,* from retrocessiontype""")
     retrocessiontypejson = convert_list_to_json(retrocessiontypels)
 
+    vershontypels = db.engine.execute("""Select 'vershontype' as 'Name' ,* from vers_hontype""")
+    vershontypejson = convert_list_to_json(vershontypels)
+
+
     dentisterietypels = db.engine.execute("""Select 'dentisterietype' as 'Name', * from dentisterietype""")
     dentisterietypejson = convert_list_to_json(dentisterietypels)
 
     fraismaterieltypels = db.engine.execute("""Select 'fraismaterieltype' as 'Name', * from fraismaterieltype""")
     fraismaterieltypejson = convert_list_to_json(fraismaterieltypels)
 
-    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson+salairetypejson)
+    return (facturationtypejson+paymenttypejson+retrocessiontypejson+dentisterietypejson+fraismaterieltypejson+salairetypejson+vershontypejson)
     
 
 def get_medicins_data(id):
@@ -2279,7 +2416,9 @@ def getmoduledata():
     elif request.args["moduletype"]=='salaire':
         return(jsonify(get_modules_data('salaire',startDate,endDate,minamount,maxamount,validefilter)))       
     elif request.args["moduletype"]=='retrocession':
-        return(jsonify(get_modules_data('retrocession',startDate,endDate,minamount,maxamount,validefilter)))    
+        return(jsonify(get_modules_data('retrocession',startDate,endDate,minamount,maxamount,validefilter)))
+    elif request.args["moduletype"]=='vershon':
+        return(jsonify(get_modules_data('vershon',startDate,endDate,minamount,maxamount,validefilter)))    
     elif request.args["moduletype"]=='encaissement':
         return(jsonify(get_modules_data('encaissement',startDate,endDate,minamount,maxamount,validefilter)))  
     elif request.args["moduletype"]=='medicins':
@@ -2354,6 +2493,20 @@ def editmoduleitem():
                           date='{4}'
     
                           Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,newdate,id)) 
+    elif module=='vershon':
+        newtype = request.json['newtype']
+        newname = request.json['newname']
+        newamount = request.json['newamount']
+        newdate = request.json['newdate']
+        newcomment = request.json['newcomment']
+        db.engine.execute("""UPDATE vers_hon set
+                          vershonType = '{0}',
+                          vershonNom = '{1}',
+                          somme='{2}',
+                          comment='{3}',
+                          date='{4}'
+    
+                          Where vershonId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))         
     elif module=='encaissement':
         newbanque = request.json['newbanque']
         newname = request.json['newname']
@@ -2496,7 +2649,9 @@ def delete_module_item():
     elif module=='facturation':
         db.engine.execute("""DELETE from facturation where facturationid ={0}""".format(id))  
     elif module=='retrocession':
-        db.engine.execute("""DELETE from retrocession where retrocessionid ={0}""".format(id))    
+        db.engine.execute("""DELETE from retrocession where retrocessionid ={0}""".format(id))  
+    elif module=='vershon':
+        db.engine.execute("""DELETE from vers_hon where vershonid ={0}""".format(id))            
     elif module=='encaissement':
         db.engine.execute("""DELETE from encaissement where encaissementid ={0}""".format(id))      
     elif module=='medicins':
@@ -2548,7 +2703,9 @@ def validateitem():
     elif module == 'facturation':
         db.engine.execute("""UPDATE facturation SET Valide='valide' where facturationId = {0}""".format(id2validate))  
     elif module == 'retrocession':
-        db.engine.execute("""UPDATE retrocession SET Valide='valide' where retrocessionId = {0}""".format(id2validate))      
+        db.engine.execute("""UPDATE retrocession SET Valide='valide' where retrocessionId = {0}""".format(id2validate)) 
+    elif module == 'vershon':
+        db.engine.execute("""UPDATE vers_hon SET Valide='valide' where vershonId = {0}""".format(id2validate))              
     elif module == 'encaissement':
         db.engine.execute("""UPDATE encaissement SET Valide='valide' where encaissementId = {0}""".format(id2validate))                     
     
@@ -2572,6 +2729,8 @@ WHERE condition; """
         db.engine.execute("""UPDATE salairetype SET salaireType = '{0}' WHERE salairetypeid = {1} """.format(newvalue,typeid))        
     elif category == "retrocessiontype":
         db.engine.execute("""UPDATE retrocessiontype SET retrocessionType = '{0}' WHERE retrocessiontypeid = {1} """.format(newvalue,typeid))
+    elif category == "vershontype":
+        db.engine.execute("""UPDATE vers_hontype SET vershonType = '{0}' WHERE vershontypeid = {1} """.format(newvalue,typeid))        
     elif category == "dentisterietype":
         db.engine.execute("""UPDATE dentisterietype SET dentisterietype = '{0}' WHERE dentisterietypeid = {1} """.format(newvalue,typeid))    
     elif category == "fraismaterieltype":
@@ -2601,6 +2760,8 @@ def delete_types():
                 db.engine.execute("""Delete from salairetype where salairetypeid = {1}""".format(id["type"],id["id"]))                
             elif id["type"]=="retrocessiontype":
                 db.engine.execute("""Delete from retrocessiontype where retrocessiontypeid = {1}""".format(id["type"],id["id"]))
+            elif id["type"]=="vershontype":
+                db.engine.execute("""Delete from vers_hontype where vershontypeid = {1}""".format(id["type"],id["id"]))                
             elif id["type"]=="dentisterietype":
                 db.engine.execute("""Delete from dentisterietype where dentisterietypeId = {1}""".format(id["type"],id["id"])) 
             elif id["type"]=="fraismaterieltype":
@@ -3239,7 +3400,9 @@ def setup():
         elif addgeneraltype.category.data == "Frais Materiel":
             db.engine.execute("""insert into fraismaterieltype VALUES ('{0}')""".format(addgeneraltype.typename.data)) 
         elif addgeneraltype.category.data == "Retrocession":
-            db.engine.execute("""insert into retrocessiontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))                                
+            db.engine.execute("""insert into retrocessiontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data)) 
+        elif addgeneraltype.category.data == "Versements Honoraires":
+            db.engine.execute("""insert into vers_hontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))                                
 
 
         return redirect(url_for('setup'))
