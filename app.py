@@ -112,7 +112,7 @@ class medicalperson(db.Model):
     medaddress=db.Column(db.String(400))
     medemail=db.Column(db.String(200))
     medcoordonneebanc=db.Column(db.String(200))
-    mednoavs=db.Column(db.Integer)
+    mednoavs=db.Column(db.String(80))
     medstartdate=db.Column(db.Date,nullable=False)
     medenddate=db.Column(db.Date)
     isemployee=db.Column(db.String(80),nullable=False)
@@ -124,7 +124,7 @@ class employee(db.Model):
     emptelephone = db.Column(db.String(80))
     empemail = db.Column(db.String(80))
     empcoordonnebanc = db.Column(db.String(80))
-    empnoavs = db.Column(db.Integer)
+    empnoavs = db.Column(db.String(80))
     emppole = db.Column(db.String(40))
     empintituleposte = db.Column(db.String(50),nullable=False)
     empdatedebut = db.Column(db.Date,nullable=False)
@@ -1509,10 +1509,10 @@ def get_person_related_data(entity,employeename):
             sals.append(sal[0])
         returned_data["salaries"]=sals
 
-        percentages = db.engine.execute("""select pourcentages from employee_percentageactivity where employee = '{0}'""".format(employeename))
+        percentages = db.engine.execute("""select pourcentages,fonction from employee_percentageactivity where employee = '{0}'""".format(employeename))
         percs=[]
         for perc in percentages:
-            percs.append(perc[0])
+            percs.append({"0":perc[0],"1":perc[1]})
         returned_data["percentages"]=percs
         
         return returned_data
@@ -1534,7 +1534,7 @@ def get_person_data(entity):
                 finalsal +=str(sal)+"<br>" 
             finalperc=""
             for perc in percs:
-                finalperc +=str(perc)+"%<br>" 
+                finalperc +=str(perc["0"])+"% - "+str(perc["1"])+"<br>" 
             itm[99] =finalsal
             itm[100]=finalperc
         
@@ -1597,7 +1597,7 @@ def addemployeeitems():
     empposte=request.json['empposte']
     empdatedebut=request.json['empdatedebut']
 
-    db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
+    db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
     salairies = request.json["empsalaire"]
     percentage_activities_for_current_employee = request.json["percentage_activities_for_current_employee"]
     for sal in salairies:
@@ -1641,7 +1641,7 @@ def addmedicinsitems():
     for salaire in medsalaires:
         db.engine.execute("""INSERT INTO medsalaire VALUES('{0}',{1},'{2}','{3}',{4})""".format(mednom,salaire[0],salaire[2],salaire[3],salaire[1]))
 
-    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}',{15},'{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,medstartdate,medenddate,isemployee))
+    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,medstartdate,medenddate,isemployee))
     return(jsonify({"Status":"OK"}))
 
     
@@ -2560,7 +2560,7 @@ def editmoduleitem():
                             emptelephone='{2}',
                             empemail='{3}',
                             empcoordonnebanc='{4}',
-                            empnoavs={5},
+                            empnoavs='{5}',
                             emppole='{6}',
                             empintituleposte='{7}',
                             empdatedebut='{8}'
@@ -2617,7 +2617,7 @@ def editmoduleitem():
                             
                             medemail='{9}',
                             medcoordonneebanc='{10}',
-                            mednoavs={11},
+                            mednoavs='{11}',
                             medstartdate='{12}',
                             
                             isemployee='{13}'
