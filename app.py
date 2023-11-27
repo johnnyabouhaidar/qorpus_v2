@@ -2846,7 +2846,7 @@ def get_kpi_cards():
 
     
     encls,encsum = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
-    encoldls,encsumold = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(fromdate,todate))
+    encoldls,encsumold = get_ls_for_dashboard("""select banque, SUM(montant) AS somme from encaissement where Valide='valide' and encaissementDate BETWEEN '{0}' and '{1}'  group by banque""".format(oldfrom,fromdate))
     
     encaissementpercentagechange = ((encsum-encsumold)/(encsum+encsumold))*100    
 

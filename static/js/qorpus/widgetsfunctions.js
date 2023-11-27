@@ -281,18 +281,18 @@ function filltable_plus_chart_data(module,year)
                 <div><span class="fw-semibold">${rows[i][0]}</span></div>
             </div>
         </th>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][1])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][2])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][3])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][4])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][5])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][6])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][7])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][8])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][9])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][10])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][11])}</td>
-        <td>${Intl.NumberFormat('fr-FR').format(rows[i][12])}</td>`
+        <td>${rows[i][1]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][1]):"-"}</td>
+        <td>${rows[i][2]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][2]):"-"}</td>
+        <td>${rows[i][3]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][3]):"-"}</td>
+        <td>${rows[i][4]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][4]):"-"}</td>
+        <td>${rows[i][5]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][5]):"-"}</td>
+        <td>${rows[i][6]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][6]):"-"}</td>
+        <td>${rows[i][7]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][7]):"-"}</td>
+        <td>${rows[i][8]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][8]):"-"}</td>
+        <td>${rows[i][9]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][9]):"-"}</td>
+        <td>${rows[i][10]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][10]):"-"}</td>
+        <td>${rows[i][11]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][11]):"-"}</td>
+        <td>${rows[i][12]!=0 ? Intl.NumberFormat('fr-FR').format(rows[i][12]):"-"}</td>`
         //alert(Intl.NumberFormat('fr-FR').format(Math.round(rows[i][13])))
         data_for_chart.push(Math.round(rows[i][13]))
         titles_for_chart.push(rows[i][0])
@@ -409,29 +409,29 @@ function reload_kpi_views(fromdate,todate){
               
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
-        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiement Total",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
+        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiements",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
         kpirows.appendChild(paymentkpi.firstChild)
         
         
 
         facturationkpi = document.createElement("div");
-        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation Total",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],2)
+        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],2)
         kpirows.appendChild(facturationkpi.firstChild)
 
         retrocessionkpi = document.createElement("div");
-        retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession Total",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
+        retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
         kpirows.appendChild(retrocessionkpi.firstChild)
 
         vershonkpi = document.createElement("div");
-        vershonkpi.innerHTML=build_kpi_card("vershonkpi","Versements Honoraires Total",kpis["vershon"]["newtotal"],kpis["vershon"]["percentagechange"],kpis["vershon"]["oldfrom"],kpis["vershon"]["oldto"],4)
+        vershonkpi.innerHTML=build_kpi_card("vershonkpi","Versements Honoraires",kpis["vershon"]["newtotal"],kpis["vershon"]["percentagechange"],kpis["vershon"]["oldfrom"],kpis["vershon"]["oldto"],4)
         kpirows.appendChild(vershonkpi.firstChild)        
 
         encaissementkpi = document.createElement("div");
-        encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Total",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],5)
+        encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Avance",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],5)
         kpirows.appendChild(encaissementkpi.firstChild)
 
         salairekpi = document.createElement("div");
-        salairekpi.innerHTML=build_kpi_card("salairekpi","Salaire Total",kpis["salaire"]["newtotal"],kpis["salaire"]["percentagechange"],kpis["salaire"]["oldfrom"],kpis["salaire"]["oldto"],6)
+        salairekpi.innerHTML=build_kpi_card("salairekpi","Salaire et Charges Sociales",kpis["salaire"]["newtotal"],kpis["salaire"]["percentagechange"],kpis["salaire"]["oldfrom"],kpis["salaire"]["oldto"],6)
         kpirows.appendChild(salairekpi.firstChild)
 
         pnlkpi = document.createElement("div");
