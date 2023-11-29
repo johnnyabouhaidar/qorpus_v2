@@ -3403,21 +3403,56 @@ def setup():
     if addgeneraltype.validate_on_submit():
         
         if addgeneraltype.category.data == "Paiement":
+            paytype = db.engine.execute("""Select * from paymenttype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))
             db.engine.execute("""Insert into paymenttype VALUES ('{0}')""".format(addgeneraltype.typename.data))
         elif addgeneraltype.category.data == "Salaire":
+            paytype = db.engine.execute("""Select * from salairetype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""Insert into salairetype VALUES ('{0}')""".format(addgeneraltype.typename.data))             
         elif addgeneraltype.category.data == "Facturation":
+            paytype = db.engine.execute("""Select * from facturationtype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""insert into facturationtype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))
         elif addgeneraltype.category.data == "Dentisterie":
+            paytype = db.engine.execute("""Select * from dentisterietype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""insert into dentisterietype VALUES ('{0}')""".format(addgeneraltype.typename.data))   
         elif addgeneraltype.category.data == "Frais Materiel":
+            paytype = db.engine.execute("""Select * from fraismaterieltype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""insert into fraismaterieltype VALUES ('{0}')""".format(addgeneraltype.typename.data)) 
         elif addgeneraltype.category.data == "Retrocession":
+            paytype = db.engine.execute("""Select * from retrocessiontype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""insert into retrocessiontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data)) 
         elif addgeneraltype.category.data == "Versements Honoraires":
+            paytype = db.engine.execute("""Select * from vers_hontype""").fetchall()
+            for typee in paytype:
+                if addgeneraltype.typename.data ==typee[1]:
+                    flash("Le type existe déjà veuillez en choisir un autre!")
+                    return redirect(url_for('setup'))            
             db.engine.execute("""insert into vers_hontype VALUES ('{0}',0)""".format(addgeneraltype.typename.data))                                
 
-
+        
         return redirect(url_for('setup'))
     if staticitemsForm.validate_on_submit():
         try:

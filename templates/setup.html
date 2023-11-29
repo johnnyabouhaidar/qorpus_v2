@@ -90,6 +90,13 @@
               </div>
           </div>
       </div>
+      {%with messages = get_flashed_messages() %}
+      {%if messages %}
+      {%for message in messages %}
+       {{message}}
+      {%endfor%}
+      {%endif%}
+  {%endwith%}
       <div class="row mt-4">
           <div class="col-xl-12">
               <div class="card custom-card">
@@ -97,6 +104,7 @@
                       <div class="card-title">{{_("Creation des Catégories")}}</div>
                   </div>
                   <div class="card-body">
+
                       <table id="responsiveDataTable2" class="table table-bordered text-nowrap" style="width: 100%;">
                           <thead>
                               <tr>

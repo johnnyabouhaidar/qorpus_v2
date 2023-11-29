@@ -1,5 +1,6 @@
 
 baseurl = window.location.origin
+
 function edituser(id){
 
     data = {
@@ -233,6 +234,7 @@ function populate_table(){
         >
         admin <i class="bi bi-key"></i>
         </span> `
+
                 role = divelement.innerHTML
         }else{
             role = users[i][3]
@@ -250,7 +252,8 @@ function populate_table(){
         }
         
                               
-
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     }
     
 
