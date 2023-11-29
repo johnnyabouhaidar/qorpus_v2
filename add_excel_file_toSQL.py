@@ -1,7 +1,7 @@
 from DB_layer import *
 import pandas as pd
 
-excel_file_path=r"Simplified Data - Versement Honnoraires - 2023.xlsx"
+excel_file_path=r"Simplified Data - Salaires et Charges Sociale - 2022.xlsx"
 
 df=pd.read_excel(excel_file_path)
 '''
@@ -20,7 +20,7 @@ for idx,row in enumerate(df.iterrows()):
         mult_str=mult_str+"('{0}','{4}',{1},'{2}','{3}'),".format(df.iloc[idx]["Recipient"].replace("'",""),df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"],df.iloc[idx]["Type"])
 
 '''
-'''
+
 mult_str="""INSERT INTO salaire ( salaireNom
       ,salaireType
       ,somme
@@ -34,7 +34,7 @@ for idx,row in enumerate(df.iterrows()):
         mult_str=mult_str+"('{0}','{4}',{1},'{2}','{3}'),".format(df.iloc[idx]["Recipient"].replace("'","").strip(),df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],"",df.iloc[idx]["Type"].strip())
     else:
         mult_str=mult_str+"('{0}','{4}',{1},'{2}','{3}'),".format(df.iloc[idx]["Recipient"].replace("'","").strip(),df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"].strip(),df.iloc[idx]["Type"].strip())
-'''
+
 '''
 mult_str="""INSERT INTO payment ( paiementsNom
       ,paiementsType
@@ -62,10 +62,11 @@ for idx,row in enumerate(df.iterrows()):
     #print(df.iloc[idx]["Amount"])
     #print(df.iloc[idx]["Comment"])
     if str(df.iloc[idx]["Comment"])=='nan':
-        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}','{5}'),".format(df.iloc[idx]["Nom"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Somme"],str(df.iloc[idx]["Date"]).split(" ")[0],"","Valide")
+        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}','{5}'),".format(df.iloc[idx]["Recipient"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],"","valide")
     else:
-        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}','{5}'),".format(df.iloc[idx]["Nom"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Somme"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"].replace("'",""),"Valide")
+        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}','{5}'),".format(df.iloc[idx]["Recipient"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"].replace("'",""),"valide")
         
+'''
 '''
 mult_str="""INSERT INTO vers_hon ( vershonNom
       ,vershonType
@@ -78,9 +79,10 @@ for idx,row in enumerate(df.iterrows()):
     #print(df.iloc[idx]["Amount"])
     #print(df.iloc[idx]["Comment"])
     if str(df.iloc[idx]["Comment"])=='nan':
-        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}'),".format(df.iloc[idx]["Nom"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Somme"],str(df.iloc[idx]["Date"]).split(" ")[0],"")
+        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}'),".format(df.iloc[idx]["Recipient"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],"")
     else:
-        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}'),".format(df.iloc[idx]["Nom"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Somme"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"].replace("'",""))
+        mult_str=mult_str+"('{0}','{1}',{2},'{3}','{4}'),".format(df.iloc[idx]["Recipient"].replace("'",""),df.iloc[idx]["Type"],df.iloc[idx]["Amount"],str(df.iloc[idx]["Date"]).split(" ")[0],df.iloc[idx]["Comment"].replace("'",""))
+'''
 '''
 mult_str="""INSERT INTO facturation ( facturationNom
       ,facturationType
