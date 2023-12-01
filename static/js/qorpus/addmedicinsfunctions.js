@@ -115,6 +115,27 @@ function append_percentage_activity(){
 
 }
 
+function edit_item_to_percentage_table(rowUID){
+    var row = $(`#${rowUID}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+    //let updated_date = document.getElementById(`addDatePicker${id}`).value;
+    let updated_de = document.getElementById(`edit-input-de${rowUID}`).value;
+    let updated_a = document.getElementById(`edit-input-a${rowUID}`).value;
+    let updated_perc = document.getElementById(`edit-input-perc${rowUID}`).value;
+    for (var i=0;i<percentage_activities_for_current_doctor.length;i++){
+        if (percentage_activities_for_current_doctor[i][3]==rowUID){
+            percentage_activities_for_current_doctor[i][0]=updated_de;
+            percentage_activities_for_current_doctor[i][1]=updated_a;
+            percentage_activities_for_current_doctor[i][2]=updated_perc;
+        }
+    }
+    table.cell( row ,3).data( updated_de ).draw( false );    
+    table.cell( row ,4).data( updated_a ).draw( false );    
+    table.cell( row ,5).data( updated_perc ).draw( false );    
+    //alert(medsalaire)
+}
+
 function add_item_to_percentage_table(){
     pour_de=document.getElementById("input-de").value;
     pour_a = document.getElementById("input-a").value;
@@ -146,8 +167,35 @@ function add_item_to_percentage_table(){
             </div>
         </div>
     </div>
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editDoctorsPercentage${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+    <div class="modal fade effect-rotate-left" id="editDoctorsPercentage${rowUID}">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-start">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="input-de" class="form-label">De *</label> <input type="text" class="form-control" value=${pour_de} id="edit-input-de${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-a" class="form-label">A *</label> <input type="text" class="form-control" value=${pour_a} id="edit-input-a${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" value=${pour_perc} id="edit-input-perc${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <input type="button" class="form-control btn btn-primary" id="input-button" onclick="edit_item_to_percentage_table(${rowUID})" data-bs-dismiss="modal" value="Modifier">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
-</div>`
+`
     percentage_activities_for_current_doctor.push([pour_de,pour_a,pour_perc,rowUID])
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);

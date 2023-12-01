@@ -96,7 +96,32 @@ function add_item_to_percentage_table_4edit(){
             </div>
         </div>
     </div>
-
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editDoctorsPercentage${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+    <div class="modal fade effect-rotate-left" id="editDoctorsPercentage${rowUID}">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-start">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="input-de" class="form-label">De *</label> <input type="text" class="form-control" value=${pour_de} id="edit-input-de${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-a" class="form-label">A *</label> <input type="text" class="form-control" value=${pour_a} id="edit-input-a${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" value=${pour_perc} id="edit-input-perc${rowUID}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <input type="button" class="form-control btn btn-primary" id="input-button" onclick="edit_item_to_percentage_table(${rowUID})" data-bs-dismiss="modal" value="Modifier">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>`
     percentage_activities.push([pour_de,pour_a,pour_perc,rowUID])
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
@@ -249,7 +274,26 @@ function modify_doctor(){
   
 
 }
-
+function edit_item_to_percentage_tableEDIT(rowUID){
+    var row = $(`#${rowUID}`).closest('tr');
+    
+    let table = $('#responsiveDataTable').DataTable();
+    //let updated_date = document.getElementById(`addDatePicker${id}`).value;
+    let updated_de = document.getElementById(`edit-input-de${rowUID}`).value;
+    let updated_a = document.getElementById(`edit-input-a${rowUID}`).value;
+    let updated_perc = document.getElementById(`edit-input-perc${rowUID}`).value;
+    for (var i=0;i<percentage_activities.length;i++){
+        if (percentage_activities[i][3]==rowUID){
+            percentage_activities[i][0]=updated_de;
+            percentage_activities[i][1]=updated_a;
+            percentage_activities[i][2]=updated_perc;
+        }
+    }
+    table.cell( row ,3).data( updated_de ).draw( false );    
+    table.cell( row ,4).data( updated_a ).draw( false );    
+    table.cell( row ,5).data( updated_perc ).draw( false );    
+    //alert(medsalaire)
+}
 
 function load_medicins_data(){
 
@@ -332,7 +376,32 @@ function load_medicins_data(){
                 </div>
             </div>
         </div>
-    
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editDoctorsPercentage${perc_act[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+    <div class="modal fade effect-rotate-left" id="editDoctorsPercentage${perc_act[i]["0"]}">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-start">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="input-de" class="form-label">De *</label> <input type="text" class="form-control" value=${perc_act[i]["1"]} id="edit-input-de${perc_act[i]["0"]}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-a" class="form-label">A *</label> <input type="text" class="form-control" value=${perc_act[i]["2"]} id="edit-input-a${perc_act[i]["0"]}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" value=${perc_act[i]["3"]} id="edit-input-perc${perc_act[i]["0"]}" />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <input type="button" class="form-control btn btn-primary" id="input-button" onclick="edit_item_to_percentage_tableEDIT(${perc_act[i]["0"]})" data-bs-dismiss="modal" value="Modifier">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     </div>`
 
         percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["0"]])
