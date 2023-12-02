@@ -101,7 +101,7 @@ class medicalperson(db.Model):
     medspeciality=db.Column(db.String(80),nullable=False)
     medtype=db.Column(db.String(80),nullable=False)
     medpourcentage = db.Column(db.Float,nullable=False)
-    medchargesociales=db.Column(db.Float,nullable=False)
+    medchargesociales=db.Column(db.Float)
     medsurfaceaccordee = db.Column(db.Float,nullable=False)
     medsalaire = db.Column(db.Float)
     mednombremoissalaireparan = db.Column(db.Float)
@@ -1617,7 +1617,11 @@ def addmedicinsitems():
     medspeciality = request.json['medspeciality']
     medtype = request.json['medtype']
     medpourcentage = request.json['medpourcentage']
-    medchargesociales = request.json['medchargesociales']
+    print(request.json['medchargesociales']+"!!!!!!!!!!")
+    if request.json['medchargesociales'] =="":
+        medchargesociales = 0
+    else:
+        medchargesociales = request.json['medchargesociales']
     medsurfaceaccordee = request.json['medsurfaceaccordee']
     medsalaire = request.json['medsalaire']
     mednombremoissalaireparan = request.json['mednombremoissalaireparan']
@@ -2580,7 +2584,10 @@ def editmoduleitem():
         speciality=request.json["medspeciality"]
         typee=request.json["medtype"]
         perc_share=request.json["medpourcentage"]
-        charge_soc=request.json["medchargesociales"]
+        if request.json["medchargesociales"] =="":
+            charge_soc=0
+        else:
+            charge_soc=request.json["medchargesociales"]
         surface_accorde=request.json["medsurfaceaccordee"]
         #medsalaire=request.json["medsalaire"]
         #salaireparan=request.json["mednombremoissalaireparan"]
@@ -2813,7 +2820,7 @@ def get_kpi_cards():
         todate=datetime.datetime.strptime(request.args["todate"],"%Y-%m-%d")
     except:
         fromdate = date(datetime.datetime.now().year,1,1)#year month day
-        todate = date(datetime.datetime.now().year,12,31)
+        todate = date(datetime.datetime.now().year,datetime.datetime.now().month,datetime.datetime.now().day)
 
     daysdiff = (todate-fromdate).days
 

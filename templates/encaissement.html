@@ -354,6 +354,31 @@
     //console.log(users_table)
     
     document.addEventListener("DOMContentLoaded", function(event) { 
+        $('#mainCalendar').daterangepicker({
+    locale: {
+      format: 'MMM D, YYYY', // Updated date format
+      separator: ' - ',
+      applyLabel: 'Appliquer', // Custom "Apply" button label in French
+      cancelLabel: 'Annuler', // Custom "Cancel" button label in French
+      customRangeLabel: 'Choisir', // Custom label for the custom range option in French
+      daysOfWeek: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'], // Custom day labels in French
+      monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], // Custom month labels in French
+    },
+    ranges: {
+      'Aujourd\'hui': [moment(), moment()],
+      'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      'Les 7 Derniers Jours': [moment().subtract(6, 'days'), moment()],
+      'Les 30 Derniers Jours': [moment().subtract(29, 'days'), moment()],
+      'Ce Mois': [moment().startOf('month'), moment().endOf('month')],
+      'Le Mois Dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    },
+    startDate: moment().startOf('year'), // for example, 7 days ago
+    endDate: moment().endOf('year'),
+    showRanges: true, // Show the ranges by default
+    showDropdowns: true, // Show year and month dropdowns
+    showCustomRangeLabel: true, // Show custom range label
+    showCalendars: true // Show the calendars by default
+  });
 
         defualtstartdate=`${new Date().getFullYear()}-1-1`
     defualtenddate=`${new Date().getFullYear()}-12-31`

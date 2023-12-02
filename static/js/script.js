@@ -77,7 +77,7 @@ $(document).ready(function () {
 
 //date calendar
 function createDatePicker() {
-  $('#mainCalendar').daterangepicker({
+  /*$('#mainCalendar').daterangepicker({
     locale: {
       format: 'MMM D, YYYY', // Updated date format
       separator: ' - ',
@@ -101,7 +101,7 @@ function createDatePicker() {
     showDropdowns: true, // Show year and month dropdowns
     showCustomRangeLabel: true, // Show custom range label
     showCalendars: true // Show the calendars by default
-  });
+  });*/
 
   // Optionally, you can add event listeners to handle date range changes
   $('#mainCalendar').on('apply.daterangepicker', function (ev, picker) {

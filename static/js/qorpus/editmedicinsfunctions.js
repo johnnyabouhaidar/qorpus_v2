@@ -6,6 +6,37 @@ var id = url.searchParams.get("id");
 var percentage_activities=[]
 var medsalaire_edit=[]
 
+$('#salaire').hide()
+$('#charges-sociales').hide()
+$('#charges-sociales-lbl').hide()
+$('#noavs').hide()
+$('#noavs-lbl').hide()
+$('#isemp-select').change(function(){
+
+    if (this.value==='yes')
+    {
+    //this.myform['other'].style.visibility='visible'
+    //$('input[name=paiementsNomALT]').show()
+    
+    $('#salaire').show()
+    $('#charges-sociales').show()
+    $('#charges-sociales-lbl').show()
+    $('#noavs').show()
+    $('#noavs-lbl').show()
+    
+    }
+    else {
+        //$('input[name=paiementsNomALT]').hide()
+        $('#salaire').hide()
+        $('#charges-sociales').hide()
+        $('#charges-sociales-lbl').hide()
+        $('#noavs').hide()
+        $('#noavs-lbl').hide()
+    
+    };
+    
+    })
+
 function bulk_delete_medicins_perc_TMP_4edit()
 {
     var array = []
@@ -336,6 +367,13 @@ function load_medicins_data(){
       document.getElementById("datedebut").value=items["medstartdate"]
       
       document.getElementById("isemp-select").value=items["isemployee"]
+
+      if (items["isemployee"]=='yes')
+      {$('#salaire').show()
+      $('#charges-sociales').show()
+      $('#charges-sociales-lbl').show()
+      $('#noavs').show()
+      $('#noavs-lbl').show()}
 
       //document.getElementById("salaire").value = items['medsalaire'];
       //document.getElementById("nombre-mois-salaire-an").value = items['salaireparan'];

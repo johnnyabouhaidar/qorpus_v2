@@ -17,7 +17,7 @@ function getChartByDivId(divname) {
   }
 
 function link_drag_cards(){
-    dragula([
+   /* dragula([
         document.querySelector('#kpi-1'), 
         document.querySelector('#kpi-2'),
          document.querySelector('#kpi-3'), 
@@ -42,7 +42,7 @@ function link_drag_cards(){
             moves: function (el, container, handle) {
                 return handle.classList.contains('handle');
             }
-        });
+        })*/;
         /*$('#mainCalendar').daterangepicker({
             locale: {
               format: 'MMM D, YYYY', // Updated date format
@@ -169,7 +169,7 @@ function build_pnl_chart_widget()
 return inner_text;
 }
 
-function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex)
+function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtodate,cardindex,icon)
 {
 
     //var formattedtotal = total.toLocaleString("en-US");
@@ -186,14 +186,15 @@ function build_kpi_card(titleid,title,total,percentagechange,oldfromdate,newtoda
             <div class="row">
                 <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon px-0">
                     <span class="rounded p-3 bg-primary-transparent">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-white primary" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                        <!--<svg xmlns="http://www.w3.org/2000/svg" class="svg-white primary" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
                             <g>
                                 <rect fill="none" height="24" width="24" />
                                 <path
                                     d="M18,6h-2c0-2.21-1.79-4-4-4S8,3.79,8,6H6C4.9,6,4,6.9,4,8v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8C20,6.9,19.1,6,18,6z M12,4c1.1,0,2,0.9,2,2h-4C10,4.9,10.9,4,12,4z M18,20H6V8h2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8h4v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8 h2V20z"
                                 />
                             </g>
-                        </svg>
+                        </svg>-->
+                        <i class="ti ti-${icon} fs-32"></i>
                     </span>
                 </div>
                 <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 ps-0">
@@ -409,33 +410,34 @@ function reload_kpi_views(fromdate,todate){
               
         kpirows.innerHTML="";
         paymentkpi = document.createElement("div");
-        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiements",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1)
+        paymentkpi.innerHTML=build_kpi_card("paymentkpi","Paiements",kpis["payment"]["newtotal"],kpis["payment"]["percentagechange"],kpis["payment"]["oldfrom"],kpis["payment"]["oldto"],1,"report-money")
         kpirows.appendChild(paymentkpi.firstChild)
         
+        salairekpi = document.createElement("div");
+        salairekpi.innerHTML=build_kpi_card("salairekpi","Salaire et Charges Sociales",kpis["salaire"]["newtotal"],kpis["salaire"]["percentagechange"],kpis["salaire"]["oldfrom"],kpis["salaire"]["oldto"],2,"currency-frank")
+        kpirows.appendChild(salairekpi.firstChild)    
         
+        retrocessionkpi = document.createElement("div");
+        retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3,"exchange")
+        kpirows.appendChild(retrocessionkpi.firstChild)   
+        
+        vershonkpi = document.createElement("div");
+        vershonkpi.innerHTML=build_kpi_card("vershonkpi","Versements Honoraires",kpis["vershon"]["newtotal"],kpis["vershon"]["percentagechange"],kpis["vershon"]["oldfrom"],kpis["vershon"]["oldto"],4,"premium-rights")
+        kpirows.appendChild(vershonkpi.firstChild)         
 
         facturationkpi = document.createElement("div");
-        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],2)
+        facturationkpi.innerHTML=build_kpi_card("facturationkpi","Facturation",kpis["facturation"]["newtotal"],kpis["facturation"]["percentagechange"],kpis["facturation"]["oldfrom"],kpis["facturation"]["oldto"],5,"receipt")
         kpirows.appendChild(facturationkpi.firstChild)
 
-        retrocessionkpi = document.createElement("div");
-        retrocessionkpi.innerHTML=build_kpi_card("retrocessionkpi","Retrocession",kpis["retrocession"]["newtotal"],kpis["retrocession"]["percentagechange"],kpis["retrocession"]["oldfrom"],kpis["retrocession"]["oldto"],3)
-        kpirows.appendChild(retrocessionkpi.firstChild)
-
-        vershonkpi = document.createElement("div");
-        vershonkpi.innerHTML=build_kpi_card("vershonkpi","Versements Honoraires",kpis["vershon"]["newtotal"],kpis["vershon"]["percentagechange"],kpis["vershon"]["oldfrom"],kpis["vershon"]["oldto"],4)
-        kpirows.appendChild(vershonkpi.firstChild)        
 
         encaissementkpi = document.createElement("div");
-        encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Avance",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],5)
+        encaissementkpi.innerHTML=build_kpi_card("encaissementkpi","Encaissement Avance",kpis["encaissement"]["newtotal"],kpis["encaissement"]["percentagechange"],kpis["encaissement"]["oldfrom"],kpis["encaissement"]["oldto"],6,"credit-card")
         kpirows.appendChild(encaissementkpi.firstChild)
 
-        salairekpi = document.createElement("div");
-        salairekpi.innerHTML=build_kpi_card("salairekpi","Salaire et Charges Sociales",kpis["salaire"]["newtotal"],kpis["salaire"]["percentagechange"],kpis["salaire"]["oldfrom"],kpis["salaire"]["oldto"],6)
-        kpirows.appendChild(salairekpi.firstChild)
+
 
         pnlkpi = document.createElement("div");
-        pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],7)
+        pnlkpi.innerHTML=build_kpi_card("pnlkpi","PNL Total",kpis["pnl"]["newtotal"],kpis["pnl"]["percentagechange"],kpis["pnl"]["oldfrom"],kpis["pnl"]["oldto"],7,"chart-line")
         kpirows.appendChild(pnlkpi.firstChild)
         
 
@@ -568,42 +570,7 @@ function generate_pnl_chart(year){
                 offsetY: 0
             },
         },
-        markers: {
-            discrete: [{
-                seriesIndex: 0,
-                dataPointIndex: 5,
-                fillColor: '#305cfc',
-                strokeColor: '#fff',
-                size: 4,
-                shape: "circle"
-            },
-            {
-                seriesIndex: 0,
-                dataPointIndex: 11,
-                fillColor: '#305cfc',
-                strokeColor: '#fff',
-                size: 4,
-                shape: "circle"
-            },
-            {
-                seriesIndex: 1,
-                dataPointIndex: 10,
-                fillColor: '#23b7e5',
-                strokeColor: '#fff',
-                size: 4,
-                shape: "circle"
-            }, {
-                seriesIndex: 1,
-                dataPointIndex: 4,
-                fillColor: '#23b7e5',
-                strokeColor: '#fff',
-                size: 4,
-                shape: "circle"
-            }],
-            hover: {
-                sizeOffset: 6
-            }
-        },
+        
         yaxis: {
             title: {
                 style: {
@@ -658,7 +625,9 @@ function generate_pnl_chart(year){
             }
         },
         tooltip: {
+            
             shared:true,
+            
             y: [
                 {
                     title: {
@@ -683,11 +652,13 @@ function generate_pnl_chart(year){
                 }
             ]
             
+            
         },
         colors: ["rgb(132, 90, 223)", "#23b7e5"],
     };
     var chart = new ApexCharts(document.querySelector("#subscriptionOverview"), options);
   chart.render();
+  
 });
 });
 }

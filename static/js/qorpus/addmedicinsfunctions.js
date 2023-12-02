@@ -18,6 +18,7 @@ fetch('/medicinspecs/' + encodeURI(medtype.trim()).toString().replaceAll('%','*'
 response.json().then(function (data) {
     let optionHTML = '';
 
+    optionHTML += "<option value='' selected disabled>---</option>";
     optionHTML += "<option value='addnew'>Ajouter nouveau ?</option>";
     for (let spec of data.specs) {
         optionHTML += '<option value="' + spec.spec + '">' + spec.spec + '</option>';
@@ -28,6 +29,9 @@ response.json().then(function (data) {
 });
 
 }
+
+$('#newspeclbl').hide()
+$('#newspec').hide()
 
 $('#spec-select').change(function(){
     
@@ -48,6 +52,10 @@ $('#spec-select').change(function(){
     })
 
     $('#salaire').hide()
+    $('#charges-sociales').hide()
+    $('#charges-sociales-lbl').hide()
+    $('#noavs').hide()
+    $('#noavs-lbl').hide()
     $('#isemp-select').change(function(){
     
         if (this.value==='yes')
@@ -56,11 +64,19 @@ $('#spec-select').change(function(){
         //$('input[name=paiementsNomALT]').show()
         
         $('#salaire').show()
+        $('#charges-sociales').show()
+        $('#charges-sociales-lbl').show()
+        $('#noavs').show()
+        $('#noavs-lbl').show()
         
         }
         else {
             //$('input[name=paiementsNomALT]').hide()
             $('#salaire').hide()
+            $('#charges-sociales').hide()
+            $('#charges-sociales-lbl').hide()
+            $('#noavs').hide()
+            $('#noavs-lbl').hide()
         
         };
         
