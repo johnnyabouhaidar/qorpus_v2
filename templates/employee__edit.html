@@ -91,7 +91,7 @@
                                                                 </div>
                                                                 
                                                                 <div class="col-12 mt-4">
-                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="add_item_to_salaire_table_4edit_emp()">
+                                                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" data-bs-dismiss="modal" onclick="add_item_to_salaire_table_4edit_emp()">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -155,7 +155,14 @@
                                                                 <label for="input-de" class="form-label">Fonction *</label> <input type="text" class="form-control" id="fonction" />
                                                             </div>
                                                             <div class="col-12 mt-4">
-                                                                <label for="input-a" class="form-label">Docteur *</label> <input type="text" class="form-control" id="empmed" />
+                                                                <label for="product-name-add" class="form-label">Dr</label> 
+                                                                <!--<input type="text" class="form-control" id="empmed" />-->
+                                                                <select required class="js-example-basic text-muted" id = "empmed" name="state">
+                                                                    <option value="Type" selected disabled>Docteur</option>
+                                                                        <!--<option value="medicins">médecins</option>
+                                                                        <option value="dentiste">dentiste</option>
+                                                                        <option value="hygeniste">hygeniste</option>-->
+                                                                    </select>
                                                             </div>
                                                             <div class="col-12 mt-4">
                                                                 <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" id="empperc" />
