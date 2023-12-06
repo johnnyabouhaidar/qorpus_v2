@@ -857,7 +857,8 @@ def facturation(search=""):
 def facturationnames(facturationtype):
     facturationtype_dec= urllib.parse.unquote(facturationtype.replace("*","%").replace("~","/"))
     facturationnames = Facturation.query.filter_by(facturationType=facturationtype_dec).all()
-    doctornames=Doctor.query.all()
+    doctornames=medicalperson.query.filter_by(isemployee="yes")
+    employeenames = employee.query.all()
     
     Arry=[]
     for facturation in facturationnames:
@@ -869,11 +870,18 @@ def facturationnames(facturationtype):
             facturationObj['name']=facturation.facturationNom
             Arry.append(facturationObj)
     for doctor in doctornames:
-            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+            if not any(obj['name'] == doctor.mednom for obj in Arry):
                 docObj={}
-                docObj['id']=doctor.doctorid
-                docObj['name']=doctor.doctorname
+                docObj['id']=doctor.medid
+                docObj['name']=doctor.mednom
                 Arry.append(docObj)
+
+    for emp in employeenames:
+            if not any(obj['name'] == emp.empnom for obj in Arry):
+                empObj={}
+                empObj['id']=emp.empid
+                empObj['name']=emp.empnom
+                Arry.append(empObj)   
             
 
     return jsonify({'facturationnames':Arry})
@@ -987,7 +995,7 @@ def vershon(search=""):
 def vershonnames(vershontype):
     vershontype_dec= urllib.parse.unquote(vershontype.replace("*","%").replace("~","/"))
     vershonnames = VersHon.query.filter_by(vershonType=vershontype_dec).all()
-    doctornames=Doctor.query.all()
+    doctornames=medicalperson.query.all()
     
     Arry=[]
     for vershon in vershonnames:
@@ -999,11 +1007,13 @@ def vershonnames(vershontype):
             vershonObj['name']=vershon.vershonNom
             Arry.append(vershonObj)
     for doctor in doctornames:
-            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+            if not any(obj['name'] == doctor.mednom for obj in Arry):
                 docObj={}
-                docObj['id']=doctor.doctorid
-                docObj['name']=doctor.doctorname
+                docObj['id']=doctor.medid
+                docObj['name']=doctor.mednom
                 Arry.append(docObj)
+
+ 
             
 
     return jsonify({'vershonnames':Arry})
@@ -1118,7 +1128,8 @@ def retrocession(search=""):
 def retrocessionnames(retrocessiontype):
     retrocessiontype_dec= urllib.parse.unquote(retrocessiontype.replace("*","%").replace("~","/"))
     retrocessionnames = Retrocession.query.filter_by(retrocessionType=retrocessiontype_dec).all()
-    doctornames=Doctor.query.all()
+    doctornames=medicalperson.query.all()
+    employeenames = employee.query.all()
     
     Arry=[]
     for retrocession in retrocessionnames:
@@ -1130,11 +1141,18 @@ def retrocessionnames(retrocessiontype):
             retrocessionObj['name']=retrocession.retrocessionNom
             Arry.append(retrocessionObj)
     for doctor in doctornames:
-            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+            if not any(obj['name'] == doctor.mednom for obj in Arry):
                 docObj={}
-                docObj['id']=doctor.doctorid
-                docObj['name']=doctor.doctorname
+                docObj['id']=doctor.medid
+                docObj['name']=doctor.mednom
                 Arry.append(docObj)
+
+    for emp in employeenames:
+            if not any(obj['name'] == emp.empnom for obj in Arry):
+                empObj={}
+                empObj['id']=emp.empid
+                empObj['name']=emp.empnom
+                Arry.append(empObj)   
             
 
     return jsonify({'retrocessionnames':Arry})
@@ -1269,7 +1287,8 @@ def salaire(search=""):
 def salairenames(salairetype):
     salairetype_dec= urllib.parse.unquote(salairetype.replace("*","%").replace("~","/"))
     salairenames = Salaire.query.filter_by(salaireType=salairetype_dec).all()
-    doctornames = Doctor.query.all()
+    doctornames = medicalperson.query.filter_by(isemployee="yes")
+    employeenames = employee.query.all()
     
     Arry=[]
     for salaire in salairenames:
@@ -1280,14 +1299,21 @@ def salairenames(salairetype):
             salaireObj['id']=salaire.salaireId
             salaireObj['name']=salaire.salaireNom
             Arry.append(salaireObj)
-    '''
+    
     for doctor in doctornames:
-            if not any(obj['name'] == doctor.doctorname for obj in Arry):
+            if not any(obj['name'] == doctor.mednom for obj in Arry):
                 docObj={}
-                docObj['id']=doctor.doctorid
-                docObj['name']=doctor.doctorname
+                docObj['id']=doctor.medid
+                docObj['name']=doctor.mednom
                 Arry.append(docObj)
-                '''
+
+    for emp in employeenames:
+            if not any(obj['name'] == emp.empnom for obj in Arry):
+                empObj={}
+                empObj['id']=emp.empid
+                empObj['name']=emp.empnom
+                Arry.append(empObj)                
+                
                 
             
 
