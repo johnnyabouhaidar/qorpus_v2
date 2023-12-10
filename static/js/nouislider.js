@@ -5,7 +5,7 @@
     noUiSlider.create(nonLinearSlider, {
         connect: true,
         behaviour: 'tap',
-        start: [500, 4000],
+        start: [0, 900000],
         range: {
             // Starting at 500, step the value by 500,
             // until 4000 is reached. From there, step by 1000.

@@ -2248,17 +2248,17 @@ def convert_list_to_json_for_modules(inputlist):
 
 def get_modules_data(moduletype,strtdte,enddte,minamount,maxamount,validefilter):
     if moduletype=='payment':
-        listitems = db.engine.execute("""Select  top 1000 * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by paiementsId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+        listitems = db.engine.execute("""Select  top 1000 * from payment where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by valide, date DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='salaire':
-        listitems = db.engine.execute("""Select  top 1000 * from salaire where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by salaireId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+        listitems = db.engine.execute("""Select  top 1000 * from salaire where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by valide,date DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='facturation':
-        listitems = db.engine.execute("""Select  top 1000 * from facturation where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by facturationId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
+        listitems = db.engine.execute("""Select  top 1000 * from facturation where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by valide,date DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))
     elif moduletype=='retrocession':
-        listitems = db.engine.execute("""Select  top 1000 * from retrocession where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by retrocessionId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+        listitems = db.engine.execute("""Select  top 1000 * from retrocession where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by valide,date DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
     elif moduletype=='vershon':
-        listitems = db.engine.execute("""Select  top 1000 * from vers_hon where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by vershonId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))                
+        listitems = db.engine.execute("""Select  top 1000 * from vers_hon where date BETWEEN '{0}' and '{1}' and somme BETWEEN {2} and {3} and valide LIKE '{4}' order by valide,date DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))                
     elif moduletype=='encaissement':
-        listitems = db.engine.execute("""Select  top 1000 * from encaissement where encaissementDate BETWEEN '{0}' and '{1}' and montant BETWEEN {2} and {3} and valide LIKE '{4}' order by encaissementId DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
+        listitems = db.engine.execute("""Select  top 1000 * from encaissement where encaissementDate BETWEEN '{0}' and '{1}' and montant BETWEEN {2} and {3} and valide LIKE '{4}' order by valide,encaissementDate DESC""".format(strtdte,enddte,minamount,maxamount,validefilter))        
     
 
 

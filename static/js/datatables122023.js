@@ -1,27 +1,4 @@
 $(function (e) {
-
-var numberElements = document.querySelectorAll('.number');
-
-// Iterate through each element and format its content
-numberElements.forEach(function(element) {
-  // Get the text content and remove any existing thousands separators
-  var numberText = element.textContent.replace(/,/g, '');
-
-  // Parse the number as a float
-  var number = parseFloat(numberText);
-
-  // Check if the number has decimal places
-  if (Number.isInteger(number)) {
-    // If it's an integer, format without any decimal places
-    var formattedNumber = number.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  } else {
-    // If it has decimal places, format with one decimal digit
-    var formattedNumber = number.toLocaleString('fr-FR', { minimumFractionDigits: 1 });
-  }
-
-  // Update the content of the element with the new format
-  element.textContent = formattedNumber;
-});
   'use strict';
   var type = false;
   var nom = false;
@@ -44,12 +21,10 @@ numberElements.forEach(function(element) {
         buttons: [
           'copy', 'csv', 'excel', 'pdf', 'print'
         ],
-
-      },
-      
+      }
     ],
     pageLength: 10,
-  
+
     drawCallback: function (settings) {
       // call the pivot tables for the 3 buttons type, nom and montant  
       if (type) {
@@ -77,7 +52,7 @@ numberElements.forEach(function(element) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="5" class="group-bg">' +
+                  '<tr class="group"><td colspan="6" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -116,7 +91,7 @@ numberElements.forEach(function(element) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="5" class="group-bg">' +
+                  '<tr class="group"><td colspan="6" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -152,7 +127,7 @@ numberElements.forEach(function(element) {
               $(rows)
                 .eq(i)
                 .before(
-                  '<tr class="group"><td colspan="5" class="group-bg">' +
+                  '<tr class="group"><td colspan="6" class="group-bg">' +
                   '<i class="bx bx-chevron-right" style="font-size:18px; margin-right:10px; margin-top:5px"></i>' +
                   group + '</td>' +
                   '<td colspan="3" class="group-bg"><span class="group-sum">' + groupSum.toFixed(2) + '</span>' +
@@ -167,35 +142,15 @@ numberElements.forEach(function(element) {
     footerCallback: function (row, data, start, end, display) {
       var api = this.api();
       var sumColumnIndex = 5;
-    
+
       var sum = api
         .column(sumColumnIndex, { page: 'all' })
         .data()
         .reduce(function (a, b) {
-          // Ensure both a and b are strings
-          var aValue = typeof a === 'string' ? a : a.toString();
-          var bValue = typeof b === 'string' ? b : b.toString();
-    
-          // Remove non-breaking spaces
-          aValue = aValue.replace('\u202F', '');
-          bValue = bValue.replace('\u202F', '');
-    
-          // Replace the French decimal separator (comma) with a dot before parsing
-          aValue = aValue.replace(',', '.');
-          bValue = bValue.replace(',', '.');
-    
-          // Parse as float
-          aValue = parseFloat(aValue);
-          bValue = parseFloat(bValue);
-    
-          return aValue + bValue;
+          return parseFloat(a) + parseFloat(b);
         }, 0);
-    
-      // Format the sum with French formatting
-      var formattedSum = sum.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
-      // Update the element with the formatted sum
-      $('.table-somme-amount').html(formattedSum);
+      // somme of montant in the footer 
+      $('.table-somme-amount').html(sum.toFixed(2));
     }
   });
 
@@ -278,7 +233,6 @@ numberElements.forEach(function(element) {
     // Remove the selected rows from the DataTable
     table.rows(selectedRows).remove().draw();
   });
-
 
   // delete a specific row with modal
   $('.deleterow').on('click', function () {

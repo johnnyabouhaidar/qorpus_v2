@@ -134,7 +134,8 @@ function duplicate_retrocession_item(id){
         });
         });
       
-      $('input[name="somme"]').val(table.cell( row ,5).data())
+      var amount = table.cell( row ,5).data().replaceAll(",",".").replaceAll(/\s+/g,"")
+      $('input[name="somme"]').val((parseFloat(amount)))
       $('input[name="date"]').val(table.cell( row ,6).data())
       $('textarea[name="comment"]').val(table.cell( row ,7).data())
       $("#addretrocessiontModal").modal('show')
@@ -353,7 +354,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure do you want to delete this row? <br> ${items[i][1]} - ${items[i][2]}</p>
+                                                <p>Êtes-vous sûr de vouloir supprimer cette ligne ? <br> ${items[i][1]} - ${items[i][2]}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -370,7 +371,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure do you want to validate this row? <br> ${items[i][1]} - ${items[i][2]}</p>
+                                            <p>Êtes-vous sûr de vouloir valider cette ligne ? <br> ${items[i][1]} - ${items[i][2]}</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -436,7 +437,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                             }else{
                                                 valideval = "Visé"
                                             }
-                                            rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":items[i][3],"6":dateisostr,"7":items[i][4],"8":valideval})
+                                            rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":Intl.NumberFormat('fr-FR').format(items[i][3]),"6":dateisostr,"7":items[i][4],"8":valideval})
         
 
 
