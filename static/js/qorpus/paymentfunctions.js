@@ -2,7 +2,7 @@
 
 
 var baseurl = window.location.origin;
-
+var modulename = "Paiements"
 
 let paymenttype_select = document.getElementById('paiement-type');
         

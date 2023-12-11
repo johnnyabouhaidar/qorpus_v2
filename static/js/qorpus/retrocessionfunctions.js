@@ -1,5 +1,6 @@
 
 var baseurl = window.location.origin;
+var modulename = "Retrocession"
 
 
 let retrocessiontype_select = document.getElementById('retrocession-type');

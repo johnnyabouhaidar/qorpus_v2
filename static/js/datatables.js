@@ -27,6 +27,7 @@ numberElements.forEach(function(element) {
   var nom = false;
   var montant = false;
   // responsive datatable
+  const d = new Date();
   var table = $('#responsiveDataTable').DataTable({
     order: [],
     responsive: true,
@@ -42,7 +43,11 @@ numberElements.forEach(function(element) {
         extend: 'collection',
         text: 'Exporter',
         buttons: [
-          'copy', 'csv', 'excel', 'pdf', 'print'
+          {
+            extend: 'excelHtml5',
+            title: `${modulename} - qOne - ${d.getMonth()}${d.getDay()}${d.getFullYear()}-${d.getHours()}${d.getMinutes()}${d.getSeconds()}`
+        },
+          'copy', 'pdf', 'print'
         ],
 
       },

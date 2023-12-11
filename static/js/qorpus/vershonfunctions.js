@@ -1,5 +1,6 @@
 
 var baseurl = window.location.origin;
+var modulename = "Versements Honoraires"
 
 
 let vershontype_select = document.getElementById('vershon-type');

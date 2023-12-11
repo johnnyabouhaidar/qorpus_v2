@@ -1,5 +1,6 @@
 
 var baseurl = window.location.origin;
+var modulename = "Encaissements"
 
 
 $('#encaissement-nom').change(function(){
