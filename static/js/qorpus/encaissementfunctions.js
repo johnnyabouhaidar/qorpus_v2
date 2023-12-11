@@ -1,6 +1,6 @@
 
 var baseurl = window.location.origin;
-var modulename = "Encaissements"
+
 
 
 $('#encaissement-nom').change(function(){
@@ -180,7 +180,7 @@ function apply_encaissement_filters()
 
 function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',minamount=0,maxamount=99999999,validefilter='%%')
 {
-
+    const modulename="Encaissement"
 
     const response = fetch(`${baseurl}/get_module_data?moduletype=encaissement&startDate=${startdte}&endDate=${enddte}&minamount=${minamount}&maxamount=${maxamount}&validefilter=${validefilter}`).then((response) => {
         return response.json();

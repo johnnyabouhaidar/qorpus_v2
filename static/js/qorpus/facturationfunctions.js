@@ -1,6 +1,6 @@
 
 var baseurl = window.location.origin;
-var modulename = "Facturations"
+
 
 
 let facturationtype_select = document.getElementById('facturation-type');

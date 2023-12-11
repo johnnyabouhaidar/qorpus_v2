@@ -45,7 +45,7 @@ numberElements.forEach(function(element) {
         buttons: [
           {
             extend: 'excelHtml5',
-            title: `${modulename} - qOne - ${d.getMonth()}${d.getDay()}${d.getFullYear()}-${d.getHours()}${d.getMinutes()}${d.getSeconds()}`
+            title: `ModuleName- qOne - ${d.getMonth()}${d.getDay()}${d.getFullYear()}-${d.getHours()}${d.getMinutes()}${d.getSeconds()}`
         },
           'copy', 'pdf', 'print'
         ],

@@ -8,7 +8,7 @@ this.myform['other'].style.visibility='hidden'};})*/
 
 
 var baseurl = window.location.origin;
-var modulename = "Salaire"
+
 
 
 let salairetype_select = document.getElementById('salaire-type');
