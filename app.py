@@ -426,6 +426,12 @@ def dashboard():
     return render_template('app.html',content='widget',username=(current_user.username).title(),user_role=current_user.role,encdf=encls,paymentgrph=paymentls,paysum=paysum,pnl=pnl,facturationgraph=facturationls,facturationsum=facturationsum,enctotal=enctotal,fraissum=fraissum,retrocessionsum=retrocessionsum,dterngeForm=dterngeForm)
 
 
+@app.route('/get_user_authority',methods=['GET'])
+@login_required
+def getuserauthority():
+    return(jsonify({"role":current_user.role}))
+
+
 @app.route('/doctorpayment',methods=['GET','POST'])
 @app.route('/doctorpayment/search=<search>',methods=['GET','POST'])
 @login_required
