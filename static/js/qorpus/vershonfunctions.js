@@ -224,6 +224,11 @@ function populate_vershon_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     //tbodyelement = document.getElementById("bodyid");
 
     var rows2add=[];
+    var rolee = "";
+    var t = $('#responsiveDataTable').DataTable();
+        fetch('/get_user_authority').then(function (responsee) {
+        responsee.json().then(function (data) {
+            rolee=data['role']
     var t = $('#responsiveDataTable').DataTable();
     for (var i=0;i<items.length;i++)
     {
@@ -331,7 +336,7 @@ function populate_vershon_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         /*var full_year=items[i][5].getFullYear();
         alert(full_year)*/
         var table_row_functions = document.createElement("td");
-        if (items[i][6]=='pasvalide')
+        if (items[i][6]=='pasvalide' && rolee=='admin')
         {
             valid_btn=`<a id=validatevershonid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validatevershonModal${items[i][0]}"><i class="ri-check-line"></i></a>`
         }else
@@ -476,6 +481,8 @@ function populate_vershon_table(startdte='1900-01-01',enddte='3000-01-01',minamo
       
 });
 
+})
+})
 
 }
 

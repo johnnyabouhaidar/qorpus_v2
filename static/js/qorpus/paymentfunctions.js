@@ -227,7 +227,13 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     //tbodyelement = document.getElementById("bodyid");
 
     var rows2add=[];
+    var rolee = "";
     var t = $('#responsiveDataTable').DataTable();
+        fetch('/get_user_authority').then(function (responsee) {
+        responsee.json().then(function (data) {
+            rolee=data['role']
+            
+
     for (var i=0;i<items.length;i++)
     {
         var table_roww = document.createElement("tr")
@@ -301,12 +307,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     .end()
 
     
-    fetch('/get_user_authority').then(function (responsee) {
-        responsee.json().then(function (data) {
-            const rolee=data.rolee
-            alert(rolee)
-        })
-      })
+
       
             
             fetch('/paymentnames/' + encodeURI(paymenttype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
@@ -344,7 +345,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         alert(full_year)*/
         var table_row_functions = document.createElement("td");
 
-        if (items[i][6]=='pasvalide')
+        if (items[i][6]=='pasvalide' && rolee =='admin')
         {
             valid_btn=`<a id=validatepaymentid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validatePaymentModal${items[i][0]}"><i class="ri-check-line"></i></a>`
         }else
@@ -490,7 +491,8 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
       
 });
 
-
+        })
+      })
 }
 
 
