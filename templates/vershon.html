@@ -38,7 +38,7 @@
     <div class="container-fluid">
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-18 mb-0">{{_("vershon")}}</h1>
+            <h1 class="page-title fw-semibold fs-18 mb-0">{{_("Versements Honoraires")}}</h1>
         </div>
         <div class="d-md-flex d-block align-items-baseline justify-content-between mt-5 mb-4 page-header-breadcrumb">
             <div class="row col-10">
@@ -144,6 +144,13 @@
 
     <!-- Start::row-1 -->
         <!-- Used select from select2.js -->
+        {%with messages = get_flashed_messages() %}
+        {%if messages %}
+        {%for message in messages %}
+         {{message}}
+        {%endfor%}
+        {%endif%}
+    {%endwith%}
     <div class="row mt-4">
         <div class="col-xl-12">
             <div class="card custom-card">

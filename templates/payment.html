@@ -144,6 +144,13 @@
 
     <!-- Start::row-1 -->
         <!-- Used select from select2.js -->
+        {%with messages = get_flashed_messages() %}
+        {%if messages %}
+        {%for message in messages %}
+         {{message}}
+        {%endfor%}
+        {%endif%}
+    {%endwith%}
     <div class="row mt-4">
         <div class="col-xl-12">
             <div class="card custom-card">
@@ -158,6 +165,7 @@
                     </div>
                 </div>
                 <div class="card-body">
+
                     <table id="responsiveDataTable" class="table table-bordered text-nowrap" style="width: 100%;">
                         <thead>
                             <tr>

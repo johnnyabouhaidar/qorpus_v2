@@ -607,8 +607,10 @@ def encaissement(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.encaissementDate.data.year) * 12 + date.today().month - form.encaissementDate.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1:        
+        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:        
             if form.encaissementNom.data!="addnew":
                 new_encaissement = Encaissement(encaissementNom=form.encaissementNom.data,encaissementDate=form.encaissementDate.data,montant=form.montant.data,banque=form.banque.data,comment=form.comment.data) 
             else:
@@ -838,8 +840,10 @@ def facturation(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1:
+        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.facturationNom.data!="addnew":
                 new_facturation =Facturation(facturationType=form.facturationType.data,facturationNom=form.facturationNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
             else:
@@ -973,8 +977,10 @@ def vershon(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1:
+        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.vershonNom.data!="addnew":
                 new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
             else:
@@ -1106,8 +1112,10 @@ def retrocession(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1:
+        if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.retrocessionNom.data!="addnew":
                 new_retrocession =Retrocession(retrocessionType=form.retrocessionType.data,retrocessionNom=form.retrocessionNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data,Valide="pasvalide")
             else:
@@ -1257,8 +1265,10 @@ def salaire(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1:
+        if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.salaireNom.data!="addnew":
                 new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
             else:
@@ -1416,8 +1426,10 @@ def payment(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
+        delta = form.date.data - date.today()
+        daydelta = delta.days
         print(monthdelta,qry.moisavant)
-        if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1:
+        if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1 and daydelta<2:
             if form.paiementsNom.data!="addnew":
                 new_payment =Payment(paiementsType=form.paiementsType.data,paiementsNom=form.paiementsNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
             else:
