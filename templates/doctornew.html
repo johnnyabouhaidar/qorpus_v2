@@ -121,26 +121,28 @@
                         </div>
                         <div class="modal-body text-start">
                             <div class="row">
+                                <form id="addsalairedocform">
                                 <div class="col-12">
                                     <label for="product-name-add" class="form-label">Salaire</label> 
-                                    <input type="text" class="form-control" id="salairee" />
+                                    <input type="number" step="0.01" class="form-control" required id="salairee" />
                                 </div>
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
-                                    <input type="text" class="form-control" id="monthsnumbers" />
+                                    <input type="number" class="form-control" required id="monthsnumbers" />
                                 </div>
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Date de Début:</label> 
-                                    <input type="text" id="addDatePicker1" name="fromdate" class="form-control text-muted" />
+                                    <input type="text" id="addDatePicker1" name="fromdate" required class="form-control text-muted" />
                                 </div>
                                 <!--<div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Date de Fin:</label> 
                                     <input type="text" id="addDatePicker2" name="todate" class="form-control text-muted" />
                                 </div>-->
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="add_item_to_salaire_table()" data-bs-dismiss="modal">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" value="Ajouter" onclick="add_item_to_salaire_table()" >
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -215,20 +217,22 @@
                             <h6 class="modal-title">Ajouter Pourcentage</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body text-start">
+                            <form id="addpercdocform">
                             <div class="row">
                                 <div class="col-12">
-                                    <label for="input-de" class="form-label">De *</label> <input type="text" class="form-control" id="input-de" />
+                                    <label for="input-de" class="form-label">De *</label> <input required type="number"  class="form-control" id="input-de" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="input-a" class="form-label">A *</label> <input type="text" class="form-control" id="input-a" />
+                                    <label for="input-a" class="form-label">A *</label> <input required type="number" class="form-control" id="input-a" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <label for="input-perc" class="form-label">Pourcentage:</label> <input type="text" class="form-control" id="input-perc" />
+                                    <label for="input-perc" class="form-label">Pourcentage:</label> <input required type="number" step="0.01" class="form-control" id="input-perc" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" onclick="add_item_to_percentage_table()" data-bs-dismiss="modal" value="Ajouter">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button" onclick="add_item_to_percentage_table()"  value="Ajouter">
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>

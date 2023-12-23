@@ -123,9 +123,15 @@ function add_item_to_percentage_table_emp(){
     </div>
 
 </div>`
+    
+if($("#addpercempform")[0].checkValidity()) {
+    $('#addEmployeePercentage').modal('hide');
     percentage_activities_for_current_employee.push([fonction,empmed,empperc,percstartdate,"",rowUID])
     table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
     table.draw(false);
+}    else {
+    $("#addpercempform")[0].reportValidity();
+}
     //alert(percentage_activities_for_current_employee)
 }
 
@@ -181,8 +187,13 @@ function add_item_to_emp_salaire_table(){
   </div>
 
 </div>`
+if($("#addsalaireempform")[0].checkValidity()) {
+    $('#addEmployeeSalary').modal('hide');
   empsalaire.push([salairee,monthnumbers,fromdate,todate,rowUID])
   table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
   table.draw(false);
+}    else {
+    $("#addsalaireempform")[0].reportValidity();
+}
   
 }

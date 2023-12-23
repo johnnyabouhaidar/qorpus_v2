@@ -212,9 +212,14 @@ function add_item_to_percentage_table(){
 </div>
 
 `
+if($("#addpercdocform")[0].checkValidity()) {
+    $('#addDoctorsPercentage').modal('hide');
     percentage_activities_for_current_doctor.push([pour_de,pour_a,pour_perc,rowUID])
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);
+}    else {
+    $("#addpercdocform")[0].reportValidity();
+}
 }
 
 function activate_deactivate_medsalaireTMP(id){
@@ -287,9 +292,14 @@ function add_item_to_salaire_table(){
     </div>
 
 </div>`
+if($("#addsalairedocform")[0].checkValidity()) {
+    $('#addDoctorsSalary').modal('hide');
     medsalaire.push([salairee,monthnumbers,fromdate,todate,rowUID])
     table.row.add([row_functions,salairee,monthnumbers,fromdate,todate]).node().id = rowUID;
-    table.draw(false);
+    table.draw(false);}
+    else {
+        $("#addsalairedocform")[0].reportValidity();
+    }
 }
 
 function add_new_doctor(){

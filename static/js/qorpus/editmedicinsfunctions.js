@@ -154,10 +154,16 @@ function add_item_to_percentage_table_4edit(){
     </div>
 </div>
 </div>`
+if($("#addpercdocform_edit")[0].checkValidity()) {
+    $('#addDoctorsPercentage').modal('hide');
     percentage_activities.push([pour_de,pour_a,pour_perc,rowUID])
     table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;
     table.draw(false);
     //alert(percentage_activities)
+}
+else {
+    $("#addpercdocform_edit")[0].reportValidity();
+}
 }
 
 function add_item_to_salaire_table_4edit(){
@@ -216,9 +222,14 @@ function add_item_to_salaire_table_4edit(){
 
 
 </div>`
+if($("#addsalairedocform_edit")[0].checkValidity()) {
+    $('#addDoctorsSalaire').modal('hide');
 medsalaire_edit.push([salairee,monthnumbers,fromdate,todate,rowUID])
 table.row.add(["",row_functions,salairee,monthnumbers,fromdate,todate]).node().id = rowUID;
-table.draw(false);
+table.draw(false);}
+else {
+    $("#addsalairedocform_edit")[0].reportValidity();
+}
 }
 
 function modify_doctor(){

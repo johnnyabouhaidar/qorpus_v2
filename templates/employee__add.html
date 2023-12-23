@@ -43,7 +43,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
                 <label for="product-name-add" class="form-label">Date de Début de L'emploi *</label> 
-                <input required type="text" id="addDatePicker1" class="form-control text-muted" />
+                <input required type="date"  class="form-control text-muted" />
             </div>
         </div>
         </form>
@@ -60,26 +60,28 @@
                 <div class="modal-dialog modal-dialog-centered text-center" role="document">
                     <div class="modal-content modal-content-demo">
                         <div class="modal-header">
-                            <h6 class="modal-title">Ajouter Salaire</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+                            <h6 class="modal-title">Ajouter Salaire</h6><button aria-label="Close" data-bs-dismiss="modal" class="btn-close" ></button>
                         </div>
                         <div class="modal-body text-start">
+                        <form id = "addsalaireempform">
                             <div class="row">
                                 <div class="col-12">
                                     <label for="product-name-add" class="form-label">Salaire</label> 
-                                    <input type="text" class="form-control" id="empsalaire" />
+                                    <input type="number" step="0.01" class="form-control" required id="empsalaire" />
                                 </div>
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
-                                    <input type="text" class="form-control" id="empnombremois" />
+                                    <input type="number"  class="form-control" required id="empnombremois" />
                                 </div>
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Date de Début:</label> 
-                                    <input type="text" id="addDatePicker2" class="form-control text-muted" />
+                                    <input type="text" id="addDatePicker2" required class="form-control text-muted" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" onclick="add_item_to_emp_salaire_table()" data-bs-dismiss="modal" value="Ajouter">
+                                    <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="add_item_to_emp_salaire_table()"  value="Ajouter">
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -146,10 +148,12 @@
                         </div>
                         <div class="modal-body text-start">
                             <div class="row">
+                                <form id="addpercempform">
                                 <div class="col-12">
                                     <label for="product-name-add" class="form-label">Fonction</label> 
-                                    <input type="text" class="form-control" id="fonction" />
+                                    <input type="text" required class="form-control" id="fonction" />
                                 </div>
+                                
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Dr</label> 
                                     <!--<input type="text" class="form-control" id="empmed" />-->
@@ -164,15 +168,16 @@
 
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Pourcentage</label>
-                                     <input type="text" class="form-control" id="empperc" />
+                                     <input type="number" step="0.01" required class="form-control" id="empperc" />
                                 </div>
                                 <div class="col-12 mt-4">
                                     <label for="product-name-add" class="form-label">Date de Début</label> 
-                                    <input type="text" id="addDatePicker4" class="form-control text-muted" />
+                                    <input type="text" id="addDatePicker4" required class="form-control text-muted" />
                                 </div>
                                 <div class="col-12 mt-4">
-                                    <input type="button" class="form-control btn btn-primary" id="input-button" data-bs-dismiss="modal" onclick="add_item_to_percentage_table_emp()" value="Ajouter">
+                                    <input type="button" class="form-control btn btn-primary" id="input-button"  onclick="add_item_to_percentage_table_emp()" value="Ajouter">
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>

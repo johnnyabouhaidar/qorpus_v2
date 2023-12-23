@@ -137,10 +137,15 @@ function add_item_to_percentage_table_4edit_perc(){
     </div>
 
 </div>`
+if($("#addpercempform_edit")[0].checkValidity()) {
+    $('#addEmployeePercentage').modal('hide');
     percentage_activities.push([fonction,empmed,empperc,percstartdate,"",rowUID])
     table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
     table.draw(false);
     //alert(percentage_activities)
+}    else {
+    $("#addpercempform_edit")[0].reportValidity();
+}
 }
 
 function add_item_to_salaire_table_4edit_emp(){
@@ -198,10 +203,15 @@ function add_item_to_salaire_table_4edit_emp(){
 
 
 </div>`
+if($("#addsalaireempform_edit")[0].checkValidity()) {
+    $('#addEmployeeSalaire').modal('hide');
 empsalaire_edit.push([salairee,monthnumbers,fromdate,"",rowUID])
 //alert(empsalaire_edit)
 table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
 table.draw(false);
+}    else {
+    $("#addsalaireempform_edit")[0].reportValidity();
+}
 }
 
 function modify_employee(){
