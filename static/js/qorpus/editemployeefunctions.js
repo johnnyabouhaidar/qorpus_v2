@@ -223,7 +223,7 @@ function modify_employee(){
     let empnoavs = document.getElementById("empnoavs").value;
     let emppole = document.getElementById("emppole").value;
     let empposte = document.getElementById("empposte").value;
-    let empdatedebut = document.getElementById("addDatePicker1").value;
+    let empdatedebut = document.getElementById("addDatePicker11").value;
   //alert(percentage_activities_for_current_doctor)
   //newdoctorform  
   if($("#editemployeeform")[0].checkValidity()) {
@@ -287,7 +287,7 @@ function load_employee_dataa(){
       document.getElementById("emppole").value=items["emppole"]
       document.getElementById("empposte").value=items["empintituleposte"]
       
-      document.getElementById("addDatePicker1").value=items["empdatedebut"]
+      document.getElementById("addDatePicker11").value=items["empdatedebut"]
       
       
 

@@ -30,7 +30,7 @@ function add_new_employee(){
     let empnoavs = document.getElementById("empnoavs").value;
     let emppole = document.getElementById("emppole").value;
     let empposte = document.getElementById("empposte").value;
-    let empdatedebut = document.getElementById("addDatePicker1").value;
+    let empdatedebut = document.getElementById("addDatePicker11").value;
     
 
     if($("#newemployeeform")[0].checkValidity()) {
