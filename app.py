@@ -607,7 +607,7 @@ def encaissement(search=""):
     if form.is_submitted() and request.method=='POST' and form.submit.data:
         qry = Setting.query.filter().first()
         monthdelta=(date.today().year - form.encaissementDate.data.year) * 12 + date.today().month - form.encaissementDate.data.month
-        delta = form.date.data - date.today()
+        delta = form.encaissementDate.data - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:        
