@@ -52,6 +52,35 @@ function delete_employee_salaire_TMP_4edit(id)
     
 }
 
+function edit_salary_item(id)
+{
+    if($(`#editsalaireempform${id}`)[0].checkValidity()) {
+        $(`#editEmployeeSalary${id}`).modal('hide');
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable2').DataTable();
+    let updated_salary = document.getElementById(`empsalaire${id}`).value;
+    let updated_months = document.getElementById(`empnombremois${id}`).value;
+    let updated_fromdate = document.getElementById(`fromdate${id}`).value;
+    for (var i=0;i<empsalaire_edit.length;i++){
+        if (empsalaire_edit[i][4]==id){
+            empsalaire_edit[i][0]=updated_salary
+            empsalaire_edit[i][1]=updated_months
+            empsalaire_edit[i][2]=updated_fromdate
+        }
+    }
+    table.cell( row ,1).data( updated_salary ).draw( false );   
+    table.cell( row ,2).data( updated_months ).draw( false );   
+    table.cell( row ,3).data( updated_fromdate ).draw( false );   
+    
+
+
+    }    else {
+        $(`#editsalaireempform${id}`)[0].reportValidity();
+    }
+    
+}
+
 function activate_deactivate_empsalaire(id){
     var row = $(`#${id}`).closest('tr');
     
@@ -200,6 +229,37 @@ function add_item_to_salaire_table_4edit_emp(){
             </div>
         </div>
     </div>
+    <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editEmployeeSalary${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+    <div class="modal fade effect-rotate-left" id="editEmployeeSalary${rowUID}">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Modifier Salaire</h6><button aria-label="Close" data-bs-dismiss="modal" class="btn-close" ></button>
+            </div>
+            <div class="modal-body text-start">
+            <form id = "editsalaireempform${rowUID}">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="product-name-add" class="form-label">Salaire</label> 
+                        <input type="number" step="0.01" class="form-control" required id="empsalaire${rowUID}" value=${salairee} />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                        <input type="number"  class="form-control" required id="empnombremois${rowUID}" value=${monthnumbers}>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="product-name-add" class="form-label">Date de Début:</label> 
+                        <input type="date" id="fromdate${rowUID}" required class="form-control text-muted" value=${fromdate}>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item(${rowUID})"  value="Modifier">
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </div>`
@@ -407,7 +467,36 @@ function load_employee_dataa(){
                 </div>
             </div>
         </div>
-    
+        <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editEmployeeSalary${sal[i]["0"]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+        <div class="modal fade effect-rotate-left" id="editEmployeeSalary${sal[i]["0"]}">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Modifier Salaire</h6><button aria-label="Close" data-bs-dismiss="modal" class="btn-close" ></button>
+            </div>
+            <div class="modal-body text-start">
+            <form id = "editsalaireempform${sal[i]["0"]}">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="product-name-add" class="form-label">Salaire</label> 
+                        <input type="number" step="0.01" class="form-control" required id="empsalaire${sal[i]["0"]}" value=${sal[i]["1"]} />
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                        <input type="number"  class="form-control" required id="empnombremois${sal[i]["0"]}" value=${sal[i]["2"]}>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label for="product-name-add" class="form-label">Date de Début:</label> 
+                        <input type="date" id="fromdate${sal[i]["0"]}" required class="form-control text-muted" value=${sal[i]["3"]}>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item(${sal[i]["0"]})"  value="Modifier">
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
     </div>`
     let datefin=""    
     if (sal[i][4]!='1900-01-01')

@@ -4,7 +4,38 @@ let percentage_activities_for_current_employee=[]
 let empsalaire=[]
 
 
+
+
 med_select=document.getElementById("empmed");
+
+function edit_salary_item_fornew(id)
+{
+    if($(`#editsalaireempform${id}`)[0].checkValidity()) {
+        $(`#editEmployeeSalary${id}`).modal('hide');
+    var row = $(`#${id}`).closest('tr');
+    
+    let table = $('#responsiveDataTable2').DataTable();
+    let updated_salary = document.getElementById(`empsalaire${id}`).value;
+    let updated_months = document.getElementById(`empnombremois${id}`).value;
+    let updated_fromdate = document.getElementById(`fromdate${id}`).value;
+    for (var i=0;i<empsalaire.length;i++){
+        if (empsalaire[i][4]==id){
+            empsalaire[i][0]=updated_salary
+            empsalaire[i][1]=updated_months
+            empsalaire[i][2]=updated_fromdate
+        }
+    }
+    table.cell( row ,1).data( updated_salary ).draw( false );   
+    table.cell( row ,2).data( updated_months ).draw( false );   
+    table.cell( row ,3).data( updated_fromdate ).draw( false );   
+    
+
+
+    }    else {
+        $(`#editsalaireempform${id}`)[0].reportValidity();
+    }
+    
+}
 
 
 fetch('/get_doctors_list').then(function (response) {
@@ -21,6 +52,8 @@ fetch('/get_doctors_list').then(function (response) {
     });
 
 
+
+    
 function add_new_employee(){
     let empnom = document.getElementById("empnom").value;
     let empaddress = document.getElementById("empaddress").value;
@@ -185,6 +218,37 @@ function add_item_to_emp_salaire_table(){
           </div>
       </div>
   </div>
+  <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editEmployeeSalary${rowUID}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
+  <div class="modal fade effect-rotate-left" id="editEmployeeSalary${rowUID}">
+  <div class="modal-dialog modal-dialog-centered text-center" role="document">
+      <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+              <h6 class="modal-title">Modifier Salaire</h6><button aria-label="Close" data-bs-dismiss="modal" class="btn-close" ></button>
+          </div>
+          <div class="modal-body text-start">
+          <form id = "editsalaireempform${rowUID}">
+              <div class="row">
+                  <div class="col-12">
+                      <label for="product-name-add" class="form-label">Salaire</label> 
+                      <input type="number" step="0.01" class="form-control" required id="empsalaire${rowUID}" value=${salairee} />
+                  </div>
+                  <div class="col-12 mt-4">
+                      <label for="product-name-add" class="form-label">Nombre de mois de salaire par an</label> 
+                      <input type="number"  class="form-control" required id="empnombremois${rowUID}" value=${monthnumbers}>
+                  </div>
+                  <div class="col-12 mt-4">
+                      <label for="product-name-add" class="form-label">Date de Début:</label> 
+                      <input type="date" id="fromdate${rowUID}" required class="form-control text-muted" value=${fromdate}>
+                  </div>
+                  <div class="col-12 mt-4">
+                      <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item_fornew(${rowUID})"  value="Modifier">
+                  </div>
+              </div>
+          </form>
+          </div>
+      </div>
+  </div>
+</div>
 
 </div>`
 if($("#addsalaireempform")[0].checkValidity()) {
