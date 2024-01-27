@@ -380,16 +380,24 @@
       'Ce Mois': [moment().startOf('month'), moment().endOf('month')],
       'Le Mois Dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
     },
-    startDate: moment().startOf('year'), // for example, 7 days ago
-    endDate: moment().endOf('year'),
+    startDate: moment().subtract(12,'months'), // for example, 7 days ago
+    endDate: moment(),
     showRanges: true, // Show the ranges by default
     showDropdowns: true, // Show year and month dropdowns
     showCustomRangeLabel: true, // Show custom range label
     showCalendars: true // Show the calendars by default
   });
 
-        defualtstartdate=`${new Date().getFullYear()}-1-1`
-    defualtenddate=`${new Date().getFullYear()}-12-31`
+    
+  var currentDate = new Date();
+
+    
+currentDate.setMonth(currentDate.getMonth() - 12);
+
+defualtstartdate=`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`
+
+
+defualtenddate=`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
     populate_encaissement_table(startdte=defualtstartdate,enddte=defualtenddate)
        
 });

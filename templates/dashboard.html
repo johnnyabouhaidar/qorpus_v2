@@ -298,7 +298,7 @@
               'Ce Mois': [moment().startOf('month'), moment().endOf('month')],
               'Le Mois Dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             },
-            startDate: moment().startOf('year'), // for example, 7 days ago
+            startDate: moment().subtract(12,'months'), // for example, 7 days ago
             endDate: moment(),
             showRanges: true, // Show the ranges by default
             showDropdowns: true, // Show year and month dropdowns
