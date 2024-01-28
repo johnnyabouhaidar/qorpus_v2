@@ -204,7 +204,7 @@ function apply_vershon_filters()
     table
         .clear()
         .draw();
-        populate_vershon_table(startDatee.toISOString().split('T')[0],endDatee.toISOString().split('T')[0],montantlower,montanthigher,valid_filter)}, 200);
+        populate_vershon_table($('#mainCalendar').data('daterangepicker').startDate.format("YYYY-MM-DD"),$('#mainCalendar').data('daterangepicker').endDate.format("YYYY-MM-DD"),montantlower,montanthigher,valid_filter)}, 200);
         //alert(startDatee.toISOString().split('T')[0])
     
 }

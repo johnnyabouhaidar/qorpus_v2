@@ -1689,7 +1689,7 @@ def addmedicinsitems():
     for salaire in medsalaires:
         db.engine.execute("""INSERT INTO medsalaire VALUES('{0}',{1},'{2}','{3}',{4})""".format(mednom,salaire[0],salaire[2],salaire[3],salaire[1]))
 
-    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,medstartdate,medenddate,isemployee))
+    db.engine.execute("""INSERT INTO medicalperson VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7},'{8}',{9},'{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')""".format(mednom,medspeciality,medtype,medpourcentage,medchargesociales,medsurfaceaccordee,medsalaire,mednombremoissalaireparan,medsecretaire,medpourcentagesecretaire,medlogiciels,medtelephone,medaddress,medemail,medcoordonneebanc,medavs,datetime.datetime.strptime(medstartdate, "%d.%m.%Y").strftime("%Y-%m-%d"),medenddate,isemployee))
     return(jsonify({"Status":"OK"}))
 
     
@@ -2674,7 +2674,7 @@ def editmoduleitem():
                             isemployee='{13}'
                             where medid={14}
                             
-        """.format(name,speciality,typee,perc_share,medaddress,charge_soc,surface_accorde,logiciel,medtelephone,medemail,medcoordonneebanc,mednoavs,medstartdate,isemployee,id))
+        """.format(name,speciality,typee,perc_share,medaddress,charge_soc,surface_accorde,logiciel,medtelephone,medemail,medcoordonneebanc,mednoavs,datetime.datetime.strptime(medstartdate, "%d.%m.%Y").strftime("%Y-%m-%d"),isemployee,id))
         db.engine.execute("""DELETE FROM percentageactivity where docteur='{0}'""".format(name))
         for act in activities:
             db.engine.execute("""INSERT INTO percentageactivity VALUES ('{0}',{1},{2},{3})""".format(name,act[0],act[1],act[2])) 

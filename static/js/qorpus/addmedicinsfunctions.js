@@ -14,6 +14,8 @@ medtype = medtype_select.value;
 
 
 
+
+
 fetch('/medicinspecs/' + encodeURI(medtype.trim()).toString().replaceAll('%','*')).then(function (response) {
 response.json().then(function (data) {
     let optionHTML = '';
