@@ -375,9 +375,9 @@ function load_medicins_data(){
       document.getElementById("coordbank").value=items["medcoordonneebanc"]
       document.getElementById("noavs").value=items["mednoavs"]
       //alert($('#datedebut').data('daterangepicker').startDate.format("YYYY-MM-DD"))
-      alert(items["medstartdate"].split('-').reverse().join("."))
-      $("datedebut").data('daterangepicker').setStartDate(items["medstartdate"].split('-').reverse().join("."));
-      $("datedebut").data('daterangepicker').setEndDate(items["medstartdate"].split('-').reverse().join("."));
+      //alert(items["medstartdate"].split('-').reverse().join("."))
+      $("#datedebut").data('daterangepicker').setStartDate(items["medstartdate"].split('-').reverse().join("."));
+      $("#datedebut").data('daterangepicker').setEndDate(items["medstartdate"].split('-').reverse().join("."));
       //document.getElementById("datedebut").value= items["medstartdate"].split('-').reverse().join(".")
       
       document.getElementById("isemp-select").value=items["isemployee"]
