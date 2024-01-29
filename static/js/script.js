@@ -179,6 +179,7 @@ $(document).ready(function () {
     
   });
 });
+/*
 $(document).ready(function () {
   // Initialize the date picker
   $('#deactivatesalairedate').daterangepicker({
@@ -189,7 +190,7 @@ $(document).ready(function () {
     }
     
   });
-});
+});*/
 // Populate dropdown options for KPIs, tables, and charts
 populateDropdownOptions('kpi');
 populateDropdownOptions('table');

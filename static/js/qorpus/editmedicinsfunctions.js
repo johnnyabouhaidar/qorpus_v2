@@ -86,7 +86,7 @@ function activate_deactivate_medsalaire(id){
     var row = $(`#${id}`).closest('tr');
     
     let table = $('#responsiveDataTable2').DataTable();
-    let updated_date = document.getElementById(`addDatePicker${id}`).value;
+    let updated_date = $(`input[name="addDatePicker${id}"]`).data('daterangepicker').startDate.format('YYYY-MM-DD')
     for (var i=0;i<medsalaire_edit.length;i++){
         if (medsalaire_edit[i][4]==id){
             medsalaire_edit[i][3]=updated_date
@@ -169,7 +169,7 @@ else {
 function add_item_to_salaire_table_4edit(){
     let salairee=document.getElementById("salairee").value;
     let  monthnumbers = document.getElementById("monthsnumbers").value;
-    let fromdate = document.getElementById("addDatePicker1").value;
+    let fromdate = $("#addsalairedate").data('daterangepicker').startDate.format('YYYY-MM-DD');
     //let todate = document.getElementById("addDatePicker2").value;
     let todate = "";
     let rowUID = new Date().valueOf()
@@ -191,7 +191,7 @@ function add_item_to_salaire_table_4edit(){
             </div>
             <div class="modal-body">
                 <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                <input type="date" id="addDatePicker${rowUID}" value="" class="form-control text-muted" />
+                <input type="text" id="deactivatesalairedate" name="addDatePicker${rowUID}" value="" class="form-control text-muted" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
@@ -226,7 +226,15 @@ if($("#addsalairedocform_edit")[0].checkValidity()) {
     $('#addDoctorsSalaire').modal('hide');
 medsalaire_edit.push([salairee,monthnumbers,fromdate,todate,rowUID])
 table.row.add(["",row_functions,salairee,monthnumbers,fromdate,todate]).node().id = rowUID;
-table.draw(false);}
+table.draw(false);
+$(`input[name="addDatePicker${rowUID}"]`).daterangepicker({
+    singleDatePicker: true, // Display a single date picker
+    showDropdowns: true,    // Show year and month dropdowns
+    locale: {
+      format: 'DD.MM.YYYY'  // Define the date format
+    }
+    
+  });}
 else {
     $("#addsalairedocform_edit")[0].reportValidity();
 }
@@ -480,7 +488,7 @@ function load_medicins_data(){
                 </div>
                 <div class="modal-body">
                     <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                    <input type="date" id="addDatePicker${sal[i]["0"]}" value="" class="form-control text-muted" />
+                    <input type="text" id="deactivatesalairedate" name="addDatePicker${sal[i]["0"]}" value="" class="form-control text-muted" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
@@ -514,6 +522,14 @@ function load_medicins_data(){
         medsalaire_edit.push([sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["4"],sal[i]["0"]])
         tablesalaire.row.add(["",row_functions,sal[i]["1"],sal[i]["2"],sal[i]["3"],sal[i]["4"]]).node().id = sal[i]["0"];
         tablesalaire.draw();
+        $(`input[name="addDatePicker${sal[i]["0"]}"]`).daterangepicker({
+            singleDatePicker: true, // Display a single date picker
+            showDropdowns: true,    // Show year and month dropdowns
+            locale: {
+              format: 'DD.MM.YYYY'  // Define the date format
+            }
+            
+          });
       }
       
       /*table.row.add([row_checkbox,row_functions,rowUID,pour_de,pour_a,pour_perc]).node().id = rowUID;*/
