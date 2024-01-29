@@ -168,6 +168,28 @@ $(document).ready(function () {
     
   });
 });
+$(document).ready(function () {
+  // Initialize the date picker
+  $('#addsalairedate').daterangepicker({
+    singleDatePicker: true, // Display a single date picker
+    showDropdowns: true,    // Show year and month dropdowns
+    locale: {
+      format: 'DD.MM.YYYY'  // Define the date format
+    }
+    
+  });
+});
+$(document).ready(function () {
+  // Initialize the date picker
+  $('#deactivatesalairedate').daterangepicker({
+    singleDatePicker: true, // Display a single date picker
+    showDropdowns: true,    // Show year and month dropdowns
+    locale: {
+      format: 'DD.MM.YYYY'  // Define the date format
+    }
+    
+  });
+});
 // Populate dropdown options for KPIs, tables, and charts
 populateDropdownOptions('kpi');
 populateDropdownOptions('table');
