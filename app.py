@@ -1424,16 +1424,17 @@ def payment(search=""):
    
     
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.date.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
-        delta = form.date.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1 and daydelta<2:
             if form.paiementsNom.data!="addnew":
-                new_payment =Payment(paiementsType=form.paiementsType.data,paiementsNom=form.paiementsNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_payment =Payment(paiementsType=form.paiementsType.data,paiementsNom=form.paiementsNom.data,somme=form.somme.data,date=itemdate,comment=form.comment.data)
             else:
-                new_payment =Payment(paiementsType=form.paiementsType.data,paiementsNom=form.paiementsNomALT.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_payment =Payment(paiementsType=form.paiementsType.data,paiementsNom=form.paiementsNomALT.data,somme=form.somme.data,date=itemdate,comment=form.comment.data)
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float) and form.is_submitted():
                 db.session.add(new_payment)
                 db.session.commit()
@@ -2498,7 +2499,7 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where paiementsId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
+                          Where paiementsId={5}""".format(newtype,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id))
     elif module=='salaire':
         newtype = request.json['newtype']
         newname = request.json['newname']

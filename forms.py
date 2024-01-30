@@ -122,7 +122,7 @@ class AddPaymentForm(FlaskForm):
 
     paiementsNomALT = StringField(label="Nouveau paiement ?",render_kw={"placeholder":"paiementsNom"})
     somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
-    date = DateField(label="Paiement Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    date = StringField(label="Paiement Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
 
     comment=StringField('Comment',widget=TextArea())
 

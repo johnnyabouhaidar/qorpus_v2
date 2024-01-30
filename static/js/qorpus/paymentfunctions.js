@@ -28,7 +28,8 @@ response.json().then(function (data) {
 
 }
 
-
+$(document).ready(function () {
+});
 
 $('#paiement-nom').change(function(){
     
@@ -277,8 +278,10 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
         
         //paymenttype_items.innerHTML=paymenttypeitems
         let typeitems = document.getElementById("paiement-type").options;
-        var mydate = new Date(items[i][5]);        
-        var dateisostr=mydate.toISOString().split("T")[0];                           
+        var mydate = new Date(items[i][5]);
+        //alert()        
+        //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+        var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
         for (let j=0;j<typeitems.length;j++)
         {
             let opt = document.createElement("option");
@@ -420,7 +423,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                         <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="itemamount${items[i][0]}" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
+                                                        <p class="mb-2 text-muted">Date</p> <input type="text" name="addDatePicker" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="itemcomment${items[i][0]}">${items[i][4]}</textarea>
@@ -432,7 +435,8 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                    
+                                </div>  
+                                                                  
                                     `
                                             
                                     
@@ -454,11 +458,22 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                                 valideval = "Visé"
                                             }
                                             rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":Intl.NumberFormat('fr-FR').format(items[i][3]),"6":dateisostr,"7":items[i][4],"8":valideval})
-        
-
+                                            
 
     }
     t.rows.add(rows2add).draw()
+    //alert(t.rows.items)
+    $(`input[name="addDatePicker"]`).daterangepicker({
+        singleDatePicker: true, // Display a single date picker
+        showDropdowns: true,    // Show year and month dropdowns
+        locale: {
+          format: 'DD.MM.YYYY'  // Define the date format
+        }
+        
+      })
+    ;
+
+
     
    /* $('.deleterow').on('click', function () {
         
