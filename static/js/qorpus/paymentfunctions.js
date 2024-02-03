@@ -4,6 +4,7 @@
 var baseurl = window.location.origin;
 
 
+
 let paymenttype_select = document.getElementById('paiement-type');
         
 let paymentname_select = document.getElementById('paiement-nom');
@@ -436,9 +437,18 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
                                         </div>
                                     </div>
                                 </div>  
+                                <script>
+                                $('[id^="itemdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>
                                                                   
                                     `
-                                            
+                                          
                                     
                                 
                                             //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">Paiements</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
@@ -463,14 +473,7 @@ function populate_payment_table(startdte='1900-01-01',enddte='3000-01-01',minamo
     }
     t.rows.add(rows2add).draw()
     //alert(t.rows.items)
-    $(`input[name="addDatePicker"]`).daterangepicker({
-        singleDatePicker: true, // Display a single date picker
-        showDropdowns: true,    // Show year and month dropdowns
-        locale: {
-          format: 'DD.MM.YYYY'  // Define the date format
-        }
-        
-      })
+
     ;
 
 

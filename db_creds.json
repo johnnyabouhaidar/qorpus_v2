@@ -1,6 +1,6 @@
 {
    "servername":"localhost",
-   "instancename":"SQLEXPRESS01",
+   "instancename":"SQLEXPRESS03",
    "username":"johnny",
    "password":"pass123456",
    "databasename":"Flask_DataEntry_DB"
