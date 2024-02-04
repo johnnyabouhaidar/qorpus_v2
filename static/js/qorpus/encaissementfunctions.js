@@ -276,7 +276,8 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
         //encaissementtype_items.innerHTML=encaissementtypeitems
 
         var mydate = new Date(items[i][2]);        
-        var dateisostr=mydate.toISOString().split("T")[0];                           
+        //var dateisostr=mydate.toISOString().split("T")[0];                           
+        var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
 
 
 
@@ -374,7 +375,7 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                         <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="itemamount${items[i][0]}" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
+                                                        <p class="mb-2 text-muted">Date</p> <input type="text" name="addDatePicker" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="itemcomment${items[i][0]}">${items[i][5]}</textarea>
@@ -386,7 +387,16 @@ function populate_encaissement_table(startdte='1900-01-01',enddte='3000-01-01',m
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                    
+                                </div>     
+                                <script>
+                                $('[id^="itemdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>                               
                                     `
                                             
                                     

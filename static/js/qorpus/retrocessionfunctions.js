@@ -1,4 +1,6 @@
 
+
+
 var baseurl = window.location.origin;
 
 
@@ -10,7 +12,7 @@ let retrocessionname_select = document.getElementById('retrocession-nom');
 retrocessiontype_select.onchange = function () {
 retrocessiontype = retrocessiontype_select.value;
 
-
+//document.getElementById("mainCalendar").placeholder="test";
 
 fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
 response.json().then(function (data) {
@@ -27,22 +29,26 @@ response.json().then(function (data) {
 
 }
 
+$(document).ready(function () {
+});
 
 $('#retrocession-nom').change(function(){
     
-    if (this.value==='addnew')
-    {
-    //this.myform['other'].style.visibility='visible'
-    $('input[name=retrocessionNomALT]').show()
-    $('#nouveaunomlbl').show()
-    }
-    else {
-        $('input[name=retrocessionNomALT]').hide()
-        $('#nouveaunomlbl').hide()
-    
-    };
-    
-    })
+if (this.value==='addnew')
+{
+//this.myform['other'].style.visibility='visible'
+$('input[name=retrocessionNomALT]').show()
+$('#nouveaunomlbl').show()
+}
+else {
+    $('input[name=retrocessionNomALT]').hide()
+    $('#nouveaunomlbl').hide()
+
+};
+
+})
+
+
 function bulk_delete_retrocession_module()
 {
     var array = []
@@ -105,8 +111,8 @@ function edit_retrocession_module_item(id){
 
 }
 
-function duplicate_retrocession_item(id){
-    /*const response = fetch(`${baseurl}/duplicate_module_item`,{
+function duplicate_retrocession_item(id){/*
+    const response = fetch(`${baseurl}/duplicate_module_item`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -134,7 +140,6 @@ function duplicate_retrocession_item(id){
             $("#retrocession-nom").val(table.cell( row ,4).data())
         });
         });
-      
       var amount = table.cell( row ,5).data().replaceAll(",",".").replaceAll(/\s+/g,"")
       $('input[name="somme"]').val((parseFloat(amount)))
       $('input[name="date"]').val(table.cell( row ,6).data())
@@ -178,7 +183,7 @@ function validate_retrocession_item(id){
       }).then((response) => {
         return response.json();
       }).then((json) => {table.cell( row ,8).data( "Visé" ).draw( false );
-      document.getElementById(`validateretrocessionid${id}`).remove()})
+    document.getElementById(`validateretrocessionid${id}`).remove()})
 
 }        
 
@@ -229,7 +234,8 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
         fetch('/get_user_authority').then(function (responsee) {
         responsee.json().then(function (data) {
             rolee=data['role']
-    var t = $('#responsiveDataTable').DataTable();
+            
+
     for (var i=0;i<items.length;i++)
     {
         var table_roww = document.createElement("tr")
@@ -273,8 +279,10 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
         
         //retrocessiontype_items.innerHTML=retrocessiontypeitems
         let typeitems = document.getElementById("retrocession-type").options;
-        var mydate = new Date(items[i][5]);        
-        var dateisostr=mydate.toISOString().split("T")[0];                           
+        var mydate = new Date(items[i][5]);
+        //alert()        
+        //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+        var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
         for (let j=0;j<typeitems.length;j++)
         {
             let opt = document.createElement("option");
@@ -301,6 +309,10 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
     .find('option')
     .remove()
     .end()
+
+    
+
+      
             
             fetch('/retrocessionnames/' + encodeURI(retrocessiontype.trim()).toString().replaceAll('%','*').replaceAll('/','~')).then(function (response) {
             response.json().then(function (data) {
@@ -336,17 +348,19 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
         /*var full_year=items[i][5].getFullYear();
         alert(full_year)*/
         var table_row_functions = document.createElement("td");
+
         if (items[i][6]=='pasvalide' && rolee =='admin')
         {
-            valid_btn=`<a id=validateretrocessionid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validateRetrocessionModal${items[i][0]}"><i class="ri-check-line"></i></a>`
+            valid_btn=`<a id=validateretrocessionid${items[i][0]} aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-success-light" data-bs-toggle="modal" and data-bs-target="#validateretrocessionModal${items[i][0]}"><i class="ri-check-line"></i></a>`
         }else
         {
             valid_btn=""
         }
         table_row_functions.innerHTML=`
                                     <div class="hstack gap-2 fs-15">
-
+                                    
                                     ${valid_btn}
+                                    
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-effect="effect-rotate-left" data-bs-toggle="modal" and data-bs-target="#editretrocessiontModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
                                     <button type="submit" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon waves-effect waves-light btn-sm btn-secondary-light duplicaterow" onclick=duplicate_retrocession_item(${items[i][0]})><i class="ri-file-copy-line"></i></button>
                                     <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteretrocessionModal${items[i][0]}" class="btn btn-icon waves-effect waves-light btn-sm btn-danger-light" ><i class="ri-delete-bin-line"></i></a>
@@ -369,23 +383,23 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade mt-4" id="validateRetrocessionModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h6 class="modal-title" id="staticBackdropLabel">Validate</h6>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Êtes-vous sûr de vouloir valider cette ligne ? <br> ${items[i][1]} - ${items[i][2]}</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick=validate_retrocession_item(${items[i][0]})>Validate</button>
+                                <div class="modal fade mt-4" id="validateretrocessionModal${items[i][0]}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="staticBackdropLabel">Validate</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Êtes-vous sûr de vouloir valider cette ligne ? <br> ${items[i][1]} - ${items[i][2]}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick=validate_retrocession_item(${items[i][0]})>Validate</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                                 <div class="modal fade effect-rotate-left" id="editretrocessiontModal${items[i][0]}">
                                     <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                         <div class="modal-content modal-content-demo">
@@ -410,7 +424,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                         <p class="mb-2 text-muted">Montant</p><input type="number" class="form-control" id="itemamount${items[i][0]}" value="${items[i][3]}">
                                                     </div>
                                                     <div class="col-12 mt-4">
-                                                        <p class="mb-2 text-muted">Date</p> <input type="date" name="dates" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
+                                                        <p class="mb-2 text-muted">Date</p> <input type="text" name="addDatePicker" id="itemdate${items[i][0]}" class="form-control text-muted" value= "${dateisostr}"/>
                                                     </div>
                                                     <div class="col-12 mt-4">
                                                         <p class="mb-2 text-muted">Commentaire</p><textarea class="form-control" id="itemcomment${items[i][0]}">${items[i][4]}</textarea>
@@ -422,12 +436,22 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                    
+                                </div>  
+                                <script>
+                                $('[id^="itemdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>
+                                                                  
                                     `
-                                            
+                                          
                                     
                                 
-                                            //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">retrocessions</span> <span class="badge rounded-pill bg-primary-transparent">retrocession</span>
+                                            //<span class="badge rounded-pill bg-primary-transparent">Installation</span> <span class="badge rounded-pill bg-primary-transparent">Médecins</span> <span class="badge rounded-pill bg-primary-transparent">retrocessions</span> <span class="badge rounded-pill bg-primary-transparent">Facturation</span>
       
                                             
 
@@ -436,7 +460,7 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
         
                                                                 
                                           
-                                            
+                                            //.toLocaleString('fr-FR')
                                             var valideval = ""                                 
                                             if(items[i][6]=="pasvalide"){
                                                 valideval = "à Visé"
@@ -444,11 +468,15 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
                                                 valideval = "Visé"
                                             }
                                             rows2add.push({"DT_RowId":items[i][0],"0":table_row_header.innerHTML,"1": table_row_functions.innerHTML,"2":items[i][0],"3": items[i][1],"4":items[i][2],"5":Intl.NumberFormat('fr-FR').format(items[i][3]),"6":dateisostr,"7":items[i][4],"8":valideval})
-        
-
+                                            
 
     }
     t.rows.add(rows2add).draw()
+    //alert(t.rows.items)
+
+    ;
+
+
     
    /* $('.deleterow').on('click', function () {
         
@@ -481,9 +509,8 @@ function populate_retrocession_table(startdte='1900-01-01',enddte='3000-01-01',m
       
 });
 
-
-})
-})
+        })
+      })
 }
 
 

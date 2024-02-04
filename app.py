@@ -605,16 +605,17 @@ def encaissement(search=""):
         print(searchform.errors)
 
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.encaissementDate.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.encaissementDate.data.year) * 12 + date.today().month - form.encaissementDate.data.month
-        delta = form.encaissementDate.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:        
             if form.encaissementNom.data!="addnew":
-                new_encaissement = Encaissement(encaissementNom=form.encaissementNom.data,encaissementDate=form.encaissementDate.data,montant=form.montant.data,banque=form.banque.data,comment=form.comment.data) 
+                new_encaissement = Encaissement(encaissementNom=form.encaissementNom.data,encaissementDate=itemdate,montant=form.montant.data,banque=form.banque.data,comment=form.comment.data) 
             else:
-                new_encaissement = Encaissement(encaissementNom=form.encaissementNomALT.data,encaissementDate=form.encaissementDate.data,montant=form.montant.data,banque=form.banque.data,comment=form.comment.data) 
+                new_encaissement = Encaissement(encaissementNom=form.encaissementNomALT.data,encaissementDate=itemdate,montant=form.montant.data,banque=form.banque.data,comment=form.comment.data) 
             if isinstance(form.montant.data,int) or isinstance(form.montant.data,float):
                 db.session.add(new_encaissement)
                 db.session.commit()
@@ -838,16 +839,17 @@ def facturation(search=""):
         print(searchform.errors)
 
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.date.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
-        delta = form.date.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.facturationNom.data!="addnew":
-                new_facturation =Facturation(facturationType=form.facturationType.data,facturationNom=form.facturationNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+                new_facturation =Facturation(facturationType=form.facturationType.data,facturationNom=form.facturationNom.data,somme=form.somme.data,comment=form.comment.data,date=itemdate)
             else:
-                new_facturation =Facturation(facturationType=form.facturationType.data,facturationNom=form.facturationNomALT.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+                new_facturation =Facturation(facturationType=form.facturationType.data,facturationNom=form.facturationNomALT.data,somme=form.somme.data,comment=form.comment.data,date=itemdate)
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float):
                 db.session.add(new_facturation)
                 db.session.commit()
@@ -975,16 +977,17 @@ def vershon(search=""):
         print(searchform.errors)
 
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.date.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
-        delta = form.date.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.vershonNom.data!="addnew":
-                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNom.data,somme=form.somme.data,comment=form.comment.data,date=itemdate)
             else:
-                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNomALT.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data)
+                new_vershon =VersHon(vershonType=form.vershonType.data,vershonNom=form.vershonNomALT.data,somme=form.somme.data,comment=form.comment.data,date=itemdate)
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float):
                 db.session.add(new_vershon)
                 db.session.commit()
@@ -1110,16 +1113,17 @@ def retrocession(search=""):
         print(searchform.errors)
 
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.date.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
-        delta = form.date.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
         print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant  and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.retrocessionNom.data!="addnew":
-                new_retrocession =Retrocession(retrocessionType=form.retrocessionType.data,retrocessionNom=form.retrocessionNom.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data,Valide="pasvalide")
+                new_retrocession =Retrocession(retrocessionType=form.retrocessionType.data,retrocessionNom=form.retrocessionNom.data,somme=form.somme.data,comment=form.comment.data,date=itemdate,Valide="pasvalide")
             else:
-                new_retrocession =Retrocession(retrocessionType=form.retrocessionType.data,retrocessionNom=form.retrocessionNomALT.data,somme=form.somme.data,comment=form.comment.data,date=form.date.data,Valide="pasvalide")
+                new_retrocession =Retrocession(retrocessionType=form.retrocessionType.data,retrocessionNom=form.retrocessionNomALT.data,somme=form.somme.data,comment=form.comment.data,date=itemdate,Valide="pasvalide")
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float):
                 db.session.add(new_retrocession)
                 db.session.commit()
@@ -1263,16 +1267,16 @@ def salaire(search=""):
    
     
     if form.is_submitted() and request.method=='POST' and form.submit.data:
+        itemdate=datetime.datetime.strptime(form.date.data,"%d.%m.%Y").date()
         qry = Setting.query.filter().first()
-        monthdelta=(date.today().year - form.date.data.year) * 12 + date.today().month - form.date.data.month
-        delta = form.date.data - date.today()
+        monthdelta=(date.today().year - itemdate.year) * 12 + date.today().month - itemdate.month
+        delta = itemdate - date.today()
         daydelta = delta.days
-        print(monthdelta,qry.moisavant)
         if monthdelta<qry.moisavant and monthdelta>qry.moislimit*-1  and daydelta<2:
             if form.salaireNom.data!="addnew":
-                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNom.data,somme=form.somme.data,date=itemdate,comment=form.comment.data)
             else:
-                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNomALT.data,somme=form.somme.data,date=form.date.data,comment=form.comment.data)
+                new_salaire =Salaire(salaireType=form.salaireType.data,salaireNom=form.salaireNomALT.data,somme=form.somme.data,date=itemdate,comment=form.comment.data)
             if isinstance(form.somme.data, int) or isinstance(form.somme.data, float) and form.is_submitted():
                 db.session.add(new_salaire)
                 db.session.commit()
@@ -2513,7 +2517,7 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where salaireId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))
+                          Where salaireId={5}""".format(newtype,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id))
     elif module=='facturation':
         newtype = request.json['newtype']
         newname = request.json['newname']
@@ -2527,7 +2531,7 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where facturationId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))  
+                          Where facturationId={5}""".format(newtype,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id))  
     elif module=='retrocession':
         newtype = request.json['newtype']
         newname = request.json['newname']
@@ -2541,7 +2545,7 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,newdate,id)) 
+                          Where retrocessionId={5}""".format(newtype,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id)) 
     elif module=='vershon':
         newtype = request.json['newtype']
         newname = request.json['newname']
@@ -2555,7 +2559,7 @@ def editmoduleitem():
                           comment='{3}',
                           date='{4}'
     
-                          Where vershonId={5}""".format(newtype,newname,newamount,newcomment,newdate,id))         
+                          Where vershonId={5}""".format(newtype,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id))         
     elif module=='encaissement':
         newbanque = request.json['newbanque']
         newname = request.json['newname']
@@ -2569,7 +2573,7 @@ def editmoduleitem():
                           comment='{3}',
                           encaissementDate='{4}'
     
-                          Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,newdate,id)) 
+                          Where encaissementId={5}""".format(newbanque,newname,newamount,newcomment,datetime.datetime.strptime(newdate,'%d.%m.%Y'),id)) 
         
     elif module=='medicinsenddate':
         doc_id=request.json["id"]
@@ -2578,7 +2582,7 @@ def editmoduleitem():
         db.engine.execute("""UPDATE medicalperson set
                           medenddate='{1}'
                           where medid={0}
-                          """.format(doc_id,doc_enddate))
+                          """.format(doc_id,datetime.datetime.strptime(doc_enddate,'%d.%m.%Y')))
 
     elif module=='employeeenddate':
         emp_id=request.json["id"]
@@ -2587,7 +2591,7 @@ def editmoduleitem():
         db.engine.execute("""UPDATE employee set
                           empdatefin='{1}'
                           where empid={0}
-                          """.format(emp_id,emp_enddate))                          
+                          """.format(emp_id,datetime.datetime.strptime(emp_enddate,'%d.%m.%Y')))                          
 
     elif module=='employee':
         emp_id=request.json["id"]

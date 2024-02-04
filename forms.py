@@ -141,7 +141,7 @@ class AddsalaireForm(FlaskForm):
 
     salaireNomALT = StringField(label="Nouveau salaire ?",render_kw={"placeholder":"salaireNom"})
     somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
-    date = DateField(label="salaire Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    date = StringField(label="salaire Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
 
     comment=StringField('Comment',widget=TextArea())
 
@@ -174,7 +174,7 @@ class AddFacturationForm(FlaskForm):
 
     facturationNomALT = StringField(label="Nouveau facturation ?",render_kw={"placeholder":"facturationNom"})
     somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
-    date = DateField(label="Facturation Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    date = StringField(label="Facturation Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
     comment=StringField('Comment',widget=TextArea())
 
     submit = SubmitField("Soumettre")
@@ -189,9 +189,9 @@ class AddvershonForm(FlaskForm):
     vershonType= SelectField('vershonType',choices=[],validators=[InputRequired()])
     vershonNom = SelectField('vershonNom',choices=[],validators=[InputRequired()])
 
-    vershonNomALT = StringField(label="Nouveau vershon ?",render_kw={"placeholder":"vershonNom"})
+    vershonNomALT = StringField(label="Nouveau Versements ?",render_kw={"placeholder":"vershonNom"})
     somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
-    date = DateField(label="vershon Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    date = StringField(label="Versements Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
     comment=StringField('Comment',widget=TextArea())
 
     submit = SubmitField("Soumettre")   
@@ -209,7 +209,7 @@ class AddRetrocessionForm(FlaskForm):
 
     retrocessionNomALT = StringField(label="Nouveau retrocession ?",render_kw={"placeholder":"RetrocessionNom"})
     somme = FloatField(label="Somme",validators=[InputRequired()],render_kw={"placeholder":"Somme"})
-    date = DateField(label="Retrocession Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
+    date = StringField(label="Retrocession Date",validators=[InputRequired()],render_kw={"placeholder":"Date"})
     comment=StringField('Comment',widget=TextArea())
 
     submit = SubmitField("Soumettre")   
@@ -232,7 +232,7 @@ class AddFraismaterielForm(FlaskForm):
 class AddEncaissementForm(FlaskForm):
     encaissementNom=SelectField('Encaissement Nom',choices=[])
     encaissementNomALT = StringField(label="Nouveau encaissement ?")
-    encaissementDate=DateField(label="Encaissement Date",validators=[InputRequired()])
+    encaissementDate=StringField(label="Encaissement Date",validators=[InputRequired()])
     montant=FloatField(label="montant",validators=[InputRequired()])
     banque=SelectField('Banque',choices=[('UBS','UBS'),('Postfinance ','Postfinance')])
     comment=StringField('Comment',widget=TextArea())

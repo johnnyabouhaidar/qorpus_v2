@@ -4,7 +4,7 @@ function activate_deactivate_employee(id){
     var row = $(`#${id}`).closest('tr');
     
     let table = $('#responsiveDataTable').DataTable();
-    let enddate = document.getElementById(`addDatePicker${id}`).value;
+    let enddate = document.getElementById(`itemdate${id}`).value;
     
     const response = fetch(`${baseurl}/edit_module_item`,{
         method: 'POST',
@@ -74,11 +74,16 @@ function populate_employees_table(){
         {
 
             let checkbox_html = `<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${items[i][0]}"  name="selectrowemployee" value="${items[i][0]}" aria-label="..." />`;
-            let enddate=items[i][10]
-            if (enddate=='1900-01-01'){
+            var mydate = new Date(items[i][10]);
+            //alert()        
+            //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+            var enddate=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
+            if (items[i][10]=='1900-01-01'){
                 enddate=""
             }
             allnames=items
+            var hiredate = new Date(items[i][9]);
+            var hiredatefinal=`${hiredate.getDate()}.${hiredate.getMonth()+1}.${hiredate.getFullYear()}`;
             /*
             const response = fetch(`${baseurl}/get_person_additional_data`,{
                 method: 'POST',
@@ -124,7 +129,7 @@ function populate_employees_table(){
                     </div>
                     <div class="modal-body">
                         <label for="product-name-add" class="form-label">Date de Désactivation:</label>
-                        <input type="date" id="addDatePicker${items[i][0]}" value="${enddate}" class="form-control text-muted" />
+                        <input type="text" id="itemdate${items[i][0]}" value="${enddate}" class="form-control text-muted" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
@@ -151,8 +156,18 @@ function populate_employees_table(){
             </div>
 
         
-        </div>`;
-            rows2add.push({"DT_RowId":items[i][0],"0":checkbox_html,"1":functions_btns,"2":items[i][0],"3": items[i][1],"4":items[i][8],"5":items[i][9],"6":items[i][99],"7":items[i][100],"8":enddate}) 
+        </div>
+        <script>
+        $('[id^="itemdate"]').daterangepicker({
+            singleDatePicker: true, // Display a single date picker
+            showDropdowns: true,    // Show year and month dropdowns
+            locale: {
+              format: 'DD.MM.YYYY'  // Define the date format
+            }
+            
+          })</script>
+        `;
+            rows2add.push({"DT_RowId":items[i][0],"0":checkbox_html,"1":functions_btns,"2":items[i][0],"3": items[i][1],"4":items[i][8],"5":hiredatefinal,"6":items[i][99],"7":items[i][100],"8":enddate}) 
 
         }
         t.rows.add(rows2add).draw()
