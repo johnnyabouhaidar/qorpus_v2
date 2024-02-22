@@ -17,7 +17,7 @@ function edit_salary_item_fornew(id)
     let table = $('#responsiveDataTable2').DataTable();
     let updated_salary = document.getElementById(`empsalaire${id}`).value;
     let updated_months = document.getElementById(`empnombremois${id}`).value;
-    let updated_fromdate = document.getElementById(`fromdate${id}`).value;
+    let updated_fromdate = $(`#fromdate${id}`).data('daterangepicker').startDate.format('YYYY-MM-DD');
     for (var i=0;i<empsalaire.length;i++){
         if (empsalaire[i][4]==id){
             empsalaire[i][0]=updated_salary
@@ -27,7 +27,11 @@ function edit_salary_item_fornew(id)
     }
     table.cell( row ,1).data( updated_salary ).draw( false );   
     table.cell( row ,2).data( updated_months ).draw( false );   
-    table.cell( row ,3).data( updated_fromdate ).draw( false );   
+    var mydate = new Date(updated_fromdate);
+    //alert()        
+    //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+    var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
+    table.cell( row ,3).data( dateisostr ).draw( false );   
     
 
 
@@ -63,7 +67,7 @@ function add_new_employee(){
     let empnoavs = document.getElementById("empnoavs").value;
     let emppole = document.getElementById("emppole").value;
     let empposte = document.getElementById("empposte").value;
-    let empdatedebut = document.getElementById("addDatePicker11").value;
+    let empdatedebut = document.getElementById("datedebut").value;
     
 
     if($("#newemployeeform")[0].checkValidity()) {
@@ -125,7 +129,12 @@ function add_item_to_percentage_table_emp(){
     fonction=document.getElementById("fonction").value;
     empmed = document.getElementById("empmed").value;
     empperc = document.getElementById("empperc").value;
-    percstartdate = document.getElementById("addDatePicker4").value;
+    percstartdate = $("#addemppercdate").data('daterangepicker').startDate.format('YYYY-MM-DD');
+
+    var mydate = new Date(percstartdate);
+    //alert()        
+    //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+    var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
     
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
@@ -160,7 +169,7 @@ function add_item_to_percentage_table_emp(){
 if($("#addpercempform")[0].checkValidity()) {
     $('#addEmployeePercentage').modal('hide');
     percentage_activities_for_current_employee.push([fonction,empmed,empperc,percstartdate,"",rowUID])
-    table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
+    table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,dateisostr,""]).node().id = rowUID;
     table.draw(false);
 }    else {
     $("#addpercempform")[0].reportValidity();
@@ -188,11 +197,16 @@ function delete_employee_salaire_TMP(id)
 function add_item_to_emp_salaire_table(){
   let salairee=document.getElementById("empsalaire").value;
   let  monthnumbers = document.getElementById("empnombremois").value;
-  let fromdate = document.getElementById("addDatePicker2").value;
+  let fromdate = $("#addsalairedate").data('daterangepicker').startDate.format('YYYY-MM-DD');
   //let todate = document.getElementById("addDatePicker2").value;
   let todate="";
   let rowUID = new Date().valueOf()
   let table = $('#responsiveDataTable2').DataTable();
+
+  var mydate = new Date(fromdate);
+  //alert()        
+  //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+  var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
 
   //let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${rowUID}" name="selectrowact" value="${rowUID}" aria-label="..." />`
 
@@ -238,7 +252,7 @@ function add_item_to_emp_salaire_table(){
                   </div>
                   <div class="col-12 mt-4">
                       <label for="product-name-add" class="form-label">Date de Début:</label> 
-                      <input type="date" id="fromdate${rowUID}" required class="form-control text-muted" value=${fromdate}>
+                      <input type="text" id="fromdate${rowUID}" required class="form-control text-muted" value=${dateisostr}>
                   </div>
                   <div class="col-12 mt-4">
                       <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item_fornew(${rowUID})"  value="Modifier">
@@ -250,11 +264,20 @@ function add_item_to_emp_salaire_table(){
   </div>
 </div>
 
-</div>`
+</div>
+<script>
+                                $('[id^="fromdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>`
 if($("#addsalaireempform")[0].checkValidity()) {
     $('#addEmployeeSalary').modal('hide');
   empsalaire.push([salairee,monthnumbers,fromdate,todate,rowUID])
-  table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
+  table.row.add([row_functions,salairee,monthnumbers,dateisostr,""]).node().id = rowUID;
   table.draw(false);
 }    else {
     $("#addsalaireempform")[0].reportValidity();

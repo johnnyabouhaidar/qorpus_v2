@@ -1646,7 +1646,7 @@ def addemployeeitems():
     empposte=request.json['empposte']
     empdatedebut=request.json['empdatedebut']
 
-    db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut))
+    db.engine.execute("""INSERT INTO employee VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','')""".format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,datetime.datetime.strptime(empdatedebut, "%d.%m.%Y").strftime("%Y-%m-%d")))
     salairies = request.json["empsalaire"]
     percentage_activities_for_current_employee = request.json["percentage_activities_for_current_employee"]
     for sal in salairies:

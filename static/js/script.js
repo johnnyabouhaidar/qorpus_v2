@@ -181,6 +181,17 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
   // Initialize the date picker
+  $('#addemppercdate').daterangepicker({
+    singleDatePicker: true, // Display a single date picker
+    showDropdowns: true,    // Show year and month dropdowns
+    locale: {
+      format: 'DD.MM.YYYY'  // Define the date format
+    }
+    
+  });
+});
+$(document).ready(function () {
+  // Initialize the date picker
   $('#addmoduledate').daterangepicker({
     singleDatePicker: true, // Display a single date picker
     showDropdowns: true,    // Show year and month dropdowns
