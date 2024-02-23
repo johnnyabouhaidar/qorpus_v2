@@ -61,7 +61,7 @@ function edit_salary_item(id)
     let table = $('#responsiveDataTable2').DataTable();
     let updated_salary = document.getElementById(`empsalaire${id}`).value;
     let updated_months = document.getElementById(`empnombremois${id}`).value;
-    let updated_fromdate = document.getElementById(`fromdate${id}`).value;
+    let updated_fromdate = $(`#fromdate${id}`).data('daterangepicker').startDate.format('YYYY-MM-DD');
     for (var i=0;i<empsalaire_edit.length;i++){
         if (empsalaire_edit[i][4]==id){
             empsalaire_edit[i][0]=updated_salary
@@ -71,7 +71,11 @@ function edit_salary_item(id)
     }
     table.cell( row ,1).data( updated_salary ).draw( false );   
     table.cell( row ,2).data( updated_months ).draw( false );   
-    table.cell( row ,3).data( updated_fromdate ).draw( false );   
+    var mydate = new Date(updated_fromdate);
+      //alert()        
+      //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+      var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
+    table.cell( row ,3).data( dateisostr ).draw( false );   
     
 
 
@@ -115,7 +119,11 @@ function add_item_to_percentage_table_4edit_perc(){
     fonction=document.getElementById("fonction").value;
     empmed = document.getElementById("empmed").value;
     empperc = document.getElementById("empperc").value;
-    percstartdate = document.getElementById("addDatePicker44").value;
+    percstartdate = $("#addemppercdate").data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var mydate = new Date(percstartdate);
+    //alert()        
+    //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+    var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
     
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable').DataTable();
@@ -169,7 +177,7 @@ function add_item_to_percentage_table_4edit_perc(){
 if($("#addpercempform_edit")[0].checkValidity()) {
     $('#addEmployeePercentage').modal('hide');
     percentage_activities.push([fonction,empmed,empperc,percstartdate,"",rowUID])
-    table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,percstartdate,""]).node().id = rowUID;
+    table.row.add([row_checkbox,row_functions,fonction,empmed,empperc,dateisostr,""]).node().id = rowUID;
     table.draw(false);
     //alert(percentage_activities)
 }    else {
@@ -180,7 +188,11 @@ if($("#addpercempform_edit")[0].checkValidity()) {
 function add_item_to_salaire_table_4edit_emp(){
     let salairee=document.getElementById("salairee").value;
     let  monthnumbers = document.getElementById("monthsnumbers").value;
-    let fromdate = document.getElementById("addDatePicker22").value;
+    let fromdate = $("#addsalairedate").data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var mydate = new Date(fromdate);
+    //alert()        
+    //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+    var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
     //let todate = document.getElementById("addDatePicker2").value;
     let rowUID = new Date().valueOf()
     let table = $('#responsiveDataTable2').DataTable();
@@ -249,7 +261,7 @@ function add_item_to_salaire_table_4edit_emp(){
                     </div>
                     <div class="col-12 mt-4">
                         <label for="product-name-add" class="form-label">Date de Début:</label> 
-                        <input type="date" id="fromdate${rowUID}" required class="form-control text-muted" value=${fromdate}>
+                        <input type="text" id="fromdate${rowUID}" required class="form-control text-muted" value=${dateisostr}>
                     </div>
                     <div class="col-12 mt-4">
                         <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item(${rowUID})"  value="Modifier">
@@ -262,12 +274,21 @@ function add_item_to_salaire_table_4edit_emp(){
 </div>
 
 
-</div>`
+</div>
+<script>
+                                $('[id^="fromdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>`
 if($("#addsalaireempform_edit")[0].checkValidity()) {
     $('#addEmployeeSalaire').modal('hide');
 empsalaire_edit.push([salairee,monthnumbers,fromdate,"",rowUID])
 //alert(empsalaire_edit)
-table.row.add([row_functions,salairee,monthnumbers,fromdate,""]).node().id = rowUID;
+table.row.add([row_functions,salairee,monthnumbers,dateisostr,""]).node().id = rowUID;
 table.draw(false);
 }    else {
     $("#addsalaireempform_edit")[0].reportValidity();
@@ -283,7 +304,7 @@ function modify_employee(){
     let empnoavs = document.getElementById("empnoavs").value;
     let emppole = document.getElementById("emppole").value;
     let empposte = document.getElementById("empposte").value;
-    let empdatedebut = document.getElementById("addDatePicker11").value;
+    let empdatedebut = document.getElementById("datedebut").value;
   //alert(percentage_activities_for_current_doctor)
   //newdoctorform  
   if($("#editemployeeform")[0].checkValidity()) {
@@ -347,7 +368,9 @@ function load_employee_dataa(){
       document.getElementById("emppole").value=items["emppole"]
       document.getElementById("empposte").value=items["empintituleposte"]
       
-      document.getElementById("addDatePicker11").value=items["empdatedebut"]
+      //document.getElementById("addDatePicker11").value=items["empdatedebut"]
+      $("#datedebut").data('daterangepicker').setStartDate(items["empdatedebut"].split('-').reverse().join("."));
+      $("#datedebut").data('daterangepicker').setEndDate(items["empdatedebut"].split('-').reverse().join("."));
       
       
 
@@ -415,15 +438,26 @@ function load_employee_dataa(){
             perc_date_fin=perc_act[i]["5"];
         }
 
+        var mydate = new Date(perc_act[i]["4"]);
+        //alert()        
+        //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+        var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
+
         percentage_activities.push([perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["4"],perc_date_fin,perc_act[i]["0"]])
-        table.row.add([row_checkbox,row_functions,perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],perc_act[i]["4"],perc_date_fin,perc_act[i]["6"]]).node().id = perc_act[i]["0"];
+        table.row.add([row_checkbox,row_functions,perc_act[i]["1"],perc_act[i]["2"],perc_act[i]["3"],dateisostr,perc_date_fin,perc_act[i]["6"]]).node().id = perc_act[i]["0"];
         table.draw();
       }
 
       let tablesalaire = $('#responsiveDataTable2').DataTable();
       sal = items['empsalaires']
+
+      
       
       for (var i=0;i<sal.length;i++){
+        var mydate = new Date(sal[i]["3"]);
+      //alert()        
+      //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+      var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
         //let row_checkbox=`<input class="form-check-input rowCheckbox" type="checkbox" id="checkboxNoLabel${perc_act[i]["0"]}" name="selectrowact" value="${perc_act[i]["0"]}" aria-label="..." />`
 
         let row_functions=`<div class="hstack gap-2 fs-15">
@@ -487,7 +521,7 @@ function load_employee_dataa(){
                     </div>
                     <div class="col-12 mt-4">
                         <label for="product-name-add" class="form-label">Date de Début:</label> 
-                        <input type="date" id="fromdate${sal[i]["0"]}" required class="form-control text-muted" value=${sal[i]["3"]}>
+                        <input type="text" id="fromdate${sal[i]["0"]}" required class="form-control text-muted" value=${dateisostr}>
                     </div>
                     <div class="col-12 mt-4">
                         <input type="button" class="form-control btn btn-primary" required id="input-button" onclick="edit_salary_item(${sal[i]["0"]})"  value="Modifier">
@@ -497,12 +531,26 @@ function load_employee_dataa(){
             </div>
         </div>
     </div>
-    </div>`
+    </div>
+    <script>
+                                $('[id^="fromdate"]').daterangepicker({
+                                    singleDatePicker: true, // Display a single date picker
+                                    showDropdowns: true,    // Show year and month dropdowns
+                                    locale: {
+                                      format: 'DD.MM.YYYY'  // Define the date format
+                                    }
+                                    
+                                  })</script>`
     let datefin=""    
     if (sal[i][4]!='1900-01-01')
         {datefin=sal[i][4]}
+
+        var mydate = new Date(sal[i]["3"]);
+        //alert()        
+        //var dateisostr=mydate.toISOString().split("T")[0];  `${mydate.getFullYear()}.${mydate.getMonth()+1}.${mydate.getDate()}`                         
+        var dateisostr=`${mydate.getDate()}.${mydate.getMonth()+1}.${mydate.getFullYear()}`;
         empsalaire_edit.push([sal[i]["1"],sal[i]["2"],sal[i]["3"],datefin,sal[i]["0"]])
-        tablesalaire.row.add([row_functions,sal[i]["1"],sal[i]["2"],sal[i]["3"],datefin]).node().id = sal[i]["0"];
+        tablesalaire.row.add([row_functions,sal[i]["1"],sal[i]["2"],dateisostr,datefin]).node().id = sal[i]["0"];
         tablesalaire.draw();
       }
       

@@ -2618,7 +2618,7 @@ def editmoduleitem():
                             empintituleposte='{7}',
                             empdatedebut='{8}'
                             where empid={9}
-                          """.format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,empdatedebut,emp_id))
+                          """.format(empnom,empaddress,emptel,empemail,empcoordbanc,empnoavs,emppole,empposte,datetime.datetime.strptime(empdatedebut, "%d.%m.%Y").strftime("%Y-%m-%d"),emp_id))
         db.engine.execute("""DELETE FROM employee_percentageactivity where employee='{0}'""".format(empnom))
         for act in activities:
             db.engine.execute("""INSERT INTO employee_percentageactivity VALUES ('{0}','{1}','{2}',{3},'{4}','{5}')""".format(empnom,act[0],act[1],act[2],act[3],act[4])) 
